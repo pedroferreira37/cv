@@ -3,9 +3,14 @@ import { db } from "@/lib/db";
 type Data = { mail: string };
 
 export async function getUser({ mail }: Data) {
-  const user = db.user.findMany({
-    where: { mail },
-  });
+  try {
+    const user = await db.user.findMany({
+      where: { mail },
+    });
+    if (user.length === 0) return null;
 
-  return user;
+    return user;
+  } catch (e) {
+    return null;
+  }
 }

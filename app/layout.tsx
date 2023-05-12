@@ -1,3 +1,4 @@
+import { PageLoader } from "@/components/page-loader";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>{children}</div>
+        <div>
+          <PageLoader>{children}</PageLoader>
+        </div>
       </body>
     </html>
   );
