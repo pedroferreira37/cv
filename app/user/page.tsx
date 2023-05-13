@@ -5,6 +5,7 @@ import Image from "next/image";
 
 export default async function User() {
   const session = await getServerSession(authOptions);
+  console.log(session);
 
   return (
     <div>
