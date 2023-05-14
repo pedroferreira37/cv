@@ -9,6 +9,7 @@ export default withAuth(
     const isAuth = !!token;
 
     const isAuthPage = req.nextUrl.pathname.startsWith("/signin");
+
     if (isAuthPage) {
       if (isAuth) {
         return NextResponse.redirect(new URL("/user", req.url));

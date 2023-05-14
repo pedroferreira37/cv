@@ -4,5 +4,7 @@ namespace NodeJS {
     GOOGLE_SECRET_KEY: string;
     NEXTAUTH_SECRET: string;
     GOOGLE_API_KEY: string;
+    EMAIL_SERVER: string;
+    EMAIL_SERVER_PORT: number;
   }
 }
