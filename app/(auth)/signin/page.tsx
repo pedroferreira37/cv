@@ -1,4 +1,3 @@
-import { Error } from "@/components/error";
 import { UserAuthForm } from "@/components/user-auth-form";
 import Link from "next/link";
 import React from "react";
