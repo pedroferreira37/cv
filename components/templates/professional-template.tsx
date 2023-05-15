@@ -4,7 +4,7 @@ import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    height: "100%",
     "@media (max-width: 600px)": {
       padding: 10,
     },

@@ -1,11 +1,8 @@
-import { Professional } from "@/components/templates/professional-template";
 import { TemplateCard } from "@/components/template-card";
-import { RenderTemplate } from "@/components/template-renderer";
-import { Template } from "@/components/templates/templates";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
-export default async function User() {
+export default function User() {
   const props = [
     { type: "professional", name: "assim deu certo" },
     { type: "professional", name: "esse tambem" },

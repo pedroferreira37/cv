@@ -4,14 +4,13 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { pdf } from "@react-pdf/renderer";
 import { useAsync } from "react-use";
 import { AsyncState } from "react-use/lib/useAsyncFn";
+import { SpinLoader } from "./spin-loader";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-export interface Props {
-  component: JSX.Element | null;
-}
+const stringfy = (component: any) => React.Children.only(component);
 
-export const PdfRenderer: React.FC<Props> = ({ component }) => {
+export const PdfRenderer = ({ component }: { component: React.ReactNode }) => {
   const [previousRenderValue, setPreviousRenderValue] = useState<
     string | null | undefined
   >(null);
@@ -19,7 +18,8 @@ export const PdfRenderer: React.FC<Props> = ({ component }) => {
   const render: AsyncState<string | null> = useAsync(async () => {
     if (!component) return null;
 
-    const blob = await pdf(component).toBlob();
+    const element = stringfy(component);
+    const blob = await pdf(element).toBlob();
     const url = URL.createObjectURL(blob);
 
     return url;
@@ -31,24 +31,31 @@ export const PdfRenderer: React.FC<Props> = ({ component }) => {
 
   const isBusy = render.loading || !isLatestValueRendered;
 
+  const shouldShowTextLoader = isFirstRendering && isBusy;
   const shouldShowPreviousDocument = !isFirstRendering && isBusy;
 
   const onDocumentLoadSuccess = () => {
     setPreviousRenderValue(render.value);
   };
+
   return (
-    <div className="w-full flex justify-center relative">
+    <div className="w-full h-full relative">
+      {shouldShowTextLoader && (
+        <div className="w-full h-full absolute top-0 left-0 flex items-center bg-white justify-center z-[1000] shadow animate-pulse rounded ">
+          <SpinLoader size={20} />
+        </div>
+      )}
       {shouldShowPreviousDocument && previousRenderValue ? (
         <Document
           key={previousRenderValue}
           file={previousRenderValue}
-          loading={undefined}
-          className="w-4  h-4"
+          loading={""}
         >
           <Page
             renderAnnotationLayer={false}
             renderTextLayer={false}
             pageNumber={1}
+            className="w-full h-full"
           />
         </Document>
       ) : null}
@@ -60,7 +67,7 @@ export const PdfRenderer: React.FC<Props> = ({ component }) => {
             ? "hidden"
             : undefined
         } border-full`}
-        loading={undefined}
+        loading={""}
       >
         <Page
           pageNumber={1}
@@ -68,7 +75,7 @@ export const PdfRenderer: React.FC<Props> = ({ component }) => {
           renderAnnotationLayer={false}
           renderTextLayer={false}
           loading={undefined}
-          className="rounded-sm shadow-xl border"
+          className="rounded-sm shadow-xl border w-full h-full"
           onRenderSuccess={onDocumentLoadSuccess}
         />
       </Document>
