@@ -1,37 +1,28 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { pdf } from "@react-pdf/renderer";
 import { useAsync } from "react-use";
 import { AsyncState } from "react-use/lib/useAsyncFn";
 import { SpinLoader } from "./spin-loader";
 
-import Link from "next/link";
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
-
-const stringfy = (component: any) => React.Children.only(component);
-
-export const PdfRenderer = ({
-  component,
-  onChange,
-}: {
-  component: React.ReactNode;
-  onChange?: any;
-}) => {
+export const ResumeViewer = ({ layout }) => {
   const [previousRenderValue, setPreviousRenderValue] = useState<
     string | null | undefined
   >(null);
 
   const render: AsyncState<string | null> = useAsync(async () => {
-    if (!component) return null;
+    if (!layout) return null;
 
-    const element = stringfy(component);
-    const blob = await pdf(element).toBlob();
+    const blob = await pdf(layout).toBlob();
     const url = URL.createObjectURL(blob);
 
+    console.log(url);
+
     return url;
-  }, [component]);
+  }, [layout]);
 
   const isFirstRendering = !previousRenderValue;
 
@@ -40,6 +31,7 @@ export const PdfRenderer = ({
   const isBusy = render.loading || !isLatestValueRendered;
 
   const shouldShowTextLoader = isFirstRendering && isBusy;
+
   const shouldShowPreviousDocument = !isFirstRendering && isBusy;
 
   const onDocumentLoadSuccess = () => {
@@ -57,7 +49,7 @@ export const PdfRenderer = ({
         <Document
           key={previousRenderValue}
           file={previousRenderValue}
-          loading={""}
+          loading={undefined}
         >
           <Page
             renderAnnotationLayer={false}
@@ -75,11 +67,13 @@ export const PdfRenderer = ({
             ? "hidden"
             : undefined
         } border-full`}
-        loading={""}
+        loading={undefined}
       >
         <Page
           pageNumber={1}
           renderMode="canvas"
+          width={800}
+          height={1400}
           renderAnnotationLayer={false}
           renderTextLayer={false}
           loading={undefined}

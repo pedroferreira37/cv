@@ -1,0 +1,4 @@
+{
+  "https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js": { "integrity": "sha512-P4czHqcxmgci7QIhI48N1GmF+rWm4PGB/GQ8/GZvJC6rgzssgX0meArUqH2WRfeDfurya5HxKd5uYLPDntEZ/Q==", "contentType": "application/javascript; charset=utf-8" },
+  "version": 1
+}

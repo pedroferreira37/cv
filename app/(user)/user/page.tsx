@@ -23,7 +23,6 @@ export default function User() {
           Novo Curriculo
         </Link>
       </div>
-      <TemplateCard templates={props} />
     </div>
   );
 }

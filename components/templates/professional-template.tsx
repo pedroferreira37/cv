@@ -26,8 +26,9 @@ const styles = StyleSheet.create({
 });
 
 export const Professional = (props) => (
-  <Document style={{ height: "400px" }}>
+  <Document>
     <Page
+      size="A4"
       style={{
         display: "flex",
         flexDirection: "row",
@@ -66,7 +67,7 @@ export const Professional = (props) => (
           </Text>
           <Text
             style={{
-              fontSize: "8px",
+              fontSize: "12px",
               textAlign: "justify",
               lineHeight: "2px",
             }}
