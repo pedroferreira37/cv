@@ -10,13 +10,22 @@ const PdfRenderer = dynamic(
 );
 
 export function TemplateLayout({ data }) {
+  const [url, setUrl] = React.useState(null);
   return (
     <div className="flex items-center justify-center bg-gray-200 w-full h-full">
-      {data.map((prop) => (
-        <div className="w-1/2  h-3/4">
-          <PdfRenderer component={<TemplateRenderer {...prop} />} />
-        </div>
-      ))}
+      <div className="w-1/2  h-3/4">
+        <PdfRenderer
+          component={<TemplateRenderer {...data[0]} />}
+          onChange={setUrl}
+        />
+        {url && (
+          <div className="w-full flex justify-end">
+            <Link href="/download" className="">
+              Download
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

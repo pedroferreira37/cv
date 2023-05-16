@@ -1,16 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { pdf } from "@react-pdf/renderer";
 import { useAsync } from "react-use";
 import { AsyncState } from "react-use/lib/useAsyncFn";
 import { SpinLoader } from "./spin-loader";
 
+import Link from "next/link";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 const stringfy = (component: any) => React.Children.only(component);
 
-export const PdfRenderer = ({ component }: { component: React.ReactNode }) => {
+export const PdfRenderer = ({
+  component,
+  onChange,
+}: {
+  component: React.ReactNode;
+  onChange?: any;
+}) => {
   const [previousRenderValue, setPreviousRenderValue] = useState<
     string | null | undefined
   >(null);
