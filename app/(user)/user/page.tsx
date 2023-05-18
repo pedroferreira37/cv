@@ -1,4 +1,3 @@
-import { TemplateCard } from "@/components/template-card";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 

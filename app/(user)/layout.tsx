@@ -1,3 +1,4 @@
+import { PagePreLoader } from "@/components/page-pre-loader";
 import { UserThumb } from "@/components/user-thumb";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
@@ -11,7 +12,7 @@ export default async function UserLayout({
 }) {
   const session = await getServerSession(authOptions);
   return (
-    <div>
+    <PagePreLoader {...{ type: "page" }}>
       <div className="w-full bg-[#24292f] h-[60px] flex items-center fixed top-0">
         <div className="container mx-auto">
           <div className="w-full flex items-center justify-end">
@@ -30,10 +31,9 @@ export default async function UserLayout({
               Meus Curriculos
             </Link>
             <Link
-              href="/modelos"
+              href="/user/modelos"
               className="flex items-center gap-2 hover:bg-gray-200 p-2 rounded transition"
             >
-              {" "}
               <FiArchive size={20} />
               Modelos
             </Link>
@@ -47,8 +47,8 @@ export default async function UserLayout({
             </Link>
           </div>
         </div>
-        <div className="w-full">{children}</div>
+        <PagePreLoader>{children} </PagePreLoader>
       </div>
-    </div>
+    </PagePreLoader>
   );
 }
