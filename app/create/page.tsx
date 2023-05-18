@@ -1,5 +1,4 @@
-import { TemplateCard } from "@/components/template-card";
-import { TemplateLayout } from "@/components/template-layout";
+import { Resume } from "@/components/resume";
 
 export default async function Create() {
   const props = [{ type: "professional", name: "assim deu certo" }];
@@ -7,7 +6,7 @@ export default async function Create() {
   return (
     <div className="h-screen flex flex-col xl:flex-row">
       <div className="w-1/2">inputs</div>
-      <TemplateLayout data={props} />
+      <Resume />
     </div>
   );
 }

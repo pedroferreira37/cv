@@ -1,4 +1,3 @@
-import { TemplateCard } from "@/components/template-card";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
@@ -23,7 +22,6 @@ export default function User() {
           Novo Curriculo
         </Link>
       </div>
-      <TemplateCard templates={props} />
     </div>
   );
 }
