@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState, usePara } from "react";
+import { useEffect, useState } from "react";
 
 export function usePreLoader(time = 10) {
   const [pageLoading, setPageLoading] = useState<boolean>(true);

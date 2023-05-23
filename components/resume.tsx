@@ -1,32 +1,28 @@
 "use client";
-import dynamic from "next/dynamic";
-import { useState } from "react";
-import { useResume } from "@/hooks/templates/use-resume";
+import { Professional } from "./professional-template";
+import { useResume } from "@/hooks/use-resume";
+import { pdf } from "pdfmake.ts";
 
-const ResumeRender = dynamic(
-  () =>
-    import("../components/resume-render")
-      .then((module) => module.ResumeRender)
-      .catch(),
-  { ssr: false }
-);
+const renderResume = (props) => {
+  switch (props.type) {
+    case "professional":
+      return <Professional {...props} />;
+  }
+};
 
 export function Resume() {
-  const [state, setState] = useState({
-    template: "professional",
-    name: "Hello World",
-  });
+  const props = {
+    type: "professional",
+  };
 
-  const resume = useResume(state);
+  const resume = renderResume(props);
 
-  function updateState(e) {
-    setState((state) => ({ ...state, name: e.target.value }));
-  }
   return (
-    <div className="w-full h-full  flex items-center justify-center  bg-gray-200">
-      <div className="bg-white w-1/2 h-4/5">
-        <ResumeRender {...{ url: resume.value }} />
+    <div className="w-full h-full  flex flex-col  items-center justify-center  bg-gray-200">
+      <div className="bg-white w-[595px] h-[842px]" id={props.type}>
+        {resume}
       </div>
+      <button onClick={(e) => pdfFile.download()}>Download</button>
     </div>
   );
 }
