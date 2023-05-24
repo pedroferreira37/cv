@@ -8,7 +8,7 @@ export default function User() {
   ];
 
   return (
-    <div className="flex flex-col  gap-12 ">
+    <div className="w-full flex flex-col  gap-12 ">
       <div className="flex justify-between  items-center w-full ">
         <div>
           <h2 className="font-bold text-4xl mb-1">Meus curriculos</h2>

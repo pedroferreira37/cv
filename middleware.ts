@@ -1,31 +1,27 @@
 import { getToken } from "next-auth/jwt";
-import { withAuth } from "next-auth/middleware";
+import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 export default withAuth(
-  async function middleware(req: NextRequest) {
-    const token = await getToken({ req });
+  async function middleware(req: NextRequestWithAuth) {
+    const token = req.nextauth.token;
 
     const isAuth = !!token;
 
-    const isAuthPage = req.nextUrl.pathname.startsWith("/signin");
-
-    if (isAuthPage) {
-      if (isAuth) {
-        return NextResponse.redirect(new URL("/user", req.url));
-      }
-
-      return null;
+    if (isAuth) {
+      return NextResponse.redirect(new URL("/user", process.env.NEXTAUTH_URL));
     }
 
-    if (!isAuth) {
-      return NextResponse.redirect(new URL("/signin", req.url));
+    if (isAuth) {
+      return NextResponse.redirect(
+        new URL("/signin", process.env.NEXTAUTH_URL)
+      );
     }
   },
 
   {
     callbacks: {
-      async authorized() {
+      async authorized({ token }) {
         return true;
       },
     },
@@ -33,5 +29,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/signin"],
+  matcher: ["/user"],
 };
