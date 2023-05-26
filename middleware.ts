@@ -12,7 +12,7 @@ export default withAuth(
     //   return NextResponse.redirect(new URL("/user", process.env.NEXTAUTH_URL));
     // }
     //
-    if (!isAuth) {
+    if (isAuth) {
       return NextResponse.redirect(
         new URL("/signin", process.env.NEXTAUTH_URL)
       );
