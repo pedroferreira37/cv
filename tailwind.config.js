@@ -19,7 +19,7 @@ module.exports = {
       },
 
       animation: {
-        wiggle: "wiggle 0.8s ease-in-out infinite",
+        wiggle: "wiggle 0.6s ease-in-out infinite alternate",
       },
 
       colors: {

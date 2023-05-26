@@ -1,9 +1,18 @@
+import { ResumeThumb } from "@/components/resume-thumb";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
 export default function User() {
   const props = [
     { type: "professional", name: "assim deu certo" },
+    { type: "professional", name: "esse tambem" },
+
+    { type: "professional", name: "esse tambem" },
+
+    { type: "professional", name: "esse tambem" },
+
+    { type: "professional", name: "esse tambem" },
+
     { type: "professional", name: "esse tambem" },
   ];
 
@@ -21,6 +30,11 @@ export default function User() {
           <FiPlus size={20} />
           Novo Curriculo
         </Link>
+      </div>
+      <div className="flex flex-wrap  gap-10 w-full">
+        {props.map((prop) => (
+          <ResumeThumb props={prop} />
+        ))}
       </div>
     </div>
   );
