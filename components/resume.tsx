@@ -11,15 +11,13 @@ const ResumeRenderer = dynamic(
 
 export function Resume(props) {
   const [url, setUrl] = useState(null);
+
   return (
-    <div className=" flex items-center justify-center px-8 pt-8">
-      <div className="grid grid-cols-1 grid-rows-[1fr_100px] h-full ">
-        <div className="flex justify-center pt-6">
-          <div className="bg-white   w-1/2 h-4/5 ">
-            <ResumeRenderer props={props} onUrlChange={setUrl} />
-          </div>
-        </div>
-        <div className="flex items-center h-full  justify-end">
+    <div className=" flex flex-1 h-screen  px-8 pt-8  ">
+      <div className="flex-col relative flex">
+        <ResumeRenderer props={props} onUrlChange={setUrl} />
+
+        <div className="flex items-center h-full w-full justify-end">
           <Link
             href={url || ""}
             target="_blank"
