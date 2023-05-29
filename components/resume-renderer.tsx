@@ -7,27 +7,19 @@ import { useEffect, useState } from "react";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-const renderResume = (props) => {
-  switch (props.type) {
-    case "professional":
-      return <Professional {...props} />;
-  }
-};
-
-export function ResumeRenderer({ props, onUrlChange }) {
+export function ResumeRenderer({ document, data }) {
   const [previousRenderedValue, setPreviousRenderedValue] = useState<
     string | null | undefined
   >(null);
 
   const render = useAsync(async () => {
-    if (!props) return null;
+    if (!data) return null;
 
-    const resume = renderResume(props);
-    const blob = await pdf(resume).toBlob();
+    const blob = await pdf(document).toBlob();
     const url = URL.createObjectURL(blob);
 
     return url;
-  }, [props]);
+  }, [data]);
 
   const isFirstRendering = !previousRenderedValue;
 
@@ -39,27 +31,26 @@ export function ResumeRenderer({ props, onUrlChange }) {
 
   const shouldShowPreviousDocument = !isFirstRendering && isBusy;
 
-  useEffect(() => onUrlChange && onUrlChange(render.value), [render.value]);
-
   function onLoadSucess() {
     setPreviousRenderedValue(render.value);
   }
 
   return (
-    <div className="h-full relative flex flex-col ">
+    <div className="h-full  flex flex-col ">
       <div
-        className={`w-full h-full top-0 left-0 flex bg-white items-center justify-center z-1000   ${
-          shouldShowTextLoader ? "opacity-100 " : "opacity-0"
+        className={`w-full h-full top-0 left-0 flex bg-gray-200 animate-pulse  items-center justify-center z-1000   ${
+          shouldShowTextLoader ? "opacity-100" : "opacity-0"
         }  absolute`}
       >
-        Carregando...
+        ...
       </div>
 
-      <div className="flex flex-1 p-4 items-center justify-center w-full ">
+      <div className="flex flex-1  items-center justify-center w-full h-full ">
         {shouldShowPreviousDocument && previousRenderedValue ? (
           <Document file={previousRenderedValue} loading={null} className="">
             <Page
               pageNumber={1}
+              className="w-full h-full "
               renderTextLayer={false}
               renderAnnotationLayer={false}
               loading={null}
@@ -70,14 +61,15 @@ export function ResumeRenderer({ props, onUrlChange }) {
         <Document
           file={render.value}
           loading={null}
-          className={`border  ${
-            shouldShowPreviousDocument ? "hidden" : "visible shadow"
+          className={`border   ${
+            shouldShowPreviousDocument ? "opacity-0" : "opacity-100 shadow"
           }`}
         >
           <Page
             pageNumber={1}
             renderTextLayer={false}
             renderAnnotationLayer={false}
+            className="w-full h-full"
             loading={null}
             onLoadSuccess={onLoadSucess}
           ></Page>
