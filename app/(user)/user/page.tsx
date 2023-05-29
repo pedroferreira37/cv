@@ -3,18 +3,7 @@ import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
 export default function User() {
-  const props = [
-    { type: "professional", name: "assim deu certo" },
-    { type: "professional", name: "esse tambem" },
-
-    { type: "professional", name: "esse tambem" },
-
-    { type: "professional", name: "esse tambem" },
-
-    { type: "professional", name: "esse tambem" },
-
-    { type: "professional", name: "esse tambem" },
-  ];
+  const props = [{ type: "professional", data: { name: "assim deu certo" } }];
 
   return (
     <div className="w-full flex flex-col  gap-12 ">

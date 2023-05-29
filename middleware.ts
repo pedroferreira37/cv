@@ -8,11 +8,13 @@ export default withAuth(
 
     const isAuth = !!token;
 
+    console.log(token);
+
     // if (isAuth) {
     //   return NextResponse.redirect(new URL("/user", process.env.NEXTAUTH_URL));
     // }
     //
-    if (isAuth) {
+    if (!isAuth) {
       return NextResponse.redirect(
         new URL("/signin", process.env.NEXTAUTH_URL)
       );
@@ -29,5 +31,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/user"],
+  matcher: ["/user", "/signin"],
 };
