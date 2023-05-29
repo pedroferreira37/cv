@@ -18,25 +18,17 @@ const ResumeRenderer = dynamic(
 export function ResumeForm() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [social, setSocial] = useState({ linkedin: false, github: false });
+  const [social, toggleSocial] = useState({ linkedin: false, github: false });
 
   const pdfDocument = renderDocument({ type: "professional" });
 
   const search = useSearchParams();
+  
+  function toggleSocialLinks(e) {
+    const { name } = e.preventDefault();
+     toggleSocial(social => (...{social, [name]: !social[name] }))
+  } 
 
-  function addSocialLinks(e) {
-    e.preventDefault();
-    const { name } = e.target;
-
-    setSocial((social) => ({ ...social, [name]: true }));
-  }
-
-  function removeSocialLinks(e) {
-    e.preventDefault();
-    const { name } = e.target;
-
-    setSocial((social) => ({ ...social, [name]: false }));
-  }
 
   const template = search?.get("template");
 
@@ -65,7 +57,7 @@ export function ResumeForm() {
                   <button
                     className="absolute top-2 left-[60px] text-[10px] text-gray-400"
                     name="linkedin"
-                    onClick={removeSocialLinks}
+                    onClick={toggleSocialLinks}
                   >
                     Remover
                   </button>
@@ -77,7 +69,7 @@ export function ResumeForm() {
                   <button
                     className="absolute top-2 left-[50px] text-[10px] text-gray-400"
                     name="github"
-                    onClick={removeSocialLinks}
+                    onClick={toggleSocialLinks}
                   >
                     Remover
                   </button>
@@ -97,7 +89,7 @@ export function ResumeForm() {
                   <button
                     className="flex gap-2 px-4 py-2 items-center justify-center border rounded"
                     name="linkedin"
-                    onClick={addSocialLinks}
+                    onClick={toggleSocialLinks}
                   >
                     <FiPlus size={20} />
                     LinkedIn
@@ -108,7 +100,7 @@ export function ResumeForm() {
                   <button
                     className="flex gap-2 block px-4 py-2 items-center justify-center border rounded"
                     name="github"
-                    onClick={addSocialLinks}
+                    onClick={toggleSocialLinks}
                   >
                     <FiPlus size={20} />
                     Github
