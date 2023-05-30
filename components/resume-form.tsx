@@ -1,5 +1,4 @@
 "use client";
-import { initialState, reducer } from "@/lib/reducer";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -9,6 +8,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import { renderDocument } from "./render";
 import { Input } from "./input";
 import { TextArea } from "./textarea";
+import { type State, initialState, reducer } from "@/lib/reducer";
 
 const ResumeRenderer = dynamic(
   () => import("./resume-renderer").then((module) => module.ResumeRenderer),
@@ -20,38 +20,80 @@ export function ResumeForm() {
 
   const [social, toggleSocial] = useState({ linkedin: false, github: false });
 
-  const pdfDocument = renderDocument({ type: "professional" });
-
   const search = useSearchParams();
-  
-  function toggleSocialLinks(e) {
-    const { name } = e.preventDefault();
-     toggleSocial(social => (...{social, [name]: !social[name] }))
-  } 
-
-
   const template = search?.get("template");
 
+  const pdfDocument = renderDocument({ template: "professional", state });
+
+  function toggleSocialLinks(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const { name } = e.target;
+    toggleSocial((social) => ({ ...social, [name]: !social[name] }));
+  }
+
+  function updateUser(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    dispatch({ type: "UPDATE_USER", name, value });
+  }
+
+  function changeState({
+    type,
+    name,
+    value,
+  }: {
+    type: string;
+    name: string;
+    value: string;
+  }) {
+    dispatch({ type, name, value });
+  }
+
+  function updateExperience(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    dispatch({ type: "UPDATE_EXPERIENCE", name, value });
+  }
+
   return (
-    <div className="flex flex-1  flex-col lg:flex-row h-screen w-full relative ">
-      <div className="bg-white max-w-[600px]  flex-1 h-screen px-8 py-4">
+    <div className="grid  grid-cols-1 sm:grid-cols-1 2xl:grid-cols-[600px_1fr]  lg:grid-cols-[600px_1fr]">
+      <div className="w-full sticky top-0 h-screen overflow-y-scroll">
+        <div className="w-full flex justify-start sticky top-0  bg-white py-4 px-4 shadow z-[1000]">
+          <Link className="p-2   bg-gray-200 rounded group" href="/user">
+            <FiArrowLeft size={20} className="group-hover:animate-wiggle" />
+          </Link>
+        </div>
         <div
-          className="w-full h-full sticky top-0  grid grid-rows-[40px_1fr]
+          className="p-12  flex justify-center items-center 
          "
         >
-          <div className="w-full flex justify-start sticky top-0">
-            <Link className="p-2  bg-gray-200 rounded group" href="/user">
-              <FiArrowLeft size={20} className="group-hover:animate-wiggle" />
-            </Link>
-          </div>
-          <div className="w-full    overflow-auto">
+          <div className="w-full">
             <div className="flex flex-col gap-2 pt-4">
               <p>Dados pessoais</p>
               <div className="gap-4 flex">
-                <Input label="Nome" />
-                <Input label="Profissao" />
+                <Input
+                  label="Nome"
+                  name="name"
+                  id="name"
+                  type="text"
+                  onChange={({ target: { name, value } }) =>
+                    changeState({ type: "UPDATE_USER", name, value })
+                  }
+                  //  I find that way better to write, and fast, so ill keep it
+                />
+                <Input
+                  label="Profissao"
+                  name="profession"
+                  id="name"
+                  type="text"
+                  onChange={updateUser}
+                />
               </div>
-              <Input label="Email" />
+              <Input
+                label="Email"
+                name="email"
+                id="email"
+                type="text"
+                onChange={updateUser}
+              />
               {social.linkedin && (
                 <div className="relative">
                   <button
@@ -61,7 +103,13 @@ export function ResumeForm() {
                   >
                     Remover
                   </button>
-                  <Input label="Linkedin" />
+                  <Input
+                    label="Linkedin"
+                    name="linkedin"
+                    id="linkedin"
+                    type="text"
+                    onChange={updateUser}
+                  />
                 </div>
               )}
               {social.github && (
@@ -73,7 +121,13 @@ export function ResumeForm() {
                   >
                     Remover
                   </button>
-                  <Input label="Github" />
+                  <Input
+                    label="Github"
+                    name="github"
+                    id="github"
+                    type="text"
+                    onChange={updateUser}
+                  />
                 </div>
               )}
               <div>
@@ -82,8 +136,11 @@ export function ResumeForm() {
                   rows={6}
                   length={250}
                   label="Digite uma breve descricao"
+                  name="description"
+                  onChange={updateUser}
                 />
               </div>
+
               <div className="flex gap-2">
                 {!social.linkedin && (
                   <button
@@ -110,43 +167,84 @@ export function ResumeForm() {
             </div>
             <div className="flex flex-col gap-2 pt-4">
               <p>Experiencia</p>
-              <div className="gap-4 flex">
-                <Input label="Funcao" />
-              </div>
-              <Input label="Empresa" />
+              {state.experience.map((item, index) => {
+                return (
+                  <div>
+                    <div className="flex gap-4">
+                      <Input
+                        label="Funcao"
+                        type="text"
+                        name={index}
+                        id="role"
+                        onChange={updateExperience}
+                      />
+                      <Input
+                        label="Empresa"
+                        type="text"
+                        name={index}
+                        id="company"
+                        onChange={updateExperience}
+                      />
+                    </div>
+                    <div className="flex gap-4">
+                      <Input
+                        label="Data Inicio"
+                        type="text"
+                        name={index}
+                        id="start-date"
+                        onChange={updateExperience}
+                      />
+                      <Input
+                        label="Data Final"
+                        type="text"
+                        name={index}
+                        id="end-date"
+                        onChange={updateExperience}
+                      />
+                    </div>
+                    <div>
+                      <TextArea
+                        cols={20}
+                        rows={6}
+                        length={250}
+                        label="Digite uma breve descricao"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
 
-              <Input label="Empresa" />
-
-              <Input label="Empresa" />
-
-              <Input label="Empresa" />
-
-              <Input label="Empresa" />
               <div>
-                <TextArea
-                  cols={20}
-                  rows={6}
-                  length={250}
-                  label="Digite uma breve descricao"
-                />
+                <h2>Educacao</h2>
+                <div className="gap-4 flex">
+                  <Input label="Curso" />
+                  <Input label="Instituicao" />
+                </div>
+
+                <div className="flex gap-4">
+                  <Input label="Data Inicio" />
+                  <Input label="Data Final" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex-1 flex flex-col justify-center px-8 pt-8  items-center bg-gray-200 thumb ">
-        <div className=" max-w-[500px] max-h-[700px] min-w-[500px]  min-h-[700px] relative  items-center">
-          <ResumeRenderer document={pdfDocument} data={{ name: "Pedro" }} />
+        <div className="w-full flex justify-center items-center pb-6">
+          <div className="flex justify-end  items-center w-3/4 px-6">
+            <PDFDownloadLink
+              document={pdfDocument}
+              fileName="somename.pdf"
+              className="bg-green-default hover:bg-green-hover text-white text-sm px-4 py-2 rounded flex gap-2 items-center"
+            >
+              <FiDownload size={20} />
+              Download
+            </PDFDownloadLink>
+          </div>
         </div>
-        <div className="flex justify-end max-w-[500px] w-full  py-4 ">
-          <PDFDownloadLink
-            document={pdfDocument}
-            fileName="somename.pdf"
-            className="bg-green-default hover:bg-green-hover text-white text-sm px-4 py-2 rounded flex gap-2 items-center"
-          >
-            <FiDownload size={20} />
-            Download
-          </PDFDownloadLink>
+      </div>
+      <div className="flex  items-center justify-center bg-gray-200 p-8  ">
+        <div className="w-[595px] h-[841px] relative">
+          <ResumeRenderer document={pdfDocument} data={{ name: "Pedro" }} />
         </div>
       </div>
     </div>

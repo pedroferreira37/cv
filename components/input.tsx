@@ -6,7 +6,7 @@ interface Props {
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   error?: boolean;
   id: string;
-  name: string;
+  name: string | number;
   label: string;
   type: string;
 }

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export function Professional(props) {
+export function Professional({ props }) {
   return (
     <>
       <Document>
@@ -37,7 +37,7 @@ export function Professional(props) {
                   marginBottom: "14px",
                 }}
               >
-                Kate Bishop
+                {props.user.name}
               </Text>
               <Text
                 style={{
@@ -46,14 +46,9 @@ export function Professional(props) {
                   marginBottom: "20px",
                 }}
               >
-                Product Designer
+                {props.user.role}
               </Text>
-              <Text style={{ fontSize: "10px" }}>
-                Over 5 years of professional experience conducting UX research
-                and designing interactive end-to-end user flows. I enjoy working
-                in close collaboration with teams across technology, business
-                and design.
-              </Text>
+              <Text style={{ fontSize: "10px" }}>{props.user.description}</Text>
             </View>
             <View
               style={{
@@ -70,7 +65,7 @@ export function Professional(props) {
                     Email
                   </Text>
                   <Text style={{ fontSize: "10px", color: "#222222" }}>
-                    pedrohsferreira@gmail.com
+                    {props.user.email}
                   </Text>
                 </View>
 
@@ -79,7 +74,7 @@ export function Professional(props) {
                     Linkedin
                   </Text>
                   <Text style={{ fontSize: "10px", color: "#222222" }}>
-                    pedrohsferreira@gmail.com
+                    {props.user.linkedin}
                   </Text>
                 </View>
 
@@ -88,14 +83,14 @@ export function Professional(props) {
                     Github
                   </Text>
                   <Text style={{ fontSize: "10px", color: "#222222" }}>
-                    pedrohsferreira@gmail.com
+                    {props.user.github}
                   </Text>
                 </View>
               </View>
             </View>
           </View>
           <View>
-            <View style={{ paddingTop: "40px", marginTop: "20px" }}>
+            <View style={{ paddingTop: "60px", marginTop: "60px" }}>
               <View style={{ display: "flex", flexDirection: "row" }}>
                 <View style={{ width: "50%", marginRight: "24px " }}>
                   <Text style={{ color: "#0E6CC2", fontSize: "14px" }}>
