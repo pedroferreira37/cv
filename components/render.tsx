@@ -1,8 +1,8 @@
 import { Professional } from "./professional-template";
 
 export const renderDocument = (props): React.ReactElement => {
-  switch (props.type) {
+  switch (props.template) {
     case "professional":
-      return <Professional {...props} />;
+      return <Professional props={props.state} />;
   }
 };
