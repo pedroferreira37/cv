@@ -1,4 +1,4 @@
-type User = {
+export type Profile = {
   name: string;
   profession: string;
   email: string;
@@ -7,7 +7,7 @@ type User = {
   about: string;
 };
 
-type Experience = {
+export type Experience = {
   role: string;
   company: string;
   startDate: string;
@@ -15,7 +15,7 @@ type Experience = {
   description: string;
 };
 
-type Education = {
+export type Education = {
   role: string;
   institution: string;
   startDate: string;
@@ -24,15 +24,19 @@ type Education = {
 
 type Skills = { text: string };
 
-export type State = {
-  user: User;
+type GenericState<T> = {
+  [K in keyof T]: T[K];
+};
+
+export type State = GenericState<{
+  profile: Profile;
   experience: Experience[] | [];
   education: Education[] | [];
   skills: Skills[] | [];
-};
+}>;
 
 export const initialState: State = {
-  user: {
+  profile: {
     name: "",
     profession: "",
     email: "",
@@ -45,43 +49,68 @@ export const initialState: State = {
   skills: [],
 };
 
+type Keys = keyof State;
+
 type Action =
   | {
       type: "UPDATE_USER";
-      name: string;
+      name: Keys;
       value: string;
     }
-  | { type: "UPDATE_EXPERIENCE"; name: string; value: string }
+  | { type: "UPDATE_EXPERIENCE"; name: keyof State; value: string }
   | {
       type: "UPDATE_EDUCATION";
-      name: string;
+      name: Keys;
       value: string;
     }
   | {
       type: "UPDATE_SKILLS";
-      name: string;
+      name: Keys;
       value: string;
+    }
+  | {
+      type: "ADD_EXPERIENCE";
+    }
+  | {
+      type: "REMOVE_EXPERIENCE";
+      name: Keys;
+      id: number;
     };
 
-function getState(state: State, action: Action): State {
-  const { name: key, value } = action;
-  return {
-    ...state,
-    [key]: state[key].map((item, index) => (index === +key ? value : item)),
-  };
-}
-
 export function reducer(state: State, action: Action) {
-  const { type, name, value } = action;
-  switch (type) {
+  switch (action.type) {
     case "UPDATE_USER":
-      return { ...state, user: { ...state.user, [name]: value } };
     case "UPDATE_EXPERIENCE":
-      return getState(state, action);
     case "UPDATE_EDUCATION":
-      return getState(state, action);
     case "UPDATE_SKILLS":
-      return getState(state, action);
+      return {
+        ...state,
+        [key]: state[key].map((item, index) =>
+          index === +action.name ? action.value : item
+        ),
+      };
+
+    case "ADD_EXPERIENCE":
+      return {
+        ...state,
+        experience: [
+          ...state.experience,
+          {
+            role: "",
+            company: "",
+            startDate: "",
+            endDate: "",
+            description: "",
+          },
+        ],
+      };
+    case "REMOVE_EXPERIENCE":
+      return {
+        ...state,
+        experience: state.experience.filter(
+          (item, index) => index !== action.id
+        ),
+      };
     default:
       return state;
   }

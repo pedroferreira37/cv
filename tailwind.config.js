@@ -16,15 +16,25 @@ module.exports = {
             transform: "translateX(-4px)",
           },
         },
+        shake: {
+          "0%, 100%": {
+            transform: "translateY(-2px)",
+          },
+          "50%": {
+            transform: "translateY(0)",
+          },
+        },
       },
 
       animation: {
-        wiggle: "wiggle 0.6s ease-in-out infinite alternate",
+        wiggle: "wiggle 0.4s ease-in-out infinite alternate",
+        shake: "shake 1s ease-in-out infinite  ",
       },
 
       colors: {
         "green-default": "#1F883D",
         "green-hover": "#219141",
+        "default-gray": "#eee",
       },
     },
   },

@@ -1,3 +1,5 @@
+import { Theme } from "next-auth";
+
 export function html(params: { url: string; host: string; theme: Theme }) {
   const { url, host, theme } = params;
 

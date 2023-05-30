@@ -1,7 +1,7 @@
 "use client";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useAsync } from "react-use";
-import { Professional } from "./professional-template";
+import { Professional } from "../templates/professional-template";
 import { pdf } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 
@@ -61,7 +61,7 @@ export function ResumeRenderer({ document, data }) {
         <Document
           file={render.value}
           loading={null}
-          className={`border   ${
+          className={`shadow-[rgba(0,0,0,.1)_0_2px_3px]   ${
             shouldShowPreviousDocument ? "opacity-0" : "opacity-100 shadow"
           }`}
         >
