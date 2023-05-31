@@ -7,10 +7,10 @@ import { Profile } from "@/lib/reducer";
 
 type Props = {
   profile: Profile;
-  onProfileChangeRequest: React.ChangeEventHandler<HTMLInputElement>;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
+export function ProfileForm({ profile, onChange }: Props) {
   const [linkedin, setLinkedin] = useState<boolean>(false);
   const [github, setGithub] = useState<boolean>(false);
 
@@ -24,14 +24,14 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
             name="name"
             id="name"
             type="text"
-            onChange={onProfileChangeRequest}
+            onChange={onChange}
           />
           <Input
             label="Profissao"
             name="profession"
             id="name"
             type="text"
-            onChange={onProfileChangeRequest}
+            onChange={onChange}
           />
         </div>
         <Input
@@ -39,7 +39,7 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
           name="email"
           id="email"
           type="text"
-          onChange={onProfileChangeRequest}
+          onChange={onChange}
         />
 
         <div
@@ -59,7 +59,7 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
             name="linkedin"
             id="linkedin"
             type="text"
-            onChange={onProfileChangeRequest}
+            onChange={onChange}
           />
         </div>
 
@@ -80,7 +80,7 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
             name="github"
             id="github"
             type="text"
-            onChange={onProfileChangeRequest}
+            onChange={onChange}
           />
         </div>
 
@@ -91,7 +91,7 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
             length={250}
             label="Digite uma breve descricao"
             name="description"
-            onChange={onProfileChangeRequest}
+            onChange={onChange}
           />
         </div>
 

@@ -10,16 +10,28 @@ export type Profile = {
 export type Experience = {
   role: string;
   company: string;
-  startDate: string;
-  endDate: string;
+  startDate: {
+    year: string;
+    month: string;
+  };
+  endDate: {
+    year: string;
+    month: string;
+  };
   description: string;
 };
 
-export type Education = {
+export type Degrees = {
   role: string;
   institution: string;
-  startDate: string;
-  endDate: string;
+  startDate: {
+    year: string;
+    month: string;
+  };
+  endDate: {
+    year: string;
+    month: string;
+  };
 };
 
 type Skills = { text: string };
@@ -31,7 +43,7 @@ type GenericState<T> = {
 export type State = GenericState<{
   profile: Profile;
   experience: Experience[] | [];
-  education: Education[] | [];
+  education: Degrees[] | [];
   skills: Skills[] | [];
 }>;
 

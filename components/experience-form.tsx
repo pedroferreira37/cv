@@ -1,23 +1,61 @@
+"use client";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { Input } from "./input";
 import { TextArea } from "./textarea";
 import React from "react";
 import { Experience } from "@/lib/reducer";
+import { InputEvent } from "@/types/inputs";
+import { DropDown } from "./dropdown";
 
 type Props = {
   experiences: Experience[] | [];
-  onChangeExperience: React.ChangeEventHandler<HTMLInputElement>;
-  onAddExperience: React.MouseEventHandler<HTMLButtonElement>;
-  onRemoveExperience: (name: number) => void;
+  setExperiences: React.Dispatch<React.SetStateAction<[] | Experience[]>>;
 };
 
-export function ExperienceForm({
-  experiences,
-  onChangeExperience,
-  onAddExperience,
-  onRemoveExperience,
-}: Props) {
+export function ExperienceForm({ experiences, setExperiences }: Props) {
   const isExperiencesEmpty = experiences.length === 0;
+
+  const changeExperience = (
+    { target: { name, value } }: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    setExperiences((previousExperiences) =>
+      previousExperiences.map((experience, index) => {
+        if (
+          id === index &&
+          (experience[name as keyof Experience] as object).hasOwnProperty(name)
+        ) {
+          return { ...experience, [name]: value };
+        }
+        return experience;
+      })
+    );
+  };
+
+  const addExperience = () => {
+    setExperiences((previousExperiences) => [
+      ...previousExperiences,
+      {
+        role: "",
+        company: "",
+        startDate: {
+          year: "",
+          month: "",
+        },
+        endDate: {
+          year: "",
+          month: "",
+        },
+        description: "",
+      },
+    ]);
+  };
+
+  const removeExperience = (id: number) => {
+    setExperiences((previousExperiences) =>
+      previousExperiences.filter((_, index) => index !== id)
+    );
+  };
 
   return (
     <div>
@@ -28,7 +66,7 @@ export function ExperienceForm({
             <div>
               <button
                 className="hover:rotate-90 transition "
-                onClick={onAddExperience}
+                onClick={addExperience}
               >
                 <FiPlus size={20} />
               </button>
@@ -36,52 +74,49 @@ export function ExperienceForm({
           )}
         </div>
 
-        {experiences.map((experience, index) => {
+        {experiences.map((experience, id) => {
           return (
-            <div>
+            <div className="flex flex-col gap-2">
               <div className="w-full flex justify-between">
-                <p className="text-sm">Experiencia {index + 1} </p>
+                <p className="text-sm">Experiencia {id + 1} </p>
                 <button
-                  onClick={() => onRemoveExperience(index)}
+                  onClick={() => removeExperience(id)}
                   className="bg-red-200 rounded p-1 border-red-300 group "
                 >
-                  <FiTrash
-                    size={14}
-                    color="red"
-                    className="group-hover:animate-shake transition"
-                  />
+                  <FiTrash size={14} color="red" className="transition" />
                 </button>
               </div>
               <div className="flex gap-4">
                 <Input
-                  label="Funcao"
+                  label="Função"
                   type="text"
-                  name={index}
+                  name="role"
                   id="role"
-                  onChange={onChangeExperience}
+                  onChange={(e) => changeExperience(e, id)}
                 />
                 <Input
                   label="Empresa"
                   type="text"
-                  name={index}
+                  name="company"
                   id="company"
-                  onChange={onChangeExperience}
+                  onChange={(e) => changeExperience(e, id)}
                 />
               </div>
-              <div className="flex gap-4">
-                <Input
-                  label="Data Inicio"
+
+              <div className="grid grid-cols-2 gap-4">
+                <DropDown
+                  label="Data de Início"
                   type="text"
-                  name={index}
-                  id="start-date"
-                  onChange={onChangeExperience}
+                  name="startDate"
+                  id="startDate"
+                  onChange={(e) => changeExperience(e, id)}
                 />
-                <Input
-                  label="Data Final"
+                <DropDown
+                  label="Data de Término"
                   type="text"
-                  name={index}
-                  id="end-date"
-                  onChange={onChangeExperience}
+                  name="startDate"
+                  id="startDate"
+                  onChange={(e) => changeExperience(e, id)}
                 />
               </div>
               <div>
@@ -90,7 +125,7 @@ export function ExperienceForm({
                   rows={6}
                   length={250}
                   label="Digite uma breve descricao"
-                  onChange={onChangeExperience}
+                  onChange={changeExperience}
                 />
               </div>
             </div>
@@ -100,7 +135,7 @@ export function ExperienceForm({
           <div className="w-full flex justify-end group">
             <button
               className="text-sm flex gap-4 border rounded text-gray-800 py-1 px-2 hover:bg-default-gray transition"
-              onClick={onAddExperience}
+              onClick={addExperience}
             >
               <FiPlus size={20} className="group-hover:rotate-90 transition" />
               Nova Experiência

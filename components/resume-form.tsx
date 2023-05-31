@@ -4,11 +4,16 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useReducer, useState } from "react";
 import { FiArrowLeft, FiDownload, FiPlus } from "react-icons/fi";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { renderDocument } from "../templates/render";
-import { Input } from "./input";
-import { TextArea } from "./textarea";
-import { type State, initialState, reducer } from "@/lib/reducer";
+
+import {
+  type State,
+  initialState,
+  reducer,
+  Profile,
+  Experience,
+  Degrees,
+} from "@/lib/reducer";
 import { ExperienceForm } from "./experience-form";
 import { ProfileForm } from "./profile-form";
 import { EducationForm } from "./education-form";
@@ -34,33 +39,32 @@ type InputEvent<T> = React.ChangeEvent<T> & {
 };
 
 export function ResumeForm() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [profile, setProfile] = useState<Profile>({
+    name: "",
+    profession: "",
+    email: "",
+    linkedin: "",
+    github: "",
+    about: "",
+  });
+
+  const [experiences, setExperiences] = useState<Experience[] | []>([]);
+
+  const [degrees, setDegrees] = useState<Degrees[] | []>([]);
 
   const search = useSearchParams();
 
   const template = search?.get("template");
 
-  const document = renderDocument({ template: "professional", state });
+  const document = renderDocument({
+    template: "professional",
+    state: { profile, experiences, degrees },
+  });
 
-  const onProfileChangeRequest = ({
+  const onChangeProfile = ({
     target: { name, value },
   }: InputEvent<HTMLInputElement>) => {
-    dispatch({ type: "UPDATE_USER", name, value });
-  };
-
-  const onExperienceRequest = ({
-    target: { name, value },
-  }: InputEvent<HTMLInputElement>) => {
-    dispatch({ type: "UPDATE_EXPERIENCE", name, value });
-  };
-
-  const onAddExperience = () => {
-    dispatch({ type: "ADD_EXPERIENCE" });
-  };
-
-  const onRemoveExperience = (id: number): void => {
-    console.log(name);
-    dispatch({ type: "REMOVE_EXPERIENCE", name: "experience", id });
+    setProfile((state) => ({ ...state, [name]: value }));
   };
 
   return (
@@ -74,18 +78,13 @@ export function ResumeForm() {
           </div>
         </div>
         <div className="w-full py-2 px-8">
-          <ProfileForm
-            profile={state.profile}
-            onProfileChangeRequest={onProfileChangeRequest}
-          />
+          <ProfileForm profile={profile} onChange={onChangeProfile} />
           <ExperienceForm
-            experiences={state.experience}
-            onChangeExperience={onExperienceRequest}
-            onAddExperience={onAddExperience}
-            onRemoveExperience={onRemoveExperience}
+            experiences={experiences}
+            setExperiences={setExperiences}
           />
 
-          <EducationForm />
+          <EducationForm degrees={degrees} setDegrees={setDegrees} />
         </div>
         <DownloadButton document={document} />
       </div>
