@@ -17,7 +17,7 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
   return (
     <div>
       <div className="flex flex-col gap-2 pt-4">
-        <p>Dados pessoais</p>
+        <h2 className="text-2xl">Perfil</h2>
         <div className="gap-4 flex">
           <Input
             label="Nome"

@@ -59,8 +59,21 @@ export function ResumeForm() {
   };
 
   const onRemoveExperience = (id: number): void => {
-    console.log(name);
     dispatch({ type: "REMOVE_EXPERIENCE", name: "experience", id });
+  };
+
+  const onEducationRequest = ({
+    target: { name, value },
+  }: InputEvent<HTMLInputElement>) => {
+    dispatch({ type: "UPDATE_EDUCATION", name, value });
+  };
+
+  const onAddEducation = () => {
+    dispatch({ type: "ADD_EDUCATION" });
+  };
+
+  const onRemoveEducation = (id: number): void => {
+    dispatch({ type: "REMOVE_EDUCATION", name: "education", id });
   };
 
   return (
@@ -73,7 +86,7 @@ export function ResumeForm() {
             </Link>
           </div>
         </div>
-        <div className="w-full py-2 px-8">
+        <div className="w-full py-2 px-8 flex flex-col gap-4">
           <ProfileForm
             profile={state.profile}
             onProfileChangeRequest={onProfileChangeRequest}
@@ -85,7 +98,12 @@ export function ResumeForm() {
             onRemoveExperience={onRemoveExperience}
           />
 
-          <EducationForm />
+          <EducationForm
+            education={state.education}
+            onChangeEducation={onEducationRequest}
+            onAddEducation={onAddEducation}
+            onRemoveEducation={onRemoveEducation}
+          />
         </div>
         <DownloadButton document={document} />
       </div>

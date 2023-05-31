@@ -22,8 +22,8 @@ export function ExperienceForm({
   return (
     <div>
       <div className="flex flex-col gap-2 pt-4 border-top">
-        <div className="flex justify-between group py-4">
-          <p>Experiencias</p>
+        <div className="flex justify-between group py-4 ">
+          <h2 className="text-2xl">Experiencia</h2>
           {isExperiencesEmpty && (
             <div>
               <button
@@ -38,18 +38,14 @@ export function ExperienceForm({
 
         {experiences.map((experience, index) => {
           return (
-            <div>
+            <div className="mb-4">
               <div className="w-full flex justify-between">
                 <p className="text-sm">Experiencia {index + 1} </p>
                 <button
                   onClick={() => onRemoveExperience(index)}
-                  className="bg-red-200 rounded p-1 border-red-300 group "
+                  className="bg-red-200 rounded p-1 border-red-300 group hover:scale-[1.1] transition"
                 >
-                  <FiTrash
-                    size={14}
-                    color="red"
-                    className="group-hover:animate-shake transition"
-                  />
+                  <FiTrash size={14} color=" #CD5C5C" className="" />
                 </button>
               </div>
               <div className="flex gap-4">

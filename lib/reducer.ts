@@ -16,7 +16,7 @@ export type Experience = {
 };
 
 export type Education = {
-  role: string;
+  degree: string;
   institution: string;
   startDate: string;
   endDate: string;
@@ -75,17 +75,26 @@ type Action =
       type: "REMOVE_EXPERIENCE";
       name: Keys;
       id: number;
+    }
+  | {
+      type: "ADD_EDUCATION";
+    }
+  | {
+      type: "REMOVE_EDUCATION";
+      name: Keys;
+      id: number;
     };
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
     case "UPDATE_USER":
+      return { ...state, profile: { [action.name]: action.value } };
     case "UPDATE_EXPERIENCE":
     case "UPDATE_EDUCATION":
     case "UPDATE_SKILLS":
       return {
         ...state,
-        [key]: state[key].map((item, index) =>
+        [action.name]: state[action.name].map((item, index) =>
           index === +action.name ? action.value : item
         ),
       };
@@ -111,6 +120,25 @@ export function reducer(state: State, action: Action) {
           (item, index) => index !== action.id
         ),
       };
+    case "ADD_EDUCATION":
+      return {
+        ...state,
+        education: [
+          ...state.education,
+          {
+            degree: "",
+            institution: "",
+            startDate: "",
+            endDate: "",
+          },
+        ],
+      };
+    case "REMOVE_EDUCATION":
+      return {
+        ...state,
+        education: state.education.filter((item, index) => index !== action.id),
+      };
+
     default:
       return state;
   }
