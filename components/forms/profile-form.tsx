@@ -1,17 +1,30 @@
 "use client";
-import React, { ChangeEventHandler, useState } from "react";
+import React, { ChangeEventHandler, Dispatch, useState } from "react";
 import { Input } from "../ui/input";
 import { TextArea } from "../ui/textarea";
 import { FiPlus } from "react-icons/fi";
+import { Action, Profile } from "@/lib/reducer";
 
 type Props = {
-  oninput: ChangeEventHandler<HTMLInputElement>;
-  ontextarea: ChangeEventHandler<HTMLTextAreaElement>;
+  profile: Profile;
+  onCange: Dispatch<Action>;
 };
 
-export function ProfileForm({ oninput, ontextarea }: Props) {
+export function ProfileForm({ profile, onCange }: Props) {
   const [linkedin, setLinkedin] = useState<boolean>(false);
   const [github, setGithub] = useState<boolean>(false);
+
+  const setProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    onCange({ type: "change_profile", name, value });
+  };
+
+  const setProfileTextArea = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    onCange({ type: "change_profile", name, value });
+  };
 
   return (
     <div>
@@ -23,14 +36,14 @@ export function ProfileForm({ oninput, ontextarea }: Props) {
             name="name"
             id="name"
             type="text"
-            onChange={oninput}
+            onChange={setProfile}
           />
           <Input
             label="Profissao"
             name="profession"
             id="name"
             type="text"
-            onChange={oninput}
+            onChange={setProfile}
           />
         </div>
         <Input
@@ -38,7 +51,7 @@ export function ProfileForm({ oninput, ontextarea }: Props) {
           name="email"
           id="email"
           type="text"
-          onChange={oninput}
+          onChange={setProfile}
         />
 
         {linkedin && (
@@ -59,7 +72,7 @@ export function ProfileForm({ oninput, ontextarea }: Props) {
               name="linkedin"
               id="linkedin"
               type="text"
-              onChange={oninput}
+              onChange={setProfile}
             />
           </div>
         )}
@@ -78,7 +91,7 @@ export function ProfileForm({ oninput, ontextarea }: Props) {
               name="github"
               id="github"
               type="text"
-              onChange={oninput}
+              onChange={setProfile}
             />
           </div>
         )}
@@ -89,7 +102,7 @@ export function ProfileForm({ oninput, ontextarea }: Props) {
             length={250}
             label="Digite uma breve descricao"
             name="description"
-            onChange={ontextarea}
+            onChange={setProfileTextArea}
           />
         </div>
 

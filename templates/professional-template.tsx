@@ -14,6 +14,8 @@ const styles = StyleSheet.create({
 });
 
 export function Professional({ props }) {
+  console.log(props.experiences);
+  console.log(props);
   return (
     <>
       <Document>
@@ -46,7 +48,7 @@ export function Professional({ props }) {
                   marginBottom: "20px",
                 }}
               >
-                {props.profile.role}
+                {props.profile.profession}
               </Text>
               <Text style={{ fontSize: "10px" }}>
                 {props.profile.description}
@@ -120,7 +122,10 @@ export function Professional({ props }) {
                                 fontWeight: "bold",
                               }}
                             >
-                              {experience.company}, {experience.startDate.year}
+                              {experience.company}, {experience.startDate.year},{" "}
+                              {experience.startDate.month} -{" "}
+                              {experience.endDate.year},{" "}
+                              {experience.endDate.month}
                             </Text>
 
                             <Text

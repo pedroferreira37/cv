@@ -9,6 +9,7 @@ import { initialState, reducer } from "@/lib/reducer";
 import { ExperienceForm } from "./experience-form";
 import { DownloadButton } from "../ui/download-button";
 import { EducationForm } from "./education-form";
+import { ProfileForm } from "./profile-form";
 
 const ResumeRenderer = dynamic(
   () =>
@@ -36,10 +37,7 @@ export function ResumeForm() {
           </div>
         </div>
         <div className="w-full py-2 px-8 flex flex-col gap-4">
-          {/* <ProfileForm
-            oninput={onProfileInput}
-            ontextarea={onProfileTextArea}
-          />*/}
+          <ProfileForm profile={state.profile} onCange={dispatch} />
           <ExperienceForm experiences={state.experiences} onChange={dispatch} />
           <EducationForm educations={state.educations} onChange={dispatch} />
         </div>

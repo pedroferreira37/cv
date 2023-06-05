@@ -3,6 +3,8 @@ import { Input } from "../ui/input";
 import { TextArea } from "../ui/textarea";
 import { Action, Experience } from "@/lib/reducer";
 import { Dispatch } from "react";
+import { Select } from "../ui/select";
+import { months, years } from "@/lib/date";
 
 type Props = {
   experiences: Experience[] | [];
@@ -12,14 +14,14 @@ type Props = {
 export function ExperienceForm({ experiences, onChange }: Props) {
   const isExperiencesEmpty = experiences.length === 0;
 
-  const handleChangeInput =
+  const setExperienceInput =
     (id: string): React.ChangeEventHandler<HTMLInputElement> =>
     (event: React.ChangeEvent<HTMLInputElement>): void => {
       const { name, value: payload } = event.target;
       onChange({ type: "change_experience", id, name, payload });
     };
 
-  const handleChangeTextArea =
+  const setExperienceTextArea =
     (id: string): React.ChangeEventHandler<HTMLTextAreaElement> =>
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const { name, value: payload } = event.target;
@@ -27,15 +29,30 @@ export function ExperienceForm({ experiences, onChange }: Props) {
       onChange({ type: "change_experience", id, name, payload });
     };
 
-  const handleAdd = (): void => {
+  const setExperience = (): void => {
     onChange({ type: "add_experience" });
   };
 
-  const handleRemove =
+  const removeExperience =
     (id: string): React.MouseEventHandler<HTMLButtonElement> =>
     (): void => {
       onChange({ type: "remove_experience", id });
     };
+
+  const setDate = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    key: string,
+    experience: Experience
+  ) => {
+    const { id, name, value } = event.target;
+
+    onChange({
+      type: "change_experience",
+      name,
+      id: key,
+      payload: { ...experience[name], [id]: value },
+    });
+  };
 
   return (
     <div>
@@ -46,7 +63,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
             <div>
               <button
                 className="hover:rotate-90 transition "
-                onClick={handleAdd}
+                onClick={setExperience}
               >
                 <FiPlus size={20} />
               </button>
@@ -60,7 +77,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
               <div className="w-full flex justify-between">
                 <p className="text-sm">Experiencia {id + 1} </p>
                 <button
-                  onClick={handleRemove(experience.id)}
+                  onClick={removeExperience(experience.id)}
                   className="bg-red-200 rounded p-1 border-red-300 group hover:scale-[1.1] transition"
                 >
                   <FiTrash size={14} color=" #CD5C5C" className="" />
@@ -72,15 +89,52 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                   type="text"
                   name="role"
                   id="role"
-                  onChange={handleChangeInput(experience.id)}
+                  onChange={setExperienceInput(experience.id)}
                 />
                 <Input
                   label="Empresa"
                   type="text"
                   name="company"
                   id="company"
-                  onChange={handleChangeInput(experience.id)}
+                  onChange={setExperienceInput(experience.id)}
                 />
+              </div>
+
+              <div className="w-full">
+                <h2 className="text-[14px] text-[#797979]"> Data Início </h2>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Select
+                      options={years}
+                      name="startDate"
+                      id="year"
+                      label="Ano"
+                      onChange={(e) => setDate(e, experience.id, experience)}
+                    />
+                    <Select
+                      options={months}
+                      name="startDate"
+                      id="month"
+                      label="Mês"
+                      onChange={(e) => setDate(e, experience.id, experience)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Select
+                      options={years}
+                      name="endDate"
+                      id="year"
+                      onChange={(e) => setDate(e, experience.id)}
+                    />
+                    <Select
+                      options={months}
+                      name="endDate"
+                      id="month"
+                      onChange={(e) => setDate(e, experience.id)}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <TextArea
@@ -89,7 +143,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                   length={250}
                   name="description"
                   label="Digite uma breve descricao"
-                  onChange={handleChangeTextArea(experience.id)}
+                  onChange={setExperienceTextArea(experience.id)}
                 />
               </div>
             </div>
@@ -99,7 +153,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
           <div className="w-full flex justify-end group">
             <button
               className="text-sm flex gap-4 border rounded text-gray-800 py-1 px-2 hover:bg-default-gray transition"
-              onClick={handleAdd}
+              onClick={setExperience}
             >
               <FiPlus size={20} className="group-hover:rotate-90 transition" />
               Nova Experiência
