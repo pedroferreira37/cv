@@ -99,85 +99,80 @@ export function Professional({ props }) {
                     Work experience
                   </Text>
 
-                  <View style={{ padding: "20px 0 20px 0" }}>
-                    <View>
-                      <Text
-                        style={{
-                          color: "#222222",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Product Designer
-                      </Text>
-                      <Text
-                        style={{
-                          color: "#797979",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Fintef, Oct 2019 - Present
-                      </Text>
+                  {props.experiences.map((experience) => {
+                    return (
+                      <>
+                        <View style={{ padding: "20px 0 20px 0" }}>
+                          <View>
+                            <Text
+                              style={{
+                                color: "#222222",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {experience.role}
+                            </Text>
+                            <Text
+                              style={{
+                                color: "#797979",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {experience.company}, {experience.startDate.year}
+                            </Text>
 
-                      <Text
-                        style={{
-                          color: "#222222",
-                          fontSize: "10px",
-                          fontWeight: "bold",
-                          paddingTop: "8px",
-                        }}
-                      >
-                        Designing end-to-end experience for financial products
-                        on mobile & web platforms. Working closely with
-                        managers, marketing specialists and developers.
-                      </Text>
-                    </View>
-                  </View>
+                            <Text
+                              style={{
+                                color: "#222222",
+                                fontSize: "10px",
+                                fontWeight: "bold",
+                                paddingTop: "8px",
+                              }}
+                            >
+                              {experience.description}
+                            </Text>
+                          </View>
+                        </View>
+                      </>
+                    );
+                  })}
                 </View>
 
                 <View style={{ width: "50%", marginLeft: "24px " }}>
                   <Text style={{ color: "#0E6CC2", fontSize: "14px" }}>
                     Educacao
                   </Text>
-
-                  <View style={{ padding: "20px 0 20px 0" }}>
-                    <View>
-                      <Text
-                        style={{
-                          color: "#222222",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Product Designer
-                      </Text>
-                      <Text
-                        style={{
-                          color: "#797979",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Fintef, Oct 2019 - Present
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <Text style={{ color: "#0E6CC2", fontSize: "14px" }}>
-                      Work experience
-                    </Text>
-                    <View style={{ marginTop: "8px" }}>
-                      <Text style={{ fontSize: "10px" }}>
-                        Business Analysis, UX Research, User Testing and
-                        Validation, Customer Journey Mapping, Information
-                        Architecture, Low- and High- Fidelity Wireframing,
-                        Prototyping, Interaction Design, Visual Design, Defining
-                        Product Specifications, Design System Development,
-                        Design Sprints, A/B Testing.
-                      </Text>
-                    </View>
-                  </View>
+                  {props.educations.map((education) => {
+                    return (
+                      <>
+                        <View style={{ padding: "20px 0 20px 0" }}>
+                          <View>
+                            <Text
+                              style={{
+                                color: "#222222",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {education.degree}
+                            </Text>
+                            <Text
+                              style={{
+                                color: "#797979",
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {education.instituon}, {education.startDate.year}{" "}
+                              - {education.startDate.month}
+                            </Text>
+                          </View>
+                        </View>
+                      </>
+                    );
+                  })}
                 </View>
               </View>
               <View></View>

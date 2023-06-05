@@ -1,4 +1,4 @@
-import { UserThumb } from "@/components/user-thumb";
+import { UserThumb } from "@/components/ui/user-thumb";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import Link from "next/link";

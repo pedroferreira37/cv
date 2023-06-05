@@ -47,22 +47,30 @@ export function ResumeRenderer({ document, data }) {
 
       <div className="flex flex-1  items-center justify-center w-full h-full ">
         {shouldShowPreviousDocument && previousRenderedValue ? (
-          <Document file={previousRenderedValue} loading={null} className="">
+          <Document
+            key={previousRenderedValue}
+            file={previousRenderedValue}
+            loading={undefined}
+            className=""
+          >
             <Page
               pageNumber={1}
               className="w-full h-full "
               renderTextLayer={false}
               renderAnnotationLayer={false}
-              loading={null}
+              loading={undefined}
             ></Page>
           </Document>
         ) : null}
 
         <Document
+          key={render.value}
           file={render.value}
-          loading={null}
+          loading={undefined}
           className={`shadow-[rgba(0,0,0,.1)_0_2px_3px]   ${
-            shouldShowPreviousDocument ? "opacity-0" : "opacity-100 shadow"
+            shouldShowPreviousDocument && previousRenderedValue
+              ? "hidden"
+              : null
           }`}
         >
           <Page
@@ -70,7 +78,7 @@ export function ResumeRenderer({ document, data }) {
             renderTextLayer={false}
             renderAnnotationLayer={false}
             className="w-full h-full"
-            loading={null}
+            loading={undefined}
             onLoadSuccess={onLoadSucess}
           ></Page>
         </Document>
