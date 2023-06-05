@@ -1,4 +1,4 @@
-import { ResumeThumb } from "@/components/resume-thumb";
+import { ResumeThumb } from "@/components/resume/resume-thumb";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 

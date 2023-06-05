@@ -1,16 +1,15 @@
 "use client";
-import React, { useState } from "react";
-import { Input } from "./input";
-import { TextArea } from "./textarea";
+import React, { ChangeEventHandler, useState } from "react";
+import { Input } from "../ui/input";
+import { TextArea } from "../ui/textarea";
 import { FiPlus } from "react-icons/fi";
-import { Profile } from "@/lib/reducer";
 
 type Props = {
-  profile: Profile;
-  onProfileChangeRequest: React.ChangeEventHandler<HTMLInputElement>;
+  oninput: ChangeEventHandler<HTMLInputElement>;
+  ontextarea: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
+export function ProfileForm({ oninput, ontextarea }: Props) {
   const [linkedin, setLinkedin] = useState<boolean>(false);
   const [github, setGithub] = useState<boolean>(false);
 
@@ -24,14 +23,14 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
             name="name"
             id="name"
             type="text"
-            onChange={onProfileChangeRequest}
+            onChange={oninput}
           />
           <Input
             label="Profissao"
             name="profession"
             id="name"
             type="text"
-            onChange={onProfileChangeRequest}
+            onChange={oninput}
           />
         </div>
         <Input
@@ -39,51 +38,50 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
           name="email"
           id="email"
           type="text"
-          onChange={onProfileChangeRequest}
+          onChange={oninput}
         />
 
-        <div
-          className={`relative transition ${
-            linkedin ? "opacity-100 visible" : "opacity-0 hidden"
-          }`}
-        >
-          <button
-            className="absolute top-2 left-[60px] text-[10px] text-gray-400"
-            name="linkedin"
-            onClick={() => setLinkedin(false)}
+        {linkedin && (
+          <div
+            className="relative 
+          "
           >
-            Remover
-          </button>
-          <Input
-            label="Linkedin"
-            name="linkedin"
-            id="linkedin"
-            type="text"
-            onChange={onProfileChangeRequest}
-          />
-        </div>
+            <button
+              className="absolute top-2 left-[60px] text-[10px] text-gray-400"
+              name="linkedin"
+              onClick={() => setLinkedin(false)}
+            >
+              Remover
+            </button>
 
-        <div
-          className={`relative transition ${
-            github ? "opacity-100 visible" : "opacity-0 hidden"
-          }`}
-        >
-          <button
-            className="absolute top-2 left-[60px] text-[10px] text-gray-400"
-            name="github"
-            onClick={() => setGithub(false)}
-          >
-            Remover
-          </button>
-          <Input
-            label="Github"
-            name="github"
-            id="github"
-            type="text"
-            onChange={onProfileChangeRequest}
-          />
-        </div>
+            <Input
+              label="Linkedin"
+              name="linkedin"
+              id="linkedin"
+              type="text"
+              onChange={oninput}
+            />
+          </div>
+        )}
 
+        {github && (
+          <div className="relative">
+            <button
+              className="absolute top-2 left-[60px] text-[10px] text-gray-400"
+              name="github"
+              onClick={() => setGithub(false)}
+            >
+              Remover
+            </button>
+            <Input
+              label="Github"
+              name="github"
+              id="github"
+              type="text"
+              onChange={oninput}
+            />
+          </div>
+        )}
         <div>
           <TextArea
             cols={20}
@@ -91,7 +89,7 @@ export function ProfileForm({ profile, onProfileChangeRequest }: Props) {
             length={250}
             label="Digite uma breve descricao"
             name="description"
-            onChange={onProfileChangeRequest}
+            onChange={ontextarea}
           />
         </div>
 

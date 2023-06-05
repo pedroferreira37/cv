@@ -1,4 +1,4 @@
-import { ResumeForm } from "@/components/resume-form";
+import { ResumeForm } from "@/components/forms/resume-form";
 
 export default async function Create() {
   return (

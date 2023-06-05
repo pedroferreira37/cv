@@ -1,3 +1,5 @@
+import { uuid } from "@/lib/uuid";
+
 export type Profile = {
   name: string;
   profession: string;
@@ -8,32 +10,33 @@ export type Profile = {
 };
 
 export type Experience = {
+  id: string;
   role: string;
   company: string;
-  startDate: string;
-  endDate: string;
   description: string;
+  startDate: {
+    year: number | null;
+    month: number | null;
+  };
+  endDate: {
+    year: number | null;
+    month: number | null;
+  };
 };
 
 export type Education = {
+  id: string;
   degree: string;
   institution: string;
   startDate: string;
   endDate: string;
 };
 
-type Skills = { text: string };
-
-type GenericState<T> = {
-  [K in keyof T]: T[K];
-};
-
-export type State = GenericState<{
+type State = {
   profile: Profile;
-  experience: Experience[] | [];
-  education: Education[] | [];
-  skills: Skills[] | [];
-}>;
+  experiences: Experience[] | [];
+  educations: Education[] | [];
+};
 
 export const initialState: State = {
   profile: {
@@ -44,88 +47,107 @@ export const initialState: State = {
     github: "",
     about: "",
   },
-  experience: [],
-  education: [],
-  skills: [],
+  experiences: [],
+  educations: [],
 };
 
-type Keys = keyof State;
-
-type Action =
+export type Action =
   | {
-      type: "UPDATE_USER";
-      name: Keys;
-      value: string;
-    }
-  | { type: "UPDATE_EXPERIENCE"; name: keyof State; value: string }
-  | {
-      type: "UPDATE_EDUCATION";
-      name: Keys;
+      type: "change_profile";
+      name: string;
       value: string;
     }
   | {
-      type: "UPDATE_SKILLS";
-      name: Keys;
-      value: string;
+      type: "change_experience";
+      name: string;
+      payload: string | Partial<Experience>;
+      id: string;
     }
   | {
-      type: "ADD_EXPERIENCE";
+      type: "add_experience";
     }
   | {
-      type: "REMOVE_EXPERIENCE";
-      name: Keys;
-      id: number;
+      type: "remove_experience";
+      id: string;
     }
   | {
-      type: "ADD_EDUCATION";
+      type: "change_education";
+      name: string;
+      payload: string | Partial<Education>;
+      id: string;
     }
   | {
-      type: "REMOVE_EDUCATION";
-      name: Keys;
-      id: number;
+      type: "add_education";
+    }
+  | {
+      type: "remove_education";
+      id: string;
     };
 
-export function reducer(state: State, action: Action) {
+export const reducer = (state: State, action: Action): State => {
+  const id = uuid();
+
   switch (action.type) {
-    case "UPDATE_USER":
-      return { ...state, profile: { [action.name]: action.value } };
-    case "UPDATE_EXPERIENCE":
-    case "UPDATE_EDUCATION":
-    case "UPDATE_SKILLS":
+    case "change_profile":
       return {
         ...state,
-        [action.name]: state[action.name].map((item, index) =>
-          index === +action.name ? action.value : item
+        profile: { ...state.profile, [action.name]: action.value },
+      };
+    case "change_experience":
+      return {
+        ...state,
+        experiences: state.experiences.map((experience) =>
+          experience.id === action.id
+            ? { ...experience, [action.name]: action.payload }
+            : experience
         ),
       };
-
-    case "ADD_EXPERIENCE":
+    case "add_experience":
       return {
         ...state,
-        experience: [
-          ...state.experience,
+        experiences: [
+          ...state.experiences,
           {
+            id,
             role: "",
             company: "",
-            startDate: "",
-            endDate: "",
+            startDate: {
+              year: null,
+              month: null,
+            },
+            endDate: {
+              year: null,
+              month: null,
+            },
             description: "",
           },
         ],
       };
-    case "REMOVE_EXPERIENCE":
+
+    case "remove_experience":
       return {
         ...state,
-        experience: state.experience.filter(
-          (item, index) => index !== action.id
+        experiences: state.experiences.filter(
+          (experience) => experience.id !== action.id
         ),
       };
-    case "ADD_EDUCATION":
+
+    case "change_education":
       return {
         ...state,
-        education: [
-          ...state.education,
+        educations: state.educations.map((education) =>
+          education.id === action.id
+            ? { ...education, [action.name]: action.payload }
+            : education
+        ),
+      };
+    case "add_education":
+      return {
+        ...state,
+        educations: [
+          ...state.educations,
           {
+            id,
             degree: "",
             institution: "",
             startDate: "",
@@ -133,13 +155,16 @@ export function reducer(state: State, action: Action) {
           },
         ],
       };
-    case "REMOVE_EDUCATION":
+
+    case "remove_education":
       return {
         ...state,
-        education: state.education.filter((item, index) => index !== action.id),
+        educations: state.educations.filter(
+          (education) => education.id !== action.id
+        ),
       };
 
     default:
       return state;
   }
-}
+};

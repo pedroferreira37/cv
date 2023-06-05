@@ -52,6 +52,51 @@ model User {
   @@map("users")
 }
 
+
+
+model Resume {
+  id String @id @default(uuid())
+  educationId string
+  experienceId string
+  name String? 
+  role String?
+  mail String?
+  github String?
+  linkedin String?
+  description String? @db.Text
+  experience Experience? @relation(fields: [experienceId], references: [id], onDelete: Casdade)
+  education Education? @relation(fields: [educationId], references: [id], onDelete: Casdade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("resume")
+}
+
+
+model Education {
+  id String @id @default(uuid())
+  degree String
+  institution String
+  start_date String
+  end_date String
+
+  @@map("education")
+}
+
+model Experience {
+  id String @id @default(uuid())
+  role String
+  company String
+  start_date String
+  end_date String
+
+  @@map("experience")
+}
+
+
+
+
+
+
 model VerificationToken {
   identifier String
   token      String   @unique

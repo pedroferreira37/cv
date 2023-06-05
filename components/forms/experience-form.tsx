@@ -1,23 +1,41 @@
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { Input } from "./input";
-import { TextArea } from "./textarea";
-import React from "react";
-import { Experience } from "@/lib/reducer";
+import { Input } from "../ui/input";
+import { TextArea } from "../ui/textarea";
+import { Action, Experience } from "@/lib/reducer";
+import { Dispatch } from "react";
 
 type Props = {
   experiences: Experience[] | [];
-  onChangeExperience: React.ChangeEventHandler<HTMLInputElement>;
-  onAddExperience: React.MouseEventHandler<HTMLButtonElement>;
-  onRemoveExperience: (name: number) => void;
+  onChange: Dispatch<Action>;
 };
 
-export function ExperienceForm({
-  experiences,
-  onChangeExperience,
-  onAddExperience,
-  onRemoveExperience,
-}: Props) {
+export function ExperienceForm({ experiences, onChange }: Props) {
   const isExperiencesEmpty = experiences.length === 0;
+
+  const handleChangeInput =
+    (id: string): React.ChangeEventHandler<HTMLInputElement> =>
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const { name, value: payload } = event.target;
+      onChange({ type: "change_experience", id, name, payload });
+    };
+
+  const handleChangeTextArea =
+    (id: string): React.ChangeEventHandler<HTMLTextAreaElement> =>
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const { name, value: payload } = event.target;
+
+      onChange({ type: "change_experience", id, name, payload });
+    };
+
+  const handleAdd = (): void => {
+    onChange({ type: "add_experience" });
+  };
+
+  const handleRemove =
+    (id: string): React.MouseEventHandler<HTMLButtonElement> =>
+    (): void => {
+      onChange({ type: "remove_experience", id });
+    };
 
   return (
     <div>
@@ -28,7 +46,7 @@ export function ExperienceForm({
             <div>
               <button
                 className="hover:rotate-90 transition "
-                onClick={onAddExperience}
+                onClick={handleAdd}
               >
                 <FiPlus size={20} />
               </button>
@@ -36,13 +54,13 @@ export function ExperienceForm({
           )}
         </div>
 
-        {experiences.map((experience, index) => {
+        {experiences.map((experience, id) => {
           return (
             <div className="mb-4">
               <div className="w-full flex justify-between">
-                <p className="text-sm">Experiencia {index + 1} </p>
+                <p className="text-sm">Experiencia {id + 1} </p>
                 <button
-                  onClick={() => onRemoveExperience(index)}
+                  onClick={handleRemove(experience.id)}
                   className="bg-red-200 rounded p-1 border-red-300 group hover:scale-[1.1] transition"
                 >
                   <FiTrash size={14} color=" #CD5C5C" className="" />
@@ -52,32 +70,16 @@ export function ExperienceForm({
                 <Input
                   label="Funcao"
                   type="text"
-                  name={index}
+                  name="role"
                   id="role"
-                  onChange={onChangeExperience}
+                  onChange={handleChangeInput(experience.id)}
                 />
                 <Input
                   label="Empresa"
                   type="text"
-                  name={index}
+                  name="company"
                   id="company"
-                  onChange={onChangeExperience}
-                />
-              </div>
-              <div className="flex gap-4">
-                <Input
-                  label="Data Inicio"
-                  type="text"
-                  name={index}
-                  id="start-date"
-                  onChange={onChangeExperience}
-                />
-                <Input
-                  label="Data Final"
-                  type="text"
-                  name={index}
-                  id="end-date"
-                  onChange={onChangeExperience}
+                  onChange={handleChangeInput(experience.id)}
                 />
               </div>
               <div>
@@ -85,8 +87,9 @@ export function ExperienceForm({
                   cols={20}
                   rows={6}
                   length={250}
+                  name="description"
                   label="Digite uma breve descricao"
-                  onChange={onChangeExperience}
+                  onChange={handleChangeTextArea(experience.id)}
                 />
               </div>
             </div>
@@ -96,7 +99,7 @@ export function ExperienceForm({
           <div className="w-full flex justify-end group">
             <button
               className="text-sm flex gap-4 border rounded text-gray-800 py-1 px-2 hover:bg-default-gray transition"
-              onClick={onAddExperience}
+              onClick={handleAdd}
             >
               <FiPlus size={20} className="group-hover:rotate-90 transition" />
               Nova Experiência
