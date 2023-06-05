@@ -11,18 +11,18 @@ type Props = {
 export function EducationForm({ educations, onChange }: Props) {
   const isEducationEmpty = educations.length === 0;
 
-  const handleChangeInput =
+  const setEducationInput =
     (id: string): React.ChangeEventHandler<HTMLInputElement> =>
     (event: React.ChangeEvent<HTMLInputElement>): void => {
       const { name, value: payload } = event.target;
       onChange({ type: "change_education", id, name, payload });
     };
 
-  const handleAdd = (): void => {
+  const setEducation = (): void => {
     onChange({ type: "add_education" });
   };
 
-  const handleRemove =
+  const removeEducation =
     (id: string): React.MouseEventHandler<HTMLButtonElement> =>
     (): void => {
       onChange({ type: "remove_education", id });
@@ -35,7 +35,10 @@ export function EducationForm({ educations, onChange }: Props) {
 
         {isEducationEmpty && (
           <div>
-            <button className="hover:rotate-90 transition" onClick={handleAdd}>
+            <button
+              className="hover:rotate-90 transition"
+              onClick={setEducation}
+            >
               <FiPlus size={20} />
             </button>
           </div>
@@ -48,7 +51,7 @@ export function EducationForm({ educations, onChange }: Props) {
             <div className="w-full flex justify-between">
               <p className="text-sm">Formacao {index + 1} </p>
               <button
-                onClick={handleRemove(education.id)}
+                onClick={removeEducation(education.id)}
                 className="bg-red-200 rounded p-1 border-red-300 group hover:scale-[1.1] transition"
               >
                 <FiTrash size={14} color=" #CD5C5C" className="" />
@@ -58,13 +61,13 @@ export function EducationForm({ educations, onChange }: Props) {
               <Input
                 label="Formacao"
                 type="text"
-                onChange={handleChangeInput(education.id)}
+                onChange={setEducationInput(education.id)}
                 name="degree"
                 id="degree"
               />
               <Input
                 label="Instituicao"
-                onChange={handleChangeInput(education.id)}
+                onChange={setEducationInput(education.id)}
                 type="text"
                 name="institution"
                 id="institution"
@@ -74,14 +77,14 @@ export function EducationForm({ educations, onChange }: Props) {
             <div className="flex gap-4">
               <Input
                 label="Data Inicio"
-                onChange={handleChangeInput(education.id)}
+                onChange={setEducationInput(education.id)}
                 type="text"
                 name="startDate"
                 id="startDate"
               />
               <Input
                 label="Data Final"
-                onChange={handleChangeInput(education.id)}
+                onChange={setEducationInput(education.id)}
                 type="text"
                 name="endDate"
                 id="endDate"
@@ -95,7 +98,7 @@ export function EducationForm({ educations, onChange }: Props) {
         <div className="w-full flex justify-end group">
           <button
             className="text-sm flex gap-4 border rounded text-gray-800 py-1 px-2 hover:bg-default-gray transition"
-            onClick={handleAdd}
+            onClick={setEducation}
           >
             <FiPlus size={20} className="group-hover:rotate-90 transition" />
             Nova Formacao

@@ -1,4 +1,5 @@
 export const months = [
+  "",
   "Janeiro",
   "Fevereiro",
   "Março",
@@ -14,5 +15,5 @@ export const months = [
 ];
 
 export const years: string[] = Array.from(new Array<string>(40), (_, index) =>
-  (new Date().getFullYear() - index).toString()
+  index === 0 ? "" : (new Date().getFullYear() - index).toString()
 );
