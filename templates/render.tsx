@@ -1,12 +1,11 @@
-import { Professional } from "./professional-template";
-import { Simple } from "./simple-template";
+"use client";
+import { Basic } from "./basic-template";
 
-export const renderDocument = (props): React.ReactElement => {
-  console.log(props);
+export const renderDocument = (props): React.ReactNode => {
   switch (props.template) {
     case "professional":
       return (
-        <Simple
+        <Basic
           profile={props.state.profile}
           experiences={props.state.experiences}
           educations={props.state.educations}

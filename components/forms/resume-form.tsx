@@ -2,7 +2,13 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, useReducer, useState } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { FiArrowLeft, FiDownload, FiPlus } from "react-icons/fi";
 import { renderDocument } from "@/templates/render";
 import { initialState, reducer } from "@/lib/reducer";
@@ -10,6 +16,7 @@ import { ExperienceForm } from "./experience-form";
 import { DownloadButton } from "../ui/download-button";
 import { EducationForm } from "./education-form";
 import { ProfileForm } from "./profile-form";
+import axios from "axios";
 
 const ResumeRenderer = dynamic(
   () =>
@@ -17,12 +24,18 @@ const ResumeRenderer = dynamic(
   { ssr: false }
 );
 
-export function ResumeForm() {
+export function ResumeForm({ session, id }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const search = useSearchParams();
 
   const template = search?.get("template");
+
+  useEffect(() => {
+    axios
+      .put(`http://localhost:3000/api/resume/${id}`, state)
+      .then((req) => console.log(req.data));
+  }, [state]);
 
   const document = renderDocument({ template: "professional", state });
 

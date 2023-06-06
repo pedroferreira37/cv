@@ -1,13 +1,17 @@
 "use client";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useAsync } from "react-use";
-import { Professional } from "../templates/professional-template";
 import { pdf } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-export function ResumeRenderer({ document, data }) {
+export function ResumeRenderer({ document, data, arrows }) {
+  const [numPages, setNumPages] = useState<number | null>(null);
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const [previousRenderedValue, setPreviousRenderedValue] = useState<
     string | null | undefined
   >(null);
@@ -20,6 +24,14 @@ export function ResumeRenderer({ document, data }) {
 
     return url;
   }, [data]);
+
+  const onPreviousPage = () => {
+    setCurrentPage((prev) => prev - 1);
+  };
+
+  const onNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
 
   const isFirstRendering = !previousRenderedValue;
 
@@ -34,6 +46,11 @@ export function ResumeRenderer({ document, data }) {
   function onLoadSucess() {
     setPreviousRenderedValue(render.value);
   }
+
+  const onDocumentLoad = (document) => {
+    setNumPages(document.numPages);
+    setCurrentPage((prev) => Math.min(prev, document.numPages));
+  };
 
   return (
     <div className="h-full  flex flex-col ">
@@ -54,7 +71,8 @@ export function ResumeRenderer({ document, data }) {
             className=""
           >
             <Page
-              pageNumber={1}
+              key={currentPage}
+              pageNumber={currentPage}
               className="w-full h-full "
               renderTextLayer={false}
               renderAnnotationLayer={false}
@@ -62,7 +80,6 @@ export function ResumeRenderer({ document, data }) {
             ></Page>
           </Document>
         ) : null}
-
         <Document
           key={render.value}
           file={render.value}
@@ -72,17 +89,46 @@ export function ResumeRenderer({ document, data }) {
               ? "hidden"
               : null
           }`}
+          onLoadSuccess={onDocumentLoad}
         >
           <Page
-            pageNumber={1}
+            key={currentPage}
+            pageNumber={currentPage}
             renderTextLayer={false}
             renderAnnotationLayer={false}
             className="w-full h-full"
             loading={undefined}
-            onLoadSuccess={onLoadSucess}
+            onRenderSuccess={onLoadSucess}
           ></Page>
         </Document>
       </div>
+      {arrows && (
+        <div className="flex justify-between py-4">
+          <div>
+            {currentPage !== 1 && (
+              <button onClick={onPreviousPage} className="rounded-full  group ">
+                <FiArrowLeft
+                  size={18}
+                  className="group-hover:animate-wiggle "
+                />
+              </button>
+            )}
+          </div>
+          <div>
+            {currentPage} de {numPages} Páginas
+          </div>
+          <div>
+            {currentPage < numPages && (
+              <button onClick={onNextPage} className="rounded-full  group ">
+                <FiArrowRight
+                  className="group-hover:animate-wiggle"
+                  size={18}
+                />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

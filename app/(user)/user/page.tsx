@@ -1,9 +1,18 @@
 import { ResumeThumb } from "@/components/resume/resume-thumb";
-import Link from "next/link";
-import { FiPlus } from "react-icons/fi";
+import { CreateButton } from "@/components/ui/button-create";
+import { authOptions } from "@/lib/auth";
+import { uuid } from "@/lib/uuid";
+import { getResumes } from "@/model/model";
+import { User } from "@prisma/client";
+import axios from "axios";
+import { getServerSession } from "next-auth";
 
-export default function User() {
-  const props = [{ type: "professional", data: { name: "assim deu certo" } }];
+export default async function User() {
+  const resumeId = uuid(10);
+  const session = await getServerSession(authOptions);
+  const user = session?.user as User;
+
+  const resumes = await getResumes(user.id);
 
   return (
     <div className="w-full flex flex-col  gap-12 ">
@@ -12,16 +21,10 @@ export default function User() {
           <h2 className="font-bold text-4xl mb-1">Meus curriculos</h2>
           <p className="text-gray-500">Crie e gerencie seus curriculos</p>
         </div>
-        <Link
-          href="/create"
-          className="bg-green-default hover:bg-green-hover text-white text-sm px-4 py-2 rounded flex gap-2 items-center"
-        >
-          <FiPlus size={20} />
-          Novo Curriculo
-        </Link>
+        <CreateButton id={resumeId} user={user} />
       </div>
       <div className="flex flex-wrap  gap-10 w-full">
-        {props.map((prop) => (
+        {resumes.map((prop) => (
           <ResumeThumb props={prop} />
         ))}
       </div>

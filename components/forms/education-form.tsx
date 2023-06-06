@@ -11,8 +11,6 @@ type Props = {
 };
 
 export function EducationForm({ educations, onChange }: Props) {
-  const [isCurrentJob, setCurrentJob] = useState<boolean>(false);
-
   const isEducationEmpty = educations.length === 0;
 
   const setEducationInput =
@@ -54,13 +52,11 @@ export function EducationForm({ educations, onChange }: Props) {
   ) => {
     const { id, name } = event.target;
 
-    setCurrentJob(event.target.checked);
-
     onChange({
       type: "change_education",
       name,
       id: key,
-      payload: { ...education["endDate"], [id]: event.target.checked },
+      payload: { ...education[name], [id]: event.target.checked },
     });
   };
 
@@ -140,7 +136,7 @@ export function EducationForm({ educations, onChange }: Props) {
                     label="Ano"
                     options={years}
                     name="endDate"
-                    disabled={isCurrentJob}
+                    disabled={education.endDate.current}
                     id="year"
                     onChange={(e) => setDate(e, education.id, education)}
                   />
@@ -149,13 +145,13 @@ export function EducationForm({ educations, onChange }: Props) {
                     options={months}
                     name="endDate"
                     id="month"
-                    disabled={isCurrentJob}
+                    disabled={education.endDate.current}
                     onChange={(e) => setDate(e, education.id, education)}
                   />
                   <div className="absolute top-0 right-0 flex items-center gap-4">
                     <span className="text-sm text-[#797979]">Atual</span>
                     <Input
-                      defaultChecked={isCurrentJob}
+                      defaultChecked={education.endDate.current}
                       type="checkbox"
                       name="endDate"
                       label=""

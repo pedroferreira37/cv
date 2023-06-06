@@ -19,9 +19,8 @@ export function TextArea({
       <label className="text-[14px] text-[#797979] ">
         {label}
         <textarea
-          maxLength={length}
           className="
-    w-full bg-[#eee] resize-none  px-[.425rem] py-[4px] outline-none rounded border  text-[#353535] text-[14px]"
+    w-full bg-[#eee] resize-none  px-[.425rem] py-[4px] outline-none rounded border  text-[#353535] text-[14px] hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition"
           cols={cols}
           rows={rows}
           name={name}
