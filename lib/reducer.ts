@@ -21,15 +21,23 @@ export type Experience = {
   endDate: {
     year: number | null;
     month: number | null;
+    current: boolean;
   };
 };
 
 export type Education = {
   id: string;
   degree: string;
+  startDate: {
+    year: number | null;
+    month: number | null;
+  };
+  endDate: {
+    year: number | null;
+    month: number | null;
+    current: boolean;
+  };
   institution: string;
-  startDate: string;
-  endDate: string;
 };
 
 type State = {
@@ -118,6 +126,7 @@ export const reducer = (state: State, action: Action): State => {
             endDate: {
               year: null,
               month: null,
+              current: false,
             },
             description: "",
           },
@@ -150,6 +159,16 @@ export const reducer = (state: State, action: Action): State => {
             id,
             degree: "",
             institution: "",
+            startDate: {
+              year: null,
+              month: null,
+            },
+            endDate: {
+              year: null,
+              month: null,
+              current: false,
+            },
+
             startDate: "",
             endDate: "",
           },

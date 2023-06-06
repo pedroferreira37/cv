@@ -80,7 +80,7 @@ export function ProfileForm({ profile, onCange }: Props) {
         {github && (
           <div className="relative">
             <button
-              className="absolute top-2 left-[60px] text-[10px] text-gray-400"
+              className="absolute top-2 left-[50px] text-[10px] text-gray-400"
               name="github"
               onClick={() => setGithub(false)}
             >
@@ -101,41 +101,43 @@ export function ProfileForm({ profile, onCange }: Props) {
             rows={6}
             length={250}
             label="Digite uma breve descricao"
-            name="description"
+            name="about"
             onChange={setProfileTextArea}
           />
         </div>
 
         <div className="flex gap-2">
-          <div
-            className={`group ${
-              !linkedin ? "opacity-100 visible" : "opacity-0 hidden"
-            }`}
-          >
-            <button
-              className="flex gap-2 px-4 py-2 items-center justify-center border rounded group-hover:bg-default-gray    transition"
-              name="linkedin"
-              onClick={() => setLinkedin(true)}
-            >
-              <FiPlus size={20} className="group-hover:rotate-90 transition" />
-              LinkedIn
-            </button>
-          </div>
+          {!linkedin && (
+            <div className="group">
+              <button
+                className="flex gap-2 px-4 py-2 items-center justify-center border rounded group-hover:bg-default-gray    transition"
+                name="linkedin"
+                onClick={() => setLinkedin(true)}
+              >
+                <FiPlus
+                  size={20}
+                  className="group-hover:rotate-90 transition"
+                />
+                LinkedIn
+              </button>
+            </div>
+          )}
 
-          <div
-            className={`group ${
-              !github ? "opacity-100 visible" : "opacity-0 hidden"
-            }`}
-          >
-            <button
-              className="flex gap-2  px-4 py-2 items-center justify-center border rounded group-hover:bg-default-gray  transition"
-              name="github"
-              onClick={() => setGithub(true)}
-            >
-              <FiPlus size={20} className="group-hover:rotate-90 transition" />
-              Github
-            </button>
-          </div>
+          {!github && (
+            <div className="group">
+              <button
+                className="flex gap-2  px-4 py-2 items-center justify-center border rounded group-hover:bg-default-gray  transition"
+                name="github"
+                onClick={() => setGithub(true)}
+              >
+                <FiPlus
+                  size={20}
+                  className="group-hover:rotate-90 transition"
+                />
+                Github
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
