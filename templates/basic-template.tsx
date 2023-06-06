@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Professional = ({ profile, experiences, educations }) => (
+export const Basic = ({ profile, experiences, educations }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.section}>

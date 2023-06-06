@@ -48,6 +48,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  resumes        Resume[]
 
   @@map("users")
 }
@@ -55,41 +56,57 @@ model User {
 
 
 model Resume {
-  id String @id @default(uuid())
-  educationId string
-  experienceId string
+  id String @id 
+  educationId String?
+  experienceId String?
   name String? 
   role String?
   mail String?
   github String?
   linkedin String?
-  description String? @db.Text
-  experience Experience? @relation(fields: [experienceId], references: [id], onDelete: Casdade)
-  education Education? @relation(fields: [educationId], references: [id], onDelete: Casdade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  about String? @db.Text
+  userId String 
+  educations Education[]
+  experiences Experience[]
+  
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("resume")
 }
 
 
 model Education {
-  id String @id @default(uuid())
-  degree String
-  institution String
-  start_date String
-  end_date String
+  id String @unique @id 
+  degree String?
+  institution String?
+  start_date_year String?
+  start_date_month   String?
+  end_date_year String?
+  end_date_month String?
+  resumeId String
 
-  @@map("education")
+  
+  Resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@map("educations")
 }
 
 model Experience {
-  id String @id @default(uuid())
-  role String
-  company String
-  start_date String
-  end_date String
+  id String @unique @id   
+  role String?
+  company String?
+  start_date_year String?
+  start_date_month String?  
+  end_date_year String?
+  end_date_month String?
+  description String? @db.Text
+  resumeId String
 
-  @@map("experience")
+  Resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+
+  @@map("experiences")
 }
 
 

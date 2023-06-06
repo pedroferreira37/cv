@@ -1,8 +1,9 @@
+"use client";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { Input } from "../ui/input";
 import { TextArea } from "../ui/textarea";
 import { Action, Experience } from "@/lib/reducer";
-import { Dispatch, useState } from "react";
+import { Dispatch } from "react";
 import { Select } from "../ui/select";
 import { months, years } from "@/lib/date";
 
@@ -12,8 +13,6 @@ type Props = {
 };
 
 export function ExperienceForm({ experiences, onChange }: Props) {
-  const [isCurrentJob, setCurrentJob] = useState<boolean>(false);
-
   const isExperiencesEmpty = experiences.length === 0;
 
   const setExperienceInput =
@@ -63,13 +62,11 @@ export function ExperienceForm({ experiences, onChange }: Props) {
   ) => {
     const { id, name } = event.target;
 
-    setCurrentJob(event.target.checked);
-
     onChange({
       type: "change_experience",
       name,
       id: key,
-      payload: { ...experience["endDate"], [id]: event.target.checked },
+      payload: { ...experience[name], [id]: event.target.checked },
     });
   };
 
@@ -93,7 +90,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
 
         {experiences.map((experience, index) => {
           return (
-            <div className="flex flex-col gap-2 mb-2" key={index}>
+            <div className="flex flex-col gap-2 mb-2 " key={index}>
               <div className="w-full flex justify-between ">
                 <p className="text-sm">Experiencia {index + 1} </p>
                 <button
@@ -149,7 +146,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                       label="Ano"
                       options={years}
                       name="endDate"
-                      disabled={isCurrentJob}
+                      disabled={experience.endDate.current}
                       id="year"
                       onChange={(e) => setDate(e, experience.id, experience)}
                     />
@@ -158,13 +155,13 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                       options={months}
                       name="endDate"
                       id="month"
-                      disabled={isCurrentJob}
+                      disabled={experience.endDate.current}
                       onChange={(e) => setDate(e, experience.id, experience)}
                     />
                     <div className="absolute top-0 right-0 flex items-center gap-4">
                       <span className="text-sm text-[#797979]">Atual</span>
                       <Input
-                        defaultChecked={isCurrentJob}
+                        defaultChecked={experience.endDate.current}
                         type="checkbox"
                         name="endDate"
                         label=""

@@ -26,7 +26,7 @@ export const Select = ({
           id={id}
           onChange={onChange}
           disabled={disabled}
-          className="w-full bg-[#eee] px-[.425rem] py-[4px] outline-none rounded border  text-[#353535] text-[14px] disabled:opacity-50"
+          className="w-full bg-[#eee] px-[.425rem] py-[4px] outline-none rounded border  text-[#353535] text-[14px] disabled:opacity-50 hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition"
         >
           {options.map((option) => (
             <option value={option}>{option}</option>

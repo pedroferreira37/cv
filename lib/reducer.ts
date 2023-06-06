@@ -2,8 +2,8 @@ import { uuid } from "@/lib/uuid";
 
 export type Profile = {
   name: string;
-  profession: string;
-  email: string;
+  role: string;
+  mail: string;
   linkedin: string;
   github: string;
   about: string;
@@ -40,7 +40,7 @@ export type Education = {
   institution: string;
 };
 
-type State = {
+export type State = {
   profile: Profile;
   experiences: Experience[] | [];
   educations: Education[] | [];
@@ -49,8 +49,8 @@ type State = {
 export const initialState: State = {
   profile: {
     name: "",
-    profession: "",
-    email: "",
+    role: "",
+    mail: "",
     linkedin: "",
     github: "",
     about: "",
@@ -168,9 +168,6 @@ export const reducer = (state: State, action: Action): State => {
               month: null,
               current: false,
             },
-
-            startDate: "",
-            endDate: "",
           },
         ],
       };

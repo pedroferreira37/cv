@@ -2,6 +2,8 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { renderDocument } from "@/templates/render";
+import { Basic } from "@/templates/basic-template";
+import { profile } from "console";
 
 const ResumeRenderer = dynamic(
   () => import("./resume-renderer").then((module) => module.ResumeRenderer),
@@ -9,17 +11,17 @@ const ResumeRenderer = dynamic(
 );
 
 export function ResumeThumb({ props }) {
-  const pdfDocument = renderDocument(props);
+  const pdfDocument = Basic({
+    profile: props,
+    experiences: props.experiences,
+    educations: props.educations,
+  });
 
   return (
     <div>
-      <Link href="/create">
+      <Link href={`/create/${props.id}`}>
         <div className="w-[200px] h-[282px] thumb relative">
-          <ResumeRenderer
-            template={props}
-            data={props.data}
-            document={pdfDocument}
-          />
+          <ResumeRenderer data={props} document={pdfDocument} arrows={false} />
         </div>
       </Link>
     </div>

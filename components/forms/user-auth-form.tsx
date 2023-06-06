@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
-import { SpinLoader } from "./spin-loader";
-import { Input } from "./input";
+import { SpinLoader } from "../ui/spin-loader";
+import { Input } from "../ui/input";
 import { useSearchParams } from "next/navigation";
 
 export const UserAuthForm = () => {
   const mailSent = useSearchParams()?.get("mail");
+
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string | null>(null);
@@ -21,7 +22,6 @@ export const UserAuthForm = () => {
   async function emailSubmit() {
     setLoading(true);
     const res = await signIn("email", { email });
-    console.log(res);
   }
 
   function onChangeEmail(event: React.ChangeEvent<HTMLInputElement>) {
@@ -38,7 +38,7 @@ export const UserAuthForm = () => {
             className="w-full border py-[6px] flex items-center  justify-center text-[14px] rounded outline-none hover:bg-gray-100 transition disabled:opacity-50"
           >
             {googleLoading ? (
-              <SpinLoader size={20} color={true} />
+              <SpinLoader size={20} />
             ) : (
               <div className="flex gap-2">
                 <Image

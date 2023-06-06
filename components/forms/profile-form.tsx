@@ -35,12 +35,13 @@ export function ProfileForm({ profile, onCange }: Props) {
             label="Nome"
             name="name"
             id="name"
+            value={profile.name}
             type="text"
             onChange={setProfile}
           />
           <Input
             label="Profissao"
-            name="profession"
+            name="role"
             id="name"
             type="text"
             onChange={setProfile}
@@ -48,8 +49,8 @@ export function ProfileForm({ profile, onCange }: Props) {
         </div>
         <Input
           label="Email"
-          name="email"
-          id="email"
+          name="mail"
+          id="mail"
           type="text"
           onChange={setProfile}
         />
