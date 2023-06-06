@@ -1,7 +1,9 @@
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { Input } from "../ui/input";
 import { Action, Education } from "@/lib/reducer";
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
+import { Select } from "../ui/select";
+import { months, years } from "@/lib/date";
 
 type Props = {
   educations: Education[] | [];
@@ -9,6 +11,8 @@ type Props = {
 };
 
 export function EducationForm({ educations, onChange }: Props) {
+  const [isCurrentJob, setCurrentJob] = useState<boolean>(false);
+
   const isEducationEmpty = educations.length === 0;
 
   const setEducationInput =
@@ -27,6 +31,38 @@ export function EducationForm({ educations, onChange }: Props) {
     (): void => {
       onChange({ type: "remove_education", id });
     };
+
+  const setDate = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    key: string,
+    education: Education
+  ) => {
+    const { id, name, value } = event.target;
+
+    onChange({
+      type: "change_education",
+      name,
+      id: key,
+      payload: { ...education[name], [id]: value },
+    });
+  };
+
+  const setCurrentEndDate = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+    education: Education
+  ) => {
+    const { id, name } = event.target;
+
+    setCurrentJob(event.target.checked);
+
+    onChange({
+      type: "change_education",
+      name,
+      id: key,
+      payload: { ...education["endDate"], [id]: event.target.checked },
+    });
+  };
 
   return (
     <div>
@@ -47,7 +83,7 @@ export function EducationForm({ educations, onChange }: Props) {
 
       {educations.map((education, index) => {
         return (
-          <div className="flex flex-col gap-2  mb-6">
+          <div className="flex flex-col gap-2  mb-6" key={index}>
             <div className="w-full flex justify-between">
               <p className="text-sm">Formacao {index + 1} </p>
               <button
@@ -74,21 +110,63 @@ export function EducationForm({ educations, onChange }: Props) {
               />
             </div>
 
-            <div className="flex gap-4">
-              <Input
-                label="Data Inicio"
-                onChange={setEducationInput(education.id)}
-                type="text"
-                name="startDate"
-                id="startDate"
-              />
-              <Input
-                label="Data Final"
-                onChange={setEducationInput(education.id)}
-                type="text"
-                name="endDate"
-                id="endDate"
-              />
+            <div className="w-full grid grid-cols-2 gap-4">
+              <div>
+                <h2 className="text-[14px] text-[#797979]"> Data Inicio </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <Select
+                    options={years}
+                    name="startDate"
+                    id="year"
+                    disabled={false}
+                    label="Ano"
+                    onChange={(e) => setDate(e, education.id, education)}
+                  />
+                  <Select
+                    options={months}
+                    name="startDate"
+                    disabled={false}
+                    id="month"
+                    label="Mês"
+                    onChange={(e) => setDate(e, education.id, education)}
+                  />
+                </div>
+              </div>
+
+              <div className="relative">
+                <h2 className="text-[14px] text-[#797979]"> Data Final </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <Select
+                    label="Ano"
+                    options={years}
+                    name="endDate"
+                    disabled={isCurrentJob}
+                    id="year"
+                    onChange={(e) => setDate(e, education.id, education)}
+                  />
+                  <Select
+                    label="Mês"
+                    options={months}
+                    name="endDate"
+                    id="month"
+                    disabled={isCurrentJob}
+                    onChange={(e) => setDate(e, education.id, education)}
+                  />
+                  <div className="absolute top-0 right-0 flex items-center gap-4">
+                    <span className="text-sm text-[#797979]">Atual</span>
+                    <Input
+                      defaultChecked={isCurrentJob}
+                      type="checkbox"
+                      name="endDate"
+                      label=""
+                      id="current"
+                      onChange={(e) =>
+                        setCurrentEndDate(e, education.id, education)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         );

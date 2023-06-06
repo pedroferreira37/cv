@@ -1,5 +1,3 @@
-"use client";
-
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
@@ -27,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Professional = ({ profile, experiences, educations }) => (
+export const Simple = ({ profile, experiences, educations }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.section}>
@@ -67,8 +65,16 @@ export const Professional = ({ profile, experiences, educations }) => (
           <View key={education.id} style={styles.subSection}>
             <Text style={styles.subHeading}>{education.degree}</Text>
             <Text style={styles.text}>{education.institution}</Text>
+
             <Text style={styles.text}>
-              {education.startDate} - {education.endDate}
+              {education.startDate.month &&
+                education.startDate.year &&
+                `${education.startDate.month}/${education.startDate.year} - `}
+              {education.endDate.current
+                ? "Atual"
+                : education.endDate.month && education.endDate.year
+                ? `${education.endDate.month}/${education.endDate.year}`
+                : ""}
             </Text>
           </View>
         ))}

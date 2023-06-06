@@ -2,7 +2,7 @@ import { FiPlus, FiTrash } from "react-icons/fi";
 import { Input } from "../ui/input";
 import { TextArea } from "../ui/textarea";
 import { Action, Experience } from "@/lib/reducer";
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
 import { Select } from "../ui/select";
 import { months, years } from "@/lib/date";
 
@@ -12,6 +12,8 @@ type Props = {
 };
 
 export function ExperienceForm({ experiences, onChange }: Props) {
+  const [isCurrentJob, setCurrentJob] = useState<boolean>(false);
+
   const isExperiencesEmpty = experiences.length === 0;
 
   const setExperienceInput =
@@ -54,6 +56,24 @@ export function ExperienceForm({ experiences, onChange }: Props) {
     });
   };
 
+  const setCurrentEndDate = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    key: string,
+    experience: Experience
+  ) => {
+    const { id, name } = event.target;
+
+    setCurrentJob(event.target.checked);
+
+    onChange({
+      type: "change_experience",
+      name,
+      id: key,
+      payload: { ...experience["endDate"], [id]: event.target.checked },
+    });
+  };
+
+  console.log(experiences);
   return (
     <div>
       <div className="flex flex-col gap-2 pt-4 border-top">
@@ -71,11 +91,11 @@ export function ExperienceForm({ experiences, onChange }: Props) {
           )}
         </div>
 
-        {experiences.map((experience, id) => {
+        {experiences.map((experience, index) => {
           return (
-            <div className="mb-4">
-              <div className="w-full flex justify-between">
-                <p className="text-sm">Experiencia {id + 1} </p>
+            <div className="flex flex-col gap-2 mb-2" key={index}>
+              <div className="w-full flex justify-between ">
+                <p className="text-sm">Experiencia {index + 1} </p>
                 <button
                   onClick={removeExperience(experience.id)}
                   className="bg-red-200 rounded p-1 border-red-300 group hover:scale-[1.1] transition"
@@ -100,39 +120,60 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                 />
               </div>
 
-              <div className="w-full">
-                <h2 className="text-[14px] text-[#797979]"> Data Início </h2>
-
-                <div className="grid grid-cols-2 gap-4">
+              <div className="w-full grid grid-cols-2 gap-4">
+                <div>
+                  <h2 className="text-[14px] text-[#797979]"> Data Inicio </h2>
                   <div className="grid grid-cols-2 gap-4">
                     <Select
                       options={years}
                       name="startDate"
                       id="year"
+                      disabled={false}
                       label="Ano"
                       onChange={(e) => setDate(e, experience.id, experience)}
                     />
                     <Select
                       options={months}
                       name="startDate"
+                      disabled={false}
                       id="month"
                       label="Mês"
                       onChange={(e) => setDate(e, experience.id, experience)}
                     />
                   </div>
+                </div>
+                <div className="relative">
+                  <h2 className="text-[14px] text-[#797979]"> Data Final </h2>
                   <div className="grid grid-cols-2 gap-4">
                     <Select
+                      label="Ano"
                       options={years}
                       name="endDate"
+                      disabled={isCurrentJob}
                       id="year"
-                      onChange={(e) => setDate(e, experience.id)}
+                      onChange={(e) => setDate(e, experience.id, experience)}
                     />
                     <Select
+                      label="Mês"
                       options={months}
                       name="endDate"
                       id="month"
-                      onChange={(e) => setDate(e, experience.id)}
+                      disabled={isCurrentJob}
+                      onChange={(e) => setDate(e, experience.id, experience)}
                     />
+                    <div className="absolute top-0 right-0 flex items-center gap-4">
+                      <span className="text-sm text-[#797979]">Atual</span>
+                      <Input
+                        defaultChecked={isCurrentJob}
+                        type="checkbox"
+                        name="endDate"
+                        label=""
+                        id="current"
+                        onChange={(e) =>
+                          setCurrentEndDate(e, experience.id, experience)
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -149,6 +190,7 @@ export function ExperienceForm({ experiences, onChange }: Props) {
             </div>
           );
         })}
+
         {!isExperiencesEmpty && (
           <div className="w-full flex justify-end group">
             <button
