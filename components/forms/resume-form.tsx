@@ -33,9 +33,9 @@ export function ResumeForm({ session, id }) {
 
   useEffect(() => {
     axios
-      .put(`http://localhost:3000/api/resume/${id}`, state)
-      .then((req) => console.log(req.data));
-  }, [state]);
+      .put(`http://localhost:3000/api/resume/${id}/profile`, state)
+      .then((data) => console.log(data));
+  }, [state.profile]);
 
   const document = renderDocument({ template: "professional", state });
 

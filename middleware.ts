@@ -18,6 +18,8 @@ export default withAuth(
       return NextResponse.redirect(url("/user"));
     }
 
+    console.log(token);
+
     if (!token && !isAuthPage) {
       return Response.redirect(url("/signin"));
     }

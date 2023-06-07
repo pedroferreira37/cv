@@ -15,19 +15,6 @@ export async function GET(req: Request, context: Context) {
   return new Response(JSON.stringify(resumes));
 }
 
-export async function POST(req: Request, context: Context) {
-  const body = await req.json();
-
-  const { id } = context.params;
-
-  try {
-    const resume = await createResume(id, body);
-    return new Response(JSON.stringify({ status: "ok", resume }));
-  } catch (err) {
-    throw new Error("Error");
-  }
-}
-
 export async function PUT(req: Request, context: Context) {
   const body = await req.json();
 

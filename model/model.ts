@@ -37,13 +37,11 @@ export const getResume = async (id: string) => {
   }
 };
 
-export const updateResume = async (id: string, data: State) => {
+export const updateProfile = async (id: string, data: State) => {
   try {
     const resumes = await db.resume.updateMany({
       data: {
         ...data.profile,
-        ...data.educations,
-        ...data.experiences,
       },
       where: {
         id,
@@ -57,20 +55,17 @@ export const updateResume = async (id: string, data: State) => {
   }
 };
 
-export const createResume = async (
-  userId: string,
-  data: State & { id: string }
-) => {
+export const createResume = async (data: any) => {
   try {
     const resume = await db.resume.create({
       data: {
-        id: data.id,
-        userId,
+        ...data,
       },
     });
 
     return resume;
   } catch (err) {
+    console.log(err);
     return new Response("Erro");
   }
 };
