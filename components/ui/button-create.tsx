@@ -1,15 +1,19 @@
 "use client";
+import { uuid } from "@/lib/uuid";
 import axios from "axios";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 
-export const CreateButton = ({ id, user }) => {
+export const CreateButton = ({ user }) => {
+  const id = uuid(10);
+  console.log("user", user);
   const createResume = async () => {
     axios
-      .post(`http://localhost:3000/api/resume/${user.id}/`, {
+      .post(`http://localhost:3000/api/resume`, {
         id,
+        userId: user.id,
       })
-      .then((req) => console.log(req.data));
+      .then((req) => console.log("create", req.data));
   };
 
   return (

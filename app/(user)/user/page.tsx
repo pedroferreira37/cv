@@ -8,7 +8,6 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 
 export default async function User() {
-  const resumeId = uuid(10);
   const session = await getServerSession(authOptions);
   const user = session?.user as User;
 
@@ -21,7 +20,7 @@ export default async function User() {
           <h2 className="font-bold text-4xl mb-1">Meus curriculos</h2>
           <p className="text-gray-500">Crie e gerencie seus curriculos</p>
         </div>
-        <CreateButton id={resumeId} user={user} />
+        <CreateButton user={user} />
       </div>
       <div className="flex flex-wrap  gap-10 w-full">
         {resumes.map((prop) => (
