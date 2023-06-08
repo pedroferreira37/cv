@@ -4,24 +4,20 @@ import { NextResponse } from "next/server";
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req) {
-    console.log(req.nextauth.token);
-
     const token = req.nextauth.token;
 
     const pathname = req.nextUrl.pathname;
 
     const url = (pathname: string) => new URL(pathname, req.nextUrl.origin);
 
-    const isAuthPage = pathname === "/signin";
+    const isAuthPage = pathname === "/login";
 
     if (token && isAuthPage) {
       return NextResponse.redirect(url("/user"));
     }
 
-    console.log(token);
-
     if (!token && !isAuthPage) {
-      return Response.redirect(url("/signin"));
+      return Response.redirect(url("/login"));
     }
   },
   {
@@ -32,5 +28,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/user", "/create"],
+  matcher: ["/login", "/user", "/create"],
 };

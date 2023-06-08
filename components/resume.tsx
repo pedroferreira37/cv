@@ -4,10 +4,11 @@ import { useAsync } from "react-use";
 import { pdf } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { Loader } from "./loader";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-export function ResumeRenderer({ document, data, arrows }) {
+export function Resume({ document, resume, arrows }) {
   const [numPages, setNumPages] = useState<number | null>(null);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -17,13 +18,13 @@ export function ResumeRenderer({ document, data, arrows }) {
   >(null);
 
   const render = useAsync(async () => {
-    if (!data) return null;
+    if (!resume) return null;
 
     const blob = await pdf(document).toBlob();
     const url = URL.createObjectURL(blob);
 
     return url;
-  }, [data]);
+  }, [resume]);
 
   const onPreviousPage = () => {
     setCurrentPage((prev) => prev - 1);
@@ -53,13 +54,13 @@ export function ResumeRenderer({ document, data, arrows }) {
   };
 
   return (
-    <div className="h-full  flex flex-col ">
+    <div className="h-full  flex flex-col border-[1px]">
       <div
         className={`w-full h-full top-0 left-0 flex bg-gray-200 animate-pulse  items-center justify-center z-1000   ${
           shouldShowTextLoader ? "opacity-100" : "opacity-0"
         }  absolute`}
       >
-        ...
+        <Loader size={18} />
       </div>
 
       <div className="flex flex-1  items-center justify-center w-full h-full ">
@@ -76,7 +77,7 @@ export function ResumeRenderer({ document, data, arrows }) {
               className="w-full h-full "
               renderTextLayer={false}
               renderAnnotationLayer={false}
-              loading={undefined}
+              loading={null as unknown as undefined}
             ></Page>
           </Document>
         ) : null}
@@ -97,7 +98,7 @@ export function ResumeRenderer({ document, data, arrows }) {
             renderTextLayer={false}
             renderAnnotationLayer={false}
             className="w-full h-full"
-            loading={undefined}
+            loading={null as unknown as undefined}
             onRenderSuccess={onLoadSucess}
           ></Page>
         </Document>

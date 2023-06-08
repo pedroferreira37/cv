@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEventHandler, Dispatch, useState } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../input";
 import { TextArea } from "../ui/textarea";
 import { FiPlus } from "react-icons/fi";
 import { Action, Profile } from "@/lib/reducer";
@@ -35,7 +35,6 @@ export function ProfileForm({ profile, onCange }: Props) {
             label="Nome"
             name="name"
             id="name"
-            value={profile.name}
             type="text"
             onChange={setProfile}
           />

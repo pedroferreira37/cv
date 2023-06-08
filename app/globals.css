@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 body {
-  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   color: #151515;
@@ -25,18 +24,43 @@ body {
   width: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+@layer components {
+  .btn-primary-md {
+    @apply text-white bg-green hover:bg-light-green py-4 px-6 rounded transition;
+  }
+
+  .btn-secondary {
+    @apply w-full border py-2 flex items-center  justify-center text-sm rounded outline-none hover:bg-gray-100 transition disabled:opacity-50;
+  }
+
+  .header {
+    @apply w-full bg-dark-blue h-[60px] flex items-center sticky top-0;
+  }
+
+  .nav {
+    @apply container flex items-center justify-between;
+  }
+  .section {
+    @apply h-[calc(100vh-_60px)] flex flex-col  items-center justify-center gap-10;
+  }
+
+  .login-button {
+    @apply w-full p-2 bg-green hover:bg-light-green transition text-white text-sm rounded mt-4 disabled:opacity-50 flex items-center justify-center;
+  }
+  .btn {
+    @apply w-[280px] p-2 bg-green hover:bg-light-green transition text-white text-sm rounded mt-4 disabled:opacity-50 flex items-center justify-center;
+  }
 }

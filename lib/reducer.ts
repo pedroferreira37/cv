@@ -1,60 +1,44 @@
 import { uuid } from "@/lib/uuid";
 
-export type Profile = {
-  name: string;
-  role: string;
-  mail: string;
-  linkedin: string;
-  github: string;
-  about: string;
-};
-
 export type Experience = {
   id: string;
-  role: string;
-  company: string;
-  description: string;
-  startDate: {
-    year: number | null;
-    month: number | null;
-  };
-  endDate: {
-    year: number | null;
-    month: number | null;
-    current: boolean;
-  };
+  role: string | null;
+  company: string | null;
+  description: string | null;
+  start_date: Date | null;
+  end_date: Date | null;
+  current: boolean;
 };
 
 export type Education = {
   id: string;
-  degree: string;
-  startDate: {
-    year: number | null;
-    month: number | null;
-  };
-  endDate: {
-    year: number | null;
-    month: number | null;
-    current: boolean;
-  };
-  institution: string;
+  degree: string | null;
+  start_date: Date | null;
+  end_date: Date | null;
+  institution: string | null;
+  current: boolean;
 };
 
-export type State = {
-  profile: Profile;
-  experiences: Experience[] | [];
-  educations: Education[] | [];
+export type Resume = {
+  id: string | null;
+  name: string | null;
+  role: string | null;
+  mail: string | null;
+  linkedin: string | null;
+  github: string | null;
+  about: string | null;
+  experiences: Experience[];
+  educations: Education[];
 };
 
-export const initialState: State = {
-  profile: {
-    name: "",
-    role: "",
-    mail: "",
-    linkedin: "",
-    github: "",
-    about: "",
-  },
+export const initialState: Resume = {
+  id: "",
+  name: "",
+  role: "",
+  mail: "",
+  linkedin: "",
+  github: "",
+  about: "",
   experiences: [],
   educations: [],
 };

@@ -1,6 +1,6 @@
 "use client";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { Input } from "../ui/input";
+import { Input } from "../input";
 import { TextArea } from "../ui/textarea";
 import { Action, Experience } from "@/lib/reducer";
 import { Dispatch } from "react";

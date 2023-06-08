@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-export function SpinLoader({ size }: { size: string | number }) {
+export function Loader({ size }: { size: string | number }) {
   return (
     <div>
       <Image

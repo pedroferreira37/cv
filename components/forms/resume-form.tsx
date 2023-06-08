@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
   ChangeEvent,
+  ReactElement,
   useCallback,
   useEffect,
   useReducer,
@@ -17,10 +18,10 @@ import { DownloadButton } from "../ui/download-button";
 import { EducationForm } from "./education-form";
 import { ProfileForm } from "./profile-form";
 import axios from "axios";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const ResumeRenderer = dynamic(
-  () =>
-    import("../resume/resume-renderer").then((module) => module.ResumeRenderer),
+  () => import("../resume").then((module) => module.Resume),
   { ssr: false }
 );
 
@@ -30,12 +31,6 @@ export function ResumeForm({ session, id }) {
   const search = useSearchParams();
 
   const template = search?.get("template");
-
-  useEffect(() => {
-    axios
-      .put(`http://localhost:3000/api/resume/${id}/profile`, state)
-      .then((data) => console.log(data));
-  }, [state.profile]);
 
   const document = renderDocument({ template: "professional", state });
 
@@ -54,7 +49,18 @@ export function ResumeForm({ session, id }) {
           <ExperienceForm experiences={state.experiences} onChange={dispatch} />
           <EducationForm educations={state.educations} onChange={dispatch} />
         </div>
-        <DownloadButton document={document} />
+        <div className="w-full pt-4 px-8 sticky bottom-0 bg-white shadow">
+          <div className="flex justify-end">
+            <PDFDownloadLink
+              document={document as ReactElement}
+              fileName="somename.pdf"
+              className="bg-green hover:bg-light-green transition text-white text-sm px-4 py-2 rounded flex gap-2 items-center"
+            >
+              <FiDownload size={20} />
+              Download
+            </PDFDownloadLink>
+          </div>
+        </div>
       </div>
 
       <div className="flex  items-center justify-center bg-gray-200 p-8  ">

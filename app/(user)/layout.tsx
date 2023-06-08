@@ -1,8 +1,9 @@
-import { UserThumb } from "@/components/ui/user-thumb";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { Avatar } from "@/components/avatar";
 import Link from "next/link";
 import { FiArchive, FiFileText, FiSettings } from "react-icons/fi";
+import { Session } from "next-auth";
 
 export default async function UserLayout({
   children,
@@ -10,16 +11,17 @@ export default async function UserLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+
   return (
     <div className="w-full h-full">
-      <div className="w-full bg-[#24292f] h-[60px] flex items-center fixed top-0">
+      <div className="header">
         <div className="container mx-auto">
           <div className="w-full flex items-center justify-end">
-            <UserThumb session={session} />
+            <Avatar session={session as Session} />
           </div>
         </div>
       </div>
-      <div className="mt-[60px] flex container mx-auto  h-[calc(100vh_-_60px)] gap-8 pt-8">
+      <div className="pt-8 flex container mx-auto  h-[calc(100vh_-_65px)] gap-8">
         <div className="w-1/4">
           <div className="flex flex-col  text-sm">
             <Link
@@ -35,13 +37,6 @@ export default async function UserLayout({
             >
               <FiArchive size={20} />
               Modelos
-            </Link>
-            <Link
-              href="/modelos"
-              className="flex items-center gap-2 hover:bg-gray-200 p-2 rounded transition"
-            >
-              <FiSettings size={20} />
-              Configuracao
             </Link>
           </div>
         </div>

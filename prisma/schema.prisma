@@ -56,7 +56,7 @@ model User {
 
 
 model Resume {
-  id String @id 
+  id String @id @default(uuid()) 
   educationId String?
   experienceId String?
   name String? 
@@ -80,10 +80,9 @@ model Education {
   id String @unique @id 
   degree String?
   institution String?
-  start_date_year String?
-  start_date_month   String?
-  end_date_year String?
-  end_date_month String?
+  start_date DateTime?
+  end_date   DateTime?
+  current   Boolean
   resumeId String
 
   
@@ -96,16 +95,15 @@ model Experience {
   id String @unique @id   
   role String?
   company String?
-  start_date_year String?
-  start_date_month String?  
-  end_date_year String?
-  end_date_month String?
+  start_date DateTime?
+  end_date  DateTime?
   description String? @db.Text
+  current  Boolean
   resumeId String
 
   Resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
-
+  
   @@map("experiences")
 }
 

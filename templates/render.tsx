@@ -6,7 +6,7 @@ export const renderDocument = (props): React.ReactNode => {
     case "professional":
       return (
         <Basic
-          profile={props.state.profile}
+          profile={props.state}
           experiences={props.state.experiences}
           educations={props.state.educations}
         />

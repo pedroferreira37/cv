@@ -2,21 +2,24 @@ import { db } from "@/lib/db";
 import { State } from "@/lib/reducer";
 
 export const getResumes = async (id: string) => {
-  try {
-    const resumes = await db.resume.findMany({
-      include: {
-        experiences: true,
-        educations: true,
-      },
-      where: {
-        userId: id,
-      },
-    });
+  const resumes = await db.resume.findMany({
+    select: {
+      id: true,
+      name: true,
+      mail: true,
+      about: true,
+      role: true,
+      linkedin: true,
+      github: true,
+      experiences: true,
+      educations: true,
+    },
+    where: {
+      userId: id,
+    },
+  });
 
-    return resumes;
-  } catch (err) {
-    return new Response("Erro");
-  }
+  return resumes;
 };
 
 export const getResume = async (id: string) => {
@@ -62,6 +65,8 @@ export const createResume = async (data: any) => {
         ...data,
       },
     });
+
+    console.log(resume);
 
     return resume;
   } catch (err) {

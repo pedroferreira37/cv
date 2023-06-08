@@ -1,5 +1,5 @@
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { Input } from "../ui/input";
+import { Input } from "../input";
 import { Action, Education } from "@/lib/reducer";
 import { Dispatch, useState } from "react";
 import { Select } from "../ui/select";
