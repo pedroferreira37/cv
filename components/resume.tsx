@@ -54,7 +54,7 @@ export function Resume({ document, resume, arrows }) {
   };
 
   return (
-    <div className="h-full  flex flex-col border-[1px]">
+    <div className="h-full  flex flex-col border-[0.5px] border-gray-200">
       <div
         className={`w-full h-full top-0 left-0 flex bg-gray-200 animate-pulse  items-center justify-center z-1000   ${
           shouldShowTextLoader ? "opacity-100" : "opacity-0"

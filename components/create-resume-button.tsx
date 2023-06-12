@@ -27,7 +27,7 @@ export const CreateResumeButton = ({ user }: { user: User }) => {
     <div>
       <button
         onClick={produce}
-        className="btn-primary-md flex items-center gap-4 group"
+        className="bg-dark  text-white px-4 py-2  font-medium text-sm rounded flex items-center gap-2 group"
       >
         <FiPlus size={20} className="group-hover:rotate-90 transition" />
         Novo Curriculo

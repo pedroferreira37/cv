@@ -15,10 +15,14 @@ export const LoginForm = () => {
 
   return (
     <form className="w-[280px]">
-      <h2 className="text-center py-4 text-2xl">Bem vindo na cv.io</h2>
+      <h2 className="text-center py-4 text-2xl font-medium">Bem vindo</h2>
+      <p className="text-sm text-gray-600 text-center font-medium mb-4">
+        Crie seu currículo perfeito com facilidade <br />
+        Comece agora
+      </p>
       <button
         onClick={submit}
-        className="w-full border py-2 flex items-center  justify-center text-sm rounded outline-none hover:bg-gray-100 transition disabled:opacity-50 gap-2"
+        className="w-full  font-medium border py-2 flex items-center  justify-center text-sm rounded outline-none hover:bg-gray-100 transition disabled:opacity-50 gap-2"
       >
         {loading ? (
           <Loader size={20} />

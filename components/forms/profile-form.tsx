@@ -7,11 +7,12 @@ import { Action, Profile } from "@/lib/reducer";
 
 type Props = {
   profile: Profile;
-  onCange: Dispatch<Action>;
+  onChange: any;
 };
 
-export function ProfileForm({ profile, onCange }: Props) {
+export function ProfileForm({ profile, onChange, setResume }: Props) {
   const [linkedin, setLinkedin] = useState<boolean>(false);
+
   const [github, setGithub] = useState<boolean>(false);
 
   const setProfile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,7 @@ export function ProfileForm({ profile, onCange }: Props) {
 
   return (
     <div>
-      <div className="flex flex-col gap-2 pt-4">
+      <form className="flex flex-col gap-2 pt-4">
         <h2 className="text-2xl">Perfil</h2>
         <div className="gap-4 flex">
           <Input
@@ -36,7 +37,8 @@ export function ProfileForm({ profile, onCange }: Props) {
             name="name"
             id="name"
             type="text"
-            onChange={setProfile}
+            placeholder="Your name here..."
+            onChange={onChange}
           />
           <Input
             label="Profissao"
@@ -95,7 +97,7 @@ export function ProfileForm({ profile, onCange }: Props) {
             />
           </div>
         )}
-        <div>
+        {/*
           <TextArea
             cols={20}
             rows={6}
@@ -104,7 +106,7 @@ export function ProfileForm({ profile, onCange }: Props) {
             name="about"
             onChange={setProfileTextArea}
           />
-        </div>
+        </div> */}
 
         <div className="flex gap-2">
           {!linkedin && (
@@ -139,7 +141,7 @@ export function ProfileForm({ profile, onCange }: Props) {
             </div>
           )}
         </div>
-      </div>
+      </form>
     </div>
   );
 }
