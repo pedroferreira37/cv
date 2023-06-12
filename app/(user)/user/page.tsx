@@ -18,7 +18,9 @@ export default async function User() {
       <div className="flex justify-between  items-center w-full ">
         <div>
           <h2 className="font-bold text-4xl mb-1">Meus curriculos</h2>
-          <p className="text-gray-500">Crie e gerencie seus curriculos</p>
+          <p className="text-gray-500 font-medium">
+            Crie e gerencie seus curriculos
+          </p>
         </div>
 
         <CreateResumeButton user={user} />

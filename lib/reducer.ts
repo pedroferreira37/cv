@@ -1,3 +1,4 @@
+import { Resume } from "@/components/resume";
 import { uuid } from "@/lib/uuid";
 
 export type Experience = {
@@ -20,6 +21,7 @@ export type Education = {
 };
 
 export type Resume = {
+  [key: string]: any;
   id: string | null;
   name: string | null;
   role: string | null;
@@ -45,123 +47,114 @@ export const initialState: Resume = {
 
 export type Action =
   | {
-      type: "change_profile";
+      type: "changed";
       name: string;
-      value: string;
+      key: string;
+      id: string;
+      payload: string;
     }
   | {
-      type: "change_experience";
+      type: "removed";
       name: string;
-      payload: string | Partial<Experience>;
       id: string;
     }
   | {
-      type: "add_experience";
-    }
-  | {
-      type: "remove_experience";
-      id: string;
-    }
-  | {
-      type: "change_education";
+      type: "changed_date_year";
       name: string;
-      payload: string | Partial<Education>;
+      key: string;
+      id: string;
+      payload: string;
+    }
+  | {
+      type: "changed_date_month";
+      name: string;
+      key: string;
+      id: string;
+      payload: string;
+    }
+  | {
+      type: "added_experience";
       id: string;
     }
   | {
       type: "add_education";
-    }
-  | {
-      type: "remove_education";
-      id: string;
     };
 
-export const reducer = (state: State, action: Action): State => {
-  const id = uuid();
+export const reducer = (state: Resume, action: Action): Resume => {
+  const { type, name, key, id, payload } = action;
 
-  switch (action.type) {
-    case "change_profile":
+  switch (type) {
+    case "changed":
+      if (Array.isArray(state[name])) {
+        return {
+          ...state,
+          [name]: state[name].map((item: any) =>
+            id === item.id ? { ...item, [key]: payload } : item
+          ),
+        };
+      }
+
       return {
         ...state,
-        profile: { ...state.profile, [action.name]: action.value },
+        [name]: payload,
       };
-    case "change_experience":
+
+    case "changed_date_year":
       return {
         ...state,
-        experiences: state.experiences.map((experience) =>
-          experience.id === action.id
-            ? { ...experience, [action.name]: action.payload }
-            : experience
+        [name]: state[name].map((item: any) =>
+          id === item.id
+            ? { ...item, [key]: new Date(item[key].setFullYear(payload)) }
+            : item
         ),
       };
-    case "add_experience":
+    case "changed_date_month":
+      return {
+        ...state,
+        [name]: state[name].map((item: any) =>
+          id === item.id
+            ? { ...item, [key]: new Date(item[key].setMonth(payload)) }
+            : item
+        ),
+      };
+
+    case "added_experience":
       return {
         ...state,
         experiences: [
           ...state.experiences,
           {
-            id,
-            role: "",
-            company: "",
-            startDate: {
-              year: null,
-              month: null,
-            },
-            endDate: {
-              year: null,
-              month: null,
-              current: false,
-            },
-            description: "",
+            id: uuid(),
+            role: null,
+            company: null,
+            start_date: null,
+            end_date: null,
+            description: null,
+            current: false,
           },
         ],
       };
 
-    case "remove_experience":
+    case "removed":
       return {
         ...state,
-        experiences: state.experiences.filter(
-          (experience) => experience.id !== action.id
-        ),
+        [name]: state[name].filter((item: any) => item.id !== id),
       };
 
-    case "change_education":
-      return {
-        ...state,
-        educations: state.educations.map((education) =>
-          education.id === action.id
-            ? { ...education, [action.name]: action.payload }
-            : education
-        ),
-      };
     case "add_education":
       return {
         ...state,
         educations: [
           ...state.educations,
           {
-            id,
+            id: uuid(),
             degree: "",
             institution: "",
-            startDate: {
-              year: null,
-              month: null,
-            },
-            endDate: {
-              year: null,
-              month: null,
-              current: false,
-            },
+            start_date: new Date(),
+            end_date: new Date(),
+            current: false,
           },
         ],
-      };
-
-    case "remove_education":
-      return {
-        ...state,
-        educations: state.educations.filter(
-          (education) => education.id !== action.id
-        ),
       };
 
     default:

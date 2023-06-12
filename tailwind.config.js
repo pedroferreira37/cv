@@ -61,10 +61,7 @@ module.exports = {
       },
 
       colors: {
-        green: "#1F883D",
-
-        "light-green": "#219141",
-        "dark-blue": "#24292f",
+        dark: "#141414",
         "default-gray": "#eee",
       },
     },

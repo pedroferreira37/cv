@@ -14,13 +14,13 @@ export default async function UserLayout({
 
   return (
     <div className="w-full h-full">
-      <div className="header">
-        <div className="container mx-auto">
+      <header className="h-[60px]">
+        <nav className="p-4">
           <div className="w-full flex items-center justify-end">
             <Avatar session={session as Session} />
           </div>
-        </div>
-      </div>
+        </nav>
+      </header>
       <div className="pt-8 flex container mx-auto  h-[calc(100vh_-_65px)] gap-8">
         <div className="w-1/4">
           <div className="flex flex-col  text-sm">

@@ -27,35 +27,31 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Basic = ({ profile, experiences, educations }) => (
+export const Basic = (props) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.section}>
-        <Text style={styles.heading}>{profile.name}</Text>
-        <Text style={styles.subHeading}>{profile.profession}</Text>
-        <Text style={styles.text}>{profile.email}</Text>
-        <Text style={styles.text}>{profile.linkedin}</Text>
-        <Text style={styles.text}>{profile.github}</Text>
+        <Text style={styles.heading}>{props.name}</Text>
+        <Text style={styles.subHeading}>{props.role}</Text>
+        <Text style={styles.text}>{props.mail}</Text>
+        <Text style={styles.text}>{props.linkedin}</Text>
+        <Text style={styles.text}>{props.github}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.heading}>Sobre Mim</Text>
-        <Text style={styles.text}>{profile.about}</Text>
+        <Text style={styles.text}>{props.about}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.heading}>Experiência</Text>
-        {experiences.map((experience) => (
+        {props.experiences.map((experience) => (
           <View key={experience.id} style={styles.subSection}>
             <Text style={styles.subHeading}>{experience.role}</Text>
             <Text style={styles.text}>{experience.company}</Text>
             <Text style={styles.text}>
-              {experience.startDate.month &&
-                experience.startDate.year &&
-                `${experience.startDate.month}/${experience.startDate.year} - `}
-              {experience.endDate.current
+              {experience.start_date && experience.start_date.getFullYear()} -
+              {experience.current
                 ? "Atual"
-                : experience.endDate.month && experience.endDate.year
-                ? `${experience.endDate.month}/${experience.endDate.year}`
-                : ""}
+                : experience.end_date && experience.end_date.getFullYear()}
             </Text>
             <Text style={styles.text}>{experience.description}</Text>
           </View>
@@ -63,7 +59,7 @@ export const Basic = ({ profile, experiences, educations }) => (
       </View>
       <View style={styles.section}>
         <Text style={styles.heading}>Educação</Text>
-        {educations.map((education) => (
+        {props.education.map((education) => (
           <View key={education.id} style={styles.subSection}>
             <Text style={styles.subHeading}>{education.degree}</Text>
             <Text style={styles.text}>{education.institution}</Text>

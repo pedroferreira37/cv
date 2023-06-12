@@ -6,6 +6,7 @@ export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
 
+    console.log(token);
     const pathname = req.nextUrl.pathname;
 
     const url = (pathname: string) => new URL(pathname, req.nextUrl.origin);

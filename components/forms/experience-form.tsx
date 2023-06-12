@@ -4,7 +4,7 @@ import { Input } from "../input";
 import { TextArea } from "../ui/textarea";
 import { Action, Experience } from "@/lib/reducer";
 import { Dispatch } from "react";
-import { Select } from "../ui/select";
+import { Select } from "../select";
 import { months, years } from "@/lib/date";
 
 type Props = {
@@ -122,21 +122,29 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                   <h2 className="text-[14px] text-[#797979]"> Data Inicio </h2>
                   <div className="grid grid-cols-2 gap-4">
                     <Select
-                      options={years}
-                      name="startDate"
-                      id="year"
-                      disabled={false}
-                      label="Ano"
-                      onChange={(e) => setDate(e, experience.id, experience)}
+                      years={years}
+                      months={months}
+                      name="start_date"
+                      disabled={experience.current}
                     />
-                    <Select
-                      options={months}
-                      name="startDate"
-                      disabled={false}
-                      id="month"
-                      label="Mês"
-                      onChange={(e) => setDate(e, experience.id, experience)}
-                    />
+                    <select
+                      className="
+w-full  bg-[#f2f1ee99] p-3   outline-none rounded text-[#353535] text-[14px] disabled:opacity-50 hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition
+                      "
+                    >
+                      {years.map((year) => (
+                        <option value={year}>{year}</option>
+                      ))}
+                    </select>
+                    <select
+                      className="
+w-full  bg-[#f2f1ee99] p-3   outline-none rounded text-[#353535] text-[14px] disabled:opacity-50 hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition
+                      "
+                    >
+                      {Object.entries(months).map(([index, month]) => (
+                        <option value={index}>{month}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="relative">
@@ -146,31 +154,16 @@ export function ExperienceForm({ experiences, onChange }: Props) {
                       label="Ano"
                       options={years}
                       name="endDate"
-                      disabled={experience.endDate.current}
+                      disabled={experience.current}
                       id="year"
                       onChange={(e) => setDate(e, experience.id, experience)}
                     />
-                    <Select
-                      label="Mês"
-                      options={months}
-                      name="endDate"
-                      id="month"
-                      disabled={experience.endDate.current}
-                      onChange={(e) => setDate(e, experience.id, experience)}
-                    />
-                    <div className="absolute top-0 right-0 flex items-center gap-4">
-                      <span className="text-sm text-[#797979]">Atual</span>
-                      <Input
-                        defaultChecked={experience.endDate.current}
-                        type="checkbox"
-                        name="endDate"
-                        label=""
-                        id="current"
-                        onChange={(e) =>
-                          setCurrentEndDate(e, experience.id, experience)
-                        }
-                      />
-                    </div>
+
+                    <select>
+                      {Object.keys(months).map((month) => {
+                        return <option>{month}</option>;
+                      })}
+                    </select>
                   </div>
                 </div>
               </div>
