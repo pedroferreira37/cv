@@ -51,7 +51,7 @@ export type Action =
       name: string;
       key: string;
       id: string;
-      payload: string;
+      payload: string | boolean;
     }
   | {
       type: "removed";
@@ -74,10 +74,9 @@ export type Action =
     }
   | {
       type: "added_experience";
-      id: string;
     }
   | {
-      type: "add_education";
+      type: "added_education";
     };
 
 export const reducer = (state: Resume, action: Action): Resume => {
@@ -104,7 +103,10 @@ export const reducer = (state: Resume, action: Action): Resume => {
         ...state,
         [name]: state[name].map((item: any) =>
           id === item.id
-            ? { ...item, [key]: new Date(item[key].setFullYear(payload)) }
+            ? {
+                ...item,
+                [key]: new Date(item[key].setFullYear(parseInt(payload))),
+              }
             : item
         ),
       };
@@ -127,8 +129,8 @@ export const reducer = (state: Resume, action: Action): Resume => {
             id: uuid(),
             role: null,
             company: null,
-            start_date: null,
-            end_date: null,
+            start_date: new Date(),
+            end_date: new Date(),
             description: null,
             current: false,
           },
@@ -141,7 +143,7 @@ export const reducer = (state: Resume, action: Action): Resume => {
         [name]: state[name].filter((item: any) => item.id !== id),
       };
 
-    case "add_education":
+    case "added_education":
       return {
         ...state,
         educations: [

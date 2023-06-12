@@ -2,16 +2,19 @@ import { ResumeCard } from "@/components/resume-cards";
 import { CreateResumeButton } from "@/components/create-resume-button";
 import { authOptions } from "@/lib/auth";
 import { uuid } from "@/lib/uuid";
-import { getResumes } from "@/model/model";
+
 import { getServerSession } from "next-auth";
 import { getUser } from "@/lib/session";
+import { db } from "@/lib/db";
 
 export default async function User() {
   const session = await getServerSession(authOptions);
 
   const user = await getUser();
 
-  const resumes = await getResumes(user.id);
+  const resumes = await db.resume.findMany({
+    where: { userId: user.id },
+  });
 
   return (
     <div className="w-full  flex flex-col  gap-2 ">

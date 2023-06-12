@@ -1,5 +1,8 @@
 "use client";
 
+import { months } from "@/lib/date";
+import { Resume } from "@/lib/reducer";
+
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Basic = (props) => (
+export const Basic = (props: Resume) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.section}>
@@ -48,23 +51,40 @@ export const Basic = (props) => (
             <Text style={styles.subHeading}>{experience.role}</Text>
             <Text style={styles.text}>{experience.company}</Text>
             <Text style={styles.text}>
-              {experience.start_date && experience.start_date.getFullYear()} -
+              {experience.start_date.getFullYear()},{" "}
+              {months[experience.start_date.getMonth()]} -{" "}
               {experience.current
                 ? "Atual"
-                : experience.end_date && experience.end_date.getFullYear()}
+                : experience.end_date && (
+                    <>
+                      {experience.end_date.getFullYear()},{" "}
+                      {months[experience.end_date.getMonth()]}{" "}
+                    </>
+                  )}
             </Text>
-            <Text style={styles.text}>{experience.description}</Text>
+            <Text style={{ ...styles.text, marginBottom: 20 }}>
+              {experience.description}
+            </Text>
           </View>
         ))}
       </View>
       <View style={styles.section}>
         <Text style={styles.heading}>Educação</Text>
-        {props.education.map((education) => (
+        {props.educations.map((education) => (
           <View key={education.id} style={styles.subSection}>
             <Text style={styles.subHeading}>{education.degree}</Text>
             <Text style={styles.text}>{education.institution}</Text>
             <Text style={styles.text}>
-              {education.startDate} - {education.endDate}
+              {education.start_date.getFullYear()},{" "}
+              {months[education.start_date.getMonth()]} -{" "}
+              {education.current
+                ? "Atual"
+                : education.end_date && (
+                    <>
+                      {education.end_date.getFullYear()},{" "}
+                      {months[education.end_date.getMonth()]}{" "}
+                    </>
+                  )}
             </Text>
           </View>
         ))}

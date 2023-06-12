@@ -1,17 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import {
-  createResume,
-  getResume,
-  getResumes,
-  updateResume,
-} from "@/model/model";
 
 type Context = { params: { id: string } };
 
 export async function GET(req: Request, context: Context) {
   const { id } = context.params;
-  const resumes = await getResume(id);
+  const resumes = await db.resume.findUnique({
+    where: { id },
+  });
   return new Response(JSON.stringify(resumes));
 }
 
@@ -21,7 +16,10 @@ export async function PUT(req: Request, context: Context) {
   const { id } = context.params;
 
   try {
-    const resume = await updateResume(id, body);
+    const resume = await db.resume.update({
+      where: { id },
+      data: body,
+    });
 
     return new Response(JSON.stringify({ status: "ok", resume }));
   } catch (err) {
