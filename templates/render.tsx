@@ -3,12 +3,10 @@
 import { Resume } from "@/lib/reducer";
 import { Basic } from "./basic-template";
 
-export const renderDocument = (props: {
-  template: string;
-  state: Resume;
-}): React.ReactNode => {
-  switch (props.template) {
+export const renderLayout = (props): React.ReactNode => {
+  console.log(props);
+  switch ("professional") {
     case "professional":
-      return <Basic {...props.state} />;
+      return <Basic {...props} />;
   }
 };

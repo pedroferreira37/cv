@@ -2,7 +2,7 @@ import Link from "next/link";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { FiLogIn } from "react-icons/fi";
-import { Header } from "@/components/header";
+import { Header } from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 

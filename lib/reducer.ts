@@ -1,4 +1,4 @@
-import { Resume } from "@/components/resume";
+import { Resume } from "@/components/PdfViewer";
 import { uuid } from "@/lib/uuid";
 
 export type Experience = {

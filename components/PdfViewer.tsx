@@ -1,14 +1,21 @@
 "use client";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, PDFPageItem, PDFPageProxy, Page, pdfjs } from "react-pdf";
 import { useAsync } from "react-use";
 import { pdf } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { Loader } from "./loader";
+import { Resume } from "@prisma/client";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-export function Resume({ document, resume, arrows }) {
+type Props = {
+  document: React.ReactElement;
+  data: Resume;
+  arrows?: boolean;
+};
+
+export function PdfViewer({ document, data, arrows }: Props) {
   const [numPages, setNumPages] = useState<number | null>(null);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -18,13 +25,13 @@ export function Resume({ document, resume, arrows }) {
   >(null);
 
   const render = useAsync(async () => {
-    if (!resume) return null;
+    if (!data) return null;
 
     const blob = await pdf(document).toBlob();
     const url = URL.createObjectURL(blob);
 
     return url;
-  }, [resume]);
+  }, [data]);
 
   const onPreviousPage = () => {
     setCurrentPage((prev) => prev - 1);
@@ -48,9 +55,9 @@ export function Resume({ document, resume, arrows }) {
     setPreviousRenderedValue(render.value);
   }
 
-  const onDocumentLoad = (document) => {
-    setNumPages(document.numPages);
-    setCurrentPage((prev) => Math.min(prev, document.numPages));
+  const onDocumentLoad = (pdf: any) => {
+    setNumPages(pdf.numPages);
+    setCurrentPage((prev) => Math.min(prev, pdf.numPages));
   };
 
   return (
@@ -84,7 +91,7 @@ export function Resume({ document, resume, arrows }) {
         <Document
           key={render.value}
           file={render.value}
-          loading={undefined}
+          loading={null as unknown as undefined}
           className={`shadow-[rgba(0,0,0,.1)_0_2px_3px]   ${
             shouldShowPreviousDocument && previousRenderedValue
               ? "hidden"

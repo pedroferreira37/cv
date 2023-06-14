@@ -1,14 +1,13 @@
 "use client";
+import { User } from "@prisma/client";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FiUser } from "react-icons/fi";
 
-export const Avatar = ({ session }: { session: Session }) => {
+export const Avatar = ({ user }: { user: User }) => {
   const [modal, setModal] = useState<boolean>(false);
-
-  const user = session?.user;
 
   return (
     <div
@@ -19,7 +18,7 @@ export const Avatar = ({ session }: { session: Session }) => {
         <Image
           width={28}
           height={28}
-          src={session?.user?.image as string}
+          src={user?.image as string}
           className="rounded-full"
           alt="user_image"
         />
