@@ -4,7 +4,7 @@ import Link from "next/link";
 import { renderLayout } from "@/templates/render";
 
 import { Resume } from "@prisma/client";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 const PdfViewer = dynamic(
   () => import("./PdfViewer").then((module) => module.PdfViewer),
