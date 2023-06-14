@@ -1,13 +1,16 @@
 "use client";
 import { User } from "@prisma/client";
-import { Session } from "next-auth";
+
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Avatar = ({ user }: { user: User }) => {
   const [modal, setModal] = useState<boolean>(false);
+
+  useEffect(() => {}, []);
 
   return (
     <div
@@ -27,21 +30,36 @@ export const Avatar = ({ user }: { user: User }) => {
           <FiUser size={20} color="white" />
         </div>
       )}
-
-      <div
-        className={`absolute bg-white right-0 top-8   rounded-md border w-64 p-2 ${
-          modal ? "animate-slide-up" : "animate-slide-down"
-        }`}
-      >
-        <div className="text-sm p-2 text-gray-400 rounded">{user?.email}</div>
-        <div
-          className="text-sm p-2 hover:bg-gray-100 rounded"
-          role="button"
-          onClick={() => signOut()}
-        >
-          Sair
-        </div>
-      </div>
+      <AnimatePresence>
+        {modal && (
+          <motion.div
+            className="absolute bg-white right-0 top-8   transition rounded-md border w-64 p-2"
+            style={{
+              backfaceVisibility: "hidden",
+            }}
+            initial={{
+              opacity: 0,
+              transitionDuration: "0.1s",
+            }}
+            animate={{
+              scale: [1, 1.02, 1],
+              opacity: 1,
+            }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="text-sm p-2 text-gray-400 rounded">
+              {user?.email}
+            </div>
+            <div
+              className="text-sm p-2 hover:bg-gray-100 rounded"
+              role="button"
+              onClick={() => signOut()}
+            >
+              Sair
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

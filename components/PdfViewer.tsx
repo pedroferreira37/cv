@@ -1,10 +1,9 @@
 "use client";
-import { Document, PDFPageItem, PDFPageProxy, Page, pdfjs } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 import { useAsync } from "react-use";
 import { pdf } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import { Loader } from "./loader";
 import { Resume } from "@prisma/client";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
@@ -61,14 +60,12 @@ export function PdfViewer({ document, data, arrows }: Props) {
   };
 
   return (
-    <div className="h-full  flex flex-col border-[0.5px] border-gray-200">
+    <div className="h-full  flex flex-col border-[0.5px] rounded">
       <div
         className={`w-full h-full top-0 left-0 flex bg-gray-200 animate-pulse  items-center justify-center z-1000   ${
           shouldShowTextLoader ? "opacity-100" : "opacity-0"
         }  absolute`}
-      >
-        <Loader size={18} />
-      </div>
+      ></div>
 
       <div className="flex flex-1  items-center justify-center w-full h-full ">
         {shouldShowPreviousDocument && previousRenderedValue ? (

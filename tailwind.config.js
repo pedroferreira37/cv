@@ -6,60 +6,40 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: {
-      center: true,
-    },
     extend: {
       keyframes: {
-        wiggle: {
-          from: {
-            transform: "translateX(0)",
+        "scale-out": {
+          "0%": {
+            transform: "scale(1)",
+            opacty: 1,
           },
-          to: {
-            transform: "translateX(-4px)",
+          "100%": {
+            transform: "scale(0)",
+            opacity: 0,
           },
         },
-        shake: {
-          "0%, 100%": {
-            transform: "translateY(-2px)",
+        "scale-in": {
+          "0%": {
+            transform: "scale(0)",
+            opacty: 0,
           },
           "50%": {
-            transform: "translateY(0)",
+            transform: "scale(1.01)",
+            opacty: 1,
           },
-        },
-        "slide-up": {
-          from: {
-            transform: "translateY(20px)",
-            opacity: 0,
-            visibily: "hidden",
-          },
-          to: {
-            transform: "translateY(0px)",
+          "100%": {
+            transform: "scale(1)",
             opacity: 1,
-            visibily: "visible",
-          },
-        },
-        "slide-down": {
-          from: {
-            transform: "translateY(0px)",
-            opacity: 1,
-            visibility: "visible",
-          },
-          to: {
-            transform: "translateY(20px)",
-            opacity: 0,
-            visibility: "hidden",
           },
         },
       },
-
       animation: {
-        wiggle: "wiggle 0.4s ease-in-out infinite alternate",
-        shake: "shake 1s ease-in-out infinite  ",
-        "slide-up": "slide-up 0.2s ease-in-out forwards",
-        "slide-down": "slide-down 0.2s ease-out  forwards",
+        "scale-in": "scale-in 0.4s linear forwards",
+        "scale-out": "scale-out 0.4s linear forwards",
       },
-
+      container: {
+        center: true,
+      },
       colors: {
         dark: "#141414",
         "default-gray": "#eee",

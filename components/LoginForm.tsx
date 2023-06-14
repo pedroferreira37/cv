@@ -1,9 +1,9 @@
 "use client";
-
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { Loader } from "./loader";
+import { Loader } from "./Loader";
+import { motion } from "framer-motion";
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -20,6 +20,7 @@ export const LoginForm = () => {
         Crie seu currículo perfeito com facilidade <br />
         Comece agora
       </p>
+
       <button
         onClick={submit}
         className="w-full  font-medium border py-2 flex items-center  justify-center text-sm rounded outline-none hover:bg-gray-100 transition disabled:opacity-50 gap-2"
