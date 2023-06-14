@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-export function Loader({ size }: { size: string | number }) {
+export const Loader = ({ size }: { size: string | number }) => {
   return (
     <div>
       <Image
@@ -13,4 +13,4 @@ export function Loader({ size }: { size: string | number }) {
       />
     </div>
   );
-}
+};

@@ -1,23 +1,22 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { Avatar } from "@/components/avatar";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { User } from "@prisma/client";
+import { Avatar } from "@/components/Avatar";
 import Link from "next/link";
-import { FiArchive, FiFileText, FiSettings } from "react-icons/fi";
-import { Session } from "next-auth";
+import { FiArchive, FiFileText } from "react-icons/fi";
 
 export default async function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const user = await getCurrentUser();
 
   return (
     <div className="w-full h-full">
       <header className="h-[60px]">
         <nav className="p-4">
           <div className="w-full flex items-center justify-end">
-            <Avatar session={session as Session} />
+            <Avatar user={user as User} />
           </div>
         </nav>
       </header>

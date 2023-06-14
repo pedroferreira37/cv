@@ -1,23 +1,25 @@
 "use client";
 import { API } from "@/lib/api";
-import { uuid } from "@/lib/uuid";
 import { User } from "@prisma/client";
-import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 
-export const CreateResumeButton = ({ user }: { user: User }) => {
+export const CreateResumeButton = ({
+  user: { id: userId },
+}: {
+  user: User;
+}) => {
   const router = useRouter();
-  const produce = async () => {
-    const userId = user.id;
 
+  const createResume = async () => {
     try {
       const request = await API.post(`/resume`, {
         userId,
       });
-      const resume = request.data.resume;
+
+      const resume = request.data;
+
+      if (!resume.id) return null;
 
       router.push(`/create/${resume.id}`);
     } catch (error) {}
@@ -26,7 +28,7 @@ export const CreateResumeButton = ({ user }: { user: User }) => {
   return (
     <div>
       <button
-        onClick={produce}
+        onClick={createResume}
         className="bg-dark  text-white px-4 py-2  font-medium text-sm rounded flex items-center gap-2 group"
       >
         <FiPlus size={20} className="group-hover:rotate-90 transition" />

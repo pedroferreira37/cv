@@ -1,20 +1,15 @@
-import { ResumeCard } from "@/components/resume-cards";
-import { CreateResumeButton } from "@/components/create-resume-button";
-import { authOptions } from "@/lib/auth";
-import { uuid } from "@/lib/uuid";
-
-import { getServerSession } from "next-auth";
-import { getUser } from "@/lib/session";
-import { db } from "@/lib/db";
+import { ResumeCard } from "@/components/ResumeCards";
+import { CreateResumeButton } from "@/components/CreateResumeButton";
+import { getResumes } from "@/actions/getResume";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { User } from "@prisma/client";
 
 export default async function User() {
-  const session = await getServerSession(authOptions);
+  const user = await getCurrentUser();
 
-  const user = await getUser();
+  const resumes = await getResumes(user?.id as string);
 
-  const resumes = await db.resume.findMany({
-    where: { userId: user.id },
-  });
+  if (!resumes) return null;
 
   return (
     <div className="w-full  flex flex-col  gap-2 ">
@@ -26,7 +21,7 @@ export default async function User() {
           </p>
         </div>
 
-        <CreateResumeButton user={user} />
+        <CreateResumeButton user={user as User} />
       </div>
       <div className="flex  flex-wrap  gap-10 w-full py-6">
         <ResumeCard resumes={resumes} />
