@@ -41,6 +41,7 @@ export const authOptions: NextAuthOptions = {
         if (user) {
           token.id = user?.id;
         }
+
         return token;
       }
 

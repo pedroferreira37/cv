@@ -13,7 +13,7 @@ export const CreateResumeButton = ({
 
   const createResume = async () => {
     try {
-      const request = await API.post(`/resume`, {
+      const request = await API.post(`/resume/create`, {
         userId,
       });
 

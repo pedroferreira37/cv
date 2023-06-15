@@ -41,8 +41,8 @@ module.exports = {
         center: true,
       },
       colors: {
-        dark: "#141414",
-        "default-gray": "#eee",
+        "dark-blue": "#24292f",
+        "green-field": "#1a7f37",
       },
     },
   },

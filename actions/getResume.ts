@@ -7,12 +7,7 @@ export const getResume = async (id: string) => {
         id,
       },
       select: {
-        name: true,
-        role: true,
-        mail: true,
-        github: true,
-        linkedin: true,
-        about: true,
+        profile: true,
         experiences: true,
         educations: true,
       },

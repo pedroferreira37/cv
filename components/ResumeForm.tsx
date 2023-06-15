@@ -10,29 +10,58 @@ const PdfViewer = dynamic(
   { ssr: false }
 );
 
-// name: string | null;
-// role: string | null;
-// mail: string | null;
-// linkedin: string | null;
-// github: string | null;
-//
+type Experience = {
+  id: string;
+  role: string | null;
+  company: string | null;
+  description: string | null;
+  start_date: Date | null;
+  end_date: Date | null;
+  current: boolean;
+};
+
+type Education = {
+  id: string;
+  degree: string | null;
+  start_date: Date | null;
+  end_date: Date | null;
+  institution: string | null;
+  current: boolean;
+};
+
+type Profile = {
+  [key: string]: any;
+  id: string | null;
+  name: string | null;
+  role: string | null;
+  mail: string | null;
+  linkedin: string | null;
+  github: string | null;
+  about: string | null;
+};
+
 export const ResumeForm = ({ id }: { id: string }) => {
-  const [resume, setResume] = useState({
+  const [resume, setResume] = useState();
+
+  const [profile, setProfile] = useState<Profile>({
+    id: null,
     name: null,
     role: null,
     mail: null,
     github: null,
     linkedin: null,
     about: null,
-    experiences: [],
-    educations: [],
   });
 
-  useEffect(() => {
-    API.get(`/resume/${id}`).then((req) => setResume(req.data));
-  }, []);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
 
-  if (!resume) return <div>Carregando...</div>;
+  const [educations, setEducations] = useState<Education[]>([]);
+
+  useEffect(() => {
+    API.get(`/resume/${id}`).then((req) => {
+      console.log(req.data);
+    });
+  }, []);
 
   return (
     <div className="grid  grid-rows-[60px_1fr]">
@@ -56,12 +85,11 @@ export const ResumeForm = ({ id }: { id: string }) => {
           </div>
         </div>
         <div className="w-full h-full flex justify-center items-center bg-[#eee]">
-          {JSON.stringify(resume)}
           <div>
-            <PdfViewer
-              document={renderLayout(resume) as React.ReactElement}
+            {/* <PdfViewer
+              document={renderLayout({...}) as React.ReactElement}
               data={resume}
-            />
+            /> */}
           </div>
         </div>
       </div>
