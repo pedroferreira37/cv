@@ -1,5 +1,4 @@
-import axios, { Axios, AxiosError, AxiosResponse } from "axios";
-import { Education, Experience, Resume } from "./reducer";
+import axios from "axios";
 
 export const API = axios.create({
   baseURL: "http://localhost:3000/api",

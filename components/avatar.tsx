@@ -10,8 +10,6 @@ import { motion, AnimatePresence } from "framer-motion";
 export const Avatar = ({ user }: { user: User }) => {
   const [modal, setModal] = useState<boolean>(false);
 
-  useEffect(() => {}, []);
-
   return (
     <div
       onClick={() => setModal((modal) => !modal)}
@@ -33,19 +31,14 @@ export const Avatar = ({ user }: { user: User }) => {
       <AnimatePresence>
         {modal && (
           <motion.div
-            className="absolute bg-white right-0 top-8   transition rounded-md border w-64 p-2"
-            style={{
-              backfaceVisibility: "hidden",
-            }}
-            initial={{
-              opacity: 0,
-              transitionDuration: "0.1s",
-            }}
+            className="absolute bg-white right-0 top-8  rounded-md border shadow w-64 p-2"
+            initial={{ opacity: 0 }}
             animate={{
-              scale: [1, 1.02, 1],
               opacity: 1,
+              scale: [1, 1.01, 1],
             }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
             <div className="text-sm p-2 text-gray-400 rounded">
               {user?.email}

@@ -1,18 +1,24 @@
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
-export const getResumes = async (userId: string) => {
+export const getResume = async (id: string) => {
   try {
-    const resumes = await prisma.resume.findMany({
+    const resume = await prisma.resume.findFirst({
       where: {
-        userId,
+        id,
       },
-      include: {
+      select: {
+        name: true,
+        role: true,
+        mail: true,
+        github: true,
+        linkedin: true,
+        about: true,
         experiences: true,
         educations: true,
       },
     });
 
-    return resumes;
+    return resume;
   } catch (err: any) {
     return null;
   }

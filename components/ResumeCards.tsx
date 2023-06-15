@@ -3,8 +3,9 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { renderLayout } from "@/templates/render";
 
-import { Resume } from "@prisma/client";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
+import { motion } from "framer-motion";
+import { Resume } from "@/lib/reducer";
 
 const PdfViewer = dynamic(
   () => import("./PdfViewer").then((module) => module.PdfViewer),
@@ -17,12 +18,15 @@ export function ResumeCard({ resumes }: { resumes: Resume[] }) {
       {resumes.map((resume) => {
         return (
           <Link href={`/create/${resume.id}`}>
-            <div className="w-[200px] h-[282px] thumb relative hover:scale-[1.05] transition">
+            <motion.div
+              className="w-[200px] h-[282px] thumb relative hover:scale-[1.05] transition"
+              animate={{ opacity: [0, 1] }}
+            >
               <PdfViewer
                 data={resume}
                 document={renderLayout(resume) as ReactElement}
               />
-            </div>
+            </motion.div>
           </Link>
         );
       })}

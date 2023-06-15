@@ -21,7 +21,7 @@ export const CreateResumeButton = ({
 
       if (!resume.id) return null;
 
-      router.push(`/create/${resume.id}`);
+      router.push(`resume/create/${resume.id}`);
     } catch (error) {}
   };
 
