@@ -2,9 +2,8 @@
 import { Document, Page, pdfjs } from "react-pdf";
 import { useAsync } from "react-use";
 import { pdf } from "@react-pdf/renderer";
-import { useEffect, useState } from "react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import { Resume } from "@prisma/client";
+import { useState } from "react";
+import { Resume } from "@/lib/reducer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -60,7 +59,7 @@ export function PdfViewer({ document, data, arrows }: Props) {
   };
 
   return (
-    <div className="h-full  flex flex-col border-[0.5px] rounded">
+    <div className="h-full  relative flex flex-col border-[0.5px] rounded">
       <div
         className={`w-full h-full top-0 left-0 flex bg-gray-200 animate-pulse  items-center justify-center z-1000   ${
           shouldShowTextLoader ? "opacity-100" : "opacity-0"
@@ -72,7 +71,7 @@ export function PdfViewer({ document, data, arrows }: Props) {
           <Document
             key={previousRenderedValue}
             file={previousRenderedValue}
-            loading={undefined}
+            loading={null as unknown as undefined}
             className=""
           >
             <Page
@@ -85,6 +84,7 @@ export function PdfViewer({ document, data, arrows }: Props) {
             ></Page>
           </Document>
         ) : null}
+
         <Document
           key={render.value}
           file={render.value}
@@ -107,33 +107,6 @@ export function PdfViewer({ document, data, arrows }: Props) {
           ></Page>
         </Document>
       </div>
-      {arrows && (
-        <div className="flex justify-between py-4">
-          <div>
-            {currentPage !== 1 && (
-              <button onClick={onPreviousPage} className="rounded-full  group ">
-                <FiArrowLeft
-                  size={18}
-                  className="group-hover:animate-wiggle "
-                />
-              </button>
-            )}
-          </div>
-          <div>
-            {currentPage} de {numPages} Páginas
-          </div>
-          <div>
-            {currentPage < numPages && (
-              <button onClick={onNextPage} className="rounded-full  group ">
-                <FiArrowRight
-                  className="group-hover:animate-wiggle"
-                  size={18}
-                />
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

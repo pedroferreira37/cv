@@ -1,6 +1,6 @@
 import { ResumeCard } from "@/components/ResumeCards";
 import { CreateResumeButton } from "@/components/CreateResumeButton";
-import { getResumes } from "@/actions/getResume";
+import { getResumes } from "@/actions/getResumes";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { User } from "@prisma/client";
 

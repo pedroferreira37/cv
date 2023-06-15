@@ -57,8 +57,6 @@ model User {
 
 model Resume {
   id String @id @default(uuid()) 
-  educationId String?
-  experienceId String?
   name String? 
   role String?
   mail String?
