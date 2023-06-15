@@ -7,9 +7,9 @@ import { User } from "@prisma/client";
 export default async function User() {
   const user = await getCurrentUser();
 
-  const resumes = await getResumes(user?.id as string);
-
-  if (!resumes) return null;
+  //const resumes = await getResumes(user?.id as string);
+  console.log(user);
+  // if (!resumes) return null;
 
   return (
     <div className="w-full  flex flex-col  gap-2 ">
@@ -24,7 +24,7 @@ export default async function User() {
         <CreateResumeButton user={user as User} />
       </div>
       <div className="flex  flex-wrap  gap-10 w-full py-6">
-        <ResumeCard resumes={resumes} />
+        {/* <ResumeCard resumes={resumes} /> */}
       </div>
     </div>
   );
