@@ -1,6 +1,3 @@
-import { Resume } from "@/components/PdfViewer";
-import { uuid } from "@/lib/uuid";
-
 export type Experience = {
   id: string;
   role: string | null;
@@ -20,38 +17,54 @@ export type Education = {
   current: boolean;
 };
 
-export type Resume = {
-  [key: string]: any;
+export type Profile = {
   id: string | null;
+  resumeId: string | null;
   name: string | null;
   role: string | null;
   mail: string | null;
   linkedin: string | null;
   github: string | null;
   about: string | null;
+};
+
+export type Resume = {
+  [key: string]: any;
+  id: string | null;
+  template: string | null;
+  userId: string | null;
+  profile: Profile;
   experiences: Experience[];
   educations: Education[];
 };
 
 export const initialState: Resume = {
   id: "",
-  name: "",
-  role: "",
-  mail: "",
-  linkedin: "",
-  github: "",
-  about: "",
+  userId: "",
+  template: "",
+  profile: {
+    id: "",
+    resumeId: "",
+    name: "",
+    role: "",
+    mail: "",
+    linkedin: "",
+    github: "",
+    about: "",
+  },
   experiences: [],
   educations: [],
 };
 
 export type Action =
   | {
-      type: "changed";
+      type: "INITILIAZE_RESUME";
+      payload: Resume;
+    }
+  | {
+      type: "UPDATE_PROFILE";
       name: string;
-      key: string;
-      id: string;
-      payload: string | boolean;
+      payload: string;
     }
   | {
       type: "removed";
@@ -83,6 +96,13 @@ export const reducer = (state: Resume, action: Action): Resume => {
   const { type, name, key, id, payload } = action;
 
   switch (type) {
+    case "INITILIAZE_RESUME":
+      return { ...action.payload };
+    case "UPDATE_PROFILE":
+      return { ...state, profile: { ...state.profile, [name]: payload } };
+    case "UPDATE_EXPERIENCE": {
+      return { ...state, experiences: {} };
+    }
     case "changed":
       if (Array.isArray(state[name])) {
         return {
@@ -105,7 +125,7 @@ export const reducer = (state: Resume, action: Action): Resume => {
           id === item.id
             ? {
                 ...item,
-                [key]: new Date(item[key].setFullYear(parseInt(payload))),
+                [key]: new Date(item[key].setFullYear(payload)),
               }
             : item
         ),

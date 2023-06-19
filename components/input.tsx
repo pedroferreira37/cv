@@ -8,7 +8,6 @@ interface Props {
   name: string;
   label: string;
   value: string;
-  type: string;
 }
 
 const Input: React.FC<Props> = ({
@@ -19,13 +18,12 @@ const Input: React.FC<Props> = ({
   label,
   id,
   name,
-  type,
 }) => {
   return (
     <div className="w-full my-2 group">
       <label className="text-sm text-gray-400 font-medium ">{label}</label>
       <input
-        type={type}
+        type="text"
         className="w-full bg-[#eee] border  p-3 outline-none rounded   text-[#353535] text-[14px]   hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition"
         placeholder={placeholder}
         onBlur={onBlur}
