@@ -6,7 +6,7 @@ export const getResume = async (id: string) => {
       where: {
         id,
       },
-      select: {
+      include: {
         profile: true,
         experiences: true,
         educations: true,

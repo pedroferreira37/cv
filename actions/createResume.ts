@@ -5,6 +5,7 @@ export const createResume = async (userId: string) => {
     const resume = await prisma.resume.create({
       data: {
         userId,
+        template: "professional",
       },
     });
 
