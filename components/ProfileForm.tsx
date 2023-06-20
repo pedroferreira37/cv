@@ -1,4 +1,4 @@
-import { Input } from "./Input";
+import { Input } from "./input";
 import { TextArea } from "./TextArea";
 import { useEffect, useState } from "react";
 import { Profile } from "@/lib/reducer";
@@ -40,7 +40,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
         return null;
       }
 
-      return setCreated(true);
+      setCreated(true);
     });
   };
 
@@ -51,7 +51,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
         <AddAndCollpaseButton
           created={created}
           active={open}
-          onToggle={(e) => setOpen((prev) => !prev)}
+          onToggle={(e: any) => setOpen((prev) => !prev)}
           onClick={createProfile}
         />
       </div>
@@ -61,7 +61,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
             label="Nome"
             name="name"
             id="name"
-            value={profile.name as string}
+            value={profile?.name as string}
             placeholder="Ex: Pedro"
             onChange={setResume}
           />
@@ -69,7 +69,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
             label="Profissao"
             name="role"
             id="role"
-            value={profile.role as string}
+            value={profile?.role as string}
             placeholder="Ex: Programador"
             onChange={setResume}
           />
@@ -78,7 +78,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
           label="Email"
           name="mail"
           id="mail"
-          value={profile.mail as string}
+          value={profile?.mail as string}
           placeholder="Ex: usuario@email.com"
           onChange={setResume}
         />
@@ -86,7 +86,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
           label="Linkedin"
           placeholder="Ex: https://www.linkedin.com/in/pedro-ferreira-993873214/"
           name="linkedin"
-          value={profile.linkedin as string}
+          value={profile?.linkedin as string}
           id="linkedin"
           onChange={setResume}
         />
@@ -94,7 +94,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
           label="Github"
           name="github"
           id="github"
-          value={profile.github as string}
+          value={profile?.github as string}
           placeholder="https://github.com/pedroferreira37"
           onChange={setResume}
         />
@@ -103,7 +103,7 @@ export const ProfileForm = ({ profile, setResume, resumeId }: Props) => {
           placeholder="Digite uma pequena descricacao sobre voce"
           name="about"
           id="about"
-          value={profile.about as string}
+          value={profile?.about as string}
           onChange={
             setResume as unknown as React.ChangeEventHandler<HTMLTextAreaElement>
           }
