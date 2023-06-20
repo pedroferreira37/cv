@@ -35,7 +35,7 @@ export const ResumeForm = ({ resumeId }: { resumeId: string }) => {
         grid-cols-[600px_1fr]"
       >
         <div className="w-full h-[calc(100vh_-_60px)] sticky top-0 overflow-x-auto  border-l-1">
-          <div className="p-8">
+          <div className="px-8 pt-4 space-y-4 ">
             <ProfileForm
               profile={resume.profile}
               setResume={setResume}
