@@ -11,87 +11,79 @@ import { DatePicker } from "./DatePicker";
 
 type Props = {
   experiences: Experience[];
-  setExperiences: React.ChangeEventHandler<HTMLInputElement>;
+  disptach: any;
   resumeId: string;
 };
 
-export const ExperienceForm = ({
-  experiences,
-  setExperiences,
-  resumeId,
-}: Props) => {
-  const [open, setOpen] = useState(false);
-  const [created, setCreated] = useState(false);
+export const ExperienceForm = ({ experiences, disptach, resumeId }: Props) => {
+  const [active, setActive] = useState(false);
 
-  const createExperiences = () => {
+  const create = () => {
     API.post(`/resume/${resumeId}/experiences`).then((req) => {
-      if (!req.data && created) {
-        return null;
-      }
+      if (!req.data) return;
 
-      setCreated(true);
+      disptach({ type: "CREATE_EXPERIENCE", payload: req.data });
     });
   };
 
-  useEffect(() => {
-    if (experiences.length > 0) setCreated(true);
-  }, [experiences]);
-
   return (
-    <div>
+    <div className="pt-4">
       <div className="flex justify-between items-center ">
         <h2>Experiencias</h2>
         <AddAndCollpaseButton
-          created={created}
-          active={open}
-          onClick={createExperiences}
-          onToggle={(e) => setOpen((prev) => !prev)}
+          data={experiences.length}
+          active={active}
+          onDataRequest={create}
+          onActive={(e) => setActive((active) => !active)}
         />
       </div>
       <div>
-        <FormWrapper active={open} created={created}>
-          {experiences.map((experience) => (
-            <form>
-              <div className="flex gap-4">
-                <Input
-                  label="Profissao"
-                  name="role"
-                  id="role"
-                  placeholder="Ex: Programador"
-                  value={experience?.role as string}
-                />
-                <Input
-                  label="Empresa"
-                  name="company"
-                  id="company"
-                  placeholder="Ex: Makrosystem"
-                  value={experience?.company as string}
-                />
-              </div>
-              <div>
-                <DatePicker />
-              </div>
-              <TextArea
-                label="Descricao"
-                name="description"
-                id="description"
-                placeholder="Ex: I working with frontend develop"
-                value={experience?.description as string}
-              />
-              <div className="flex justify-end mt-4">
-                <button
-                  className="bg-green-field  text-white px-1 py-1  font-medium text-sm rounded flex items-center gap-2 group "
-                  onClick={createExperiences}
-                >
-                  <FiPlus
-                    size={20}
-                    className="group-hover:rotate-90 transition"
+        {experiences.map(
+          (experience, index) =>
+            active && (
+              <form key={experience.id}>
+                <p className="text-sm text-gray-500 pt-4">
+                  Experiencia {index + 1}
+                </p>
+                <div className="flex gap-4">
+                  <Input
+                    label="Profissao"
+                    name="role"
+                    id="role"
+                    placeholder="Ex: Programador"
+                    value={(experience?.role as string) || ""}
                   />
-                </button>
-              </div>
-            </form>
-          ))}
-        </FormWrapper>
+                  <Input
+                    label="Empresa"
+                    name="company"
+                    id="company"
+                    placeholder="Ex: Makrosystem"
+                    value={(experience?.company as string) || ""}
+                  />
+                </div>
+                <div>
+                  <DatePicker />
+                </div>
+                <TextArea
+                  label="Descricao"
+                  name="description"
+                  id="description"
+                  placeholder="Ex: I working with frontend develop"
+                  value={(experience?.description as string) || ""}
+                />
+              </form>
+            )
+        )}
+        {active && (
+          <div className="flex justify-end mt-4">
+            <button
+              className="bg-green-field  text-white px-1 py-1  font-medium text-sm rounded flex items-center gap-2 group "
+              onClick={create}
+            >
+              <FiPlus size={20} className="group-hover:rotate-90 transition" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -17,15 +17,9 @@ export const ResumeForm = ({ resumeId }: { resumeId: string }) => {
 
   useEffect(() => {
     API.get(`/resume/${resumeId}`).then((req) => {
-      console.log("data", req.data);
       disptach({ type: "INITILIAZE_RESUME", payload: req.data });
     });
   }, []);
-
-  const setResume = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    disptach({ type: "UPDATE_PROFILE", name, payload: value });
-  };
 
   return (
     <div className="grid  grid-rows-[60px_1fr]">
@@ -35,14 +29,15 @@ export const ResumeForm = ({ resumeId }: { resumeId: string }) => {
         grid-cols-[600px_1fr]"
       >
         <div className="w-full h-[calc(100vh_-_60px)] sticky top-0 overflow-x-auto  border-l-1">
-          <div className="px-8 pt-4 space-y-4 ">
+          <div className="px-8 py-6 space-y-4  divide-y-2 ">
             <ProfileForm
               profile={resume.profile}
-              setResume={setResume}
+              disptach={disptach}
               resumeId={resumeId}
             />
             <ExperienceForm
               experiences={resume.experiences}
+              disptach={disptach}
               resumeId={resumeId}
             />
           </div>

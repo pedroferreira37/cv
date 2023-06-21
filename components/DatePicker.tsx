@@ -9,7 +9,6 @@ const end = new Date().getFullYear().toString();
 const years = dayjs.max([dayjs(), dayjs(start), dayjs(end)]);
 
 export const DatePicker = () => {
-  console.log(years);
   return (
     <select>
       {/* {years.map((date) => (

@@ -1,3 +1,6 @@
+import { API } from "./api";
+import { debounce } from "./debounce";
+
 export type Experience = {
   id: string;
   role: string | null;
@@ -19,7 +22,7 @@ export type Education = {
 
 export type Profile = {
   id: string | null;
-  resumeId: string | null;
+  resumeId: string;
   name: string | null;
   role: string | null;
   mail: string | null;
@@ -62,9 +65,18 @@ export type Action =
       payload: Resume;
     }
   | {
+      type: "CREATE_PROFILE";
+      payload: Profile;
+    }
+  | {
       type: "UPDATE_PROFILE";
       name: string;
+      resumeId: string;
       payload: string;
+    }
+  | {
+      type: "CREATE_EXPERIENCE";
+      payload: Experience;
     }
   | {
       type: "removed";
@@ -93,92 +105,24 @@ export type Action =
     };
 
 export const reducer = (state: Resume, action: Action): Resume => {
-  const { type, name, key, id, payload } = action;
-
-  switch (type) {
+  switch (action.type) {
     case "INITILIAZE_RESUME":
       return { ...action.payload };
+    case "CREATE_PROFILE":
+      return { ...state, profile: action.payload };
     case "UPDATE_PROFILE":
-      return { ...state, profile: { ...state.profile, [name]: payload } };
-    case "UPDATE_EXPERIENCE": {
-      return { ...state, experiences: {} };
-    }
-    case "changed":
-      if (Array.isArray(state[name])) {
-        return {
-          ...state,
-          [name]: state[name].map((item: any) =>
-            id === item.id ? { ...item, [key]: payload } : item
-          ),
-        };
-      }
+      const profile = {
+        ...state.profile,
+        [action.name]: action.payload,
+      } as Profile;
 
+      return { ...state, profile };
+
+    case "CREATE_EXPERIENCE":
       return {
         ...state,
-        [name]: payload,
+        experiences: [...state.experiences, action.payload],
       };
-
-    case "changed_date_year":
-      return {
-        ...state,
-        [name]: state[name].map((item: any) =>
-          id === item.id
-            ? {
-                ...item,
-                [key]: new Date(item[key].setFullYear(payload)),
-              }
-            : item
-        ),
-      };
-    case "changed_date_month":
-      return {
-        ...state,
-        [name]: state[name].map((item: any) =>
-          id === item.id
-            ? { ...item, [key]: new Date(item[key].setMonth(payload)) }
-            : item
-        ),
-      };
-
-    case "added_experience":
-      return {
-        ...state,
-        experiences: [
-          ...state.experiences,
-          {
-            id: uuid(),
-            role: null,
-            company: null,
-            start_date: new Date(),
-            end_date: new Date(),
-            description: null,
-            current: false,
-          },
-        ],
-      };
-
-    case "removed":
-      return {
-        ...state,
-        [name]: state[name].filter((item: any) => item.id !== id),
-      };
-
-    case "added_education":
-      return {
-        ...state,
-        educations: [
-          ...state.educations,
-          {
-            id: uuid(),
-            degree: "",
-            institution: "",
-            start_date: new Date(),
-            end_date: new Date(),
-            current: false,
-          },
-        ],
-      };
-
     default:
       return state;
   }
