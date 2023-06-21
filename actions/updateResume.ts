@@ -22,6 +22,8 @@ export const updateProfile = async (resumeId: string, profile: Profile) => {
       },
     });
 
+    console.log(updatedReusme);
+
     return updatedReusme;
   } catch (err: any) {
     return null;
