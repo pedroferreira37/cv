@@ -71,12 +71,17 @@ export type Action =
   | {
       type: "UPDATE_PROFILE";
       name: string;
-      resumeId: string;
       payload: string;
     }
   | {
       type: "CREATE_EXPERIENCE";
       payload: Experience;
+    } | 
+    {
+      type: "UPDATE_EXPERIENCE";
+      name: string;
+      id: string;
+      payload: string;
     }
   | {
       type: "removed";
@@ -123,6 +128,10 @@ export const reducer = (state: Resume, action: Action): Resume => {
         ...state,
         experiences: [...state.experiences, action.payload],
       };
+    case "UPDATE_EXPERIENCE":
+        const experiences = state.experiences.map(experience => experience.id === action.id ? {...experience, [action.name]: action.payload} : experience)
+
+        return {...state, experiences}
     default:
       return state;
   }
