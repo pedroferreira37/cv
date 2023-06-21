@@ -28,17 +28,13 @@ export const Avatar = ({ user }: { user: User }) => {
           <FiUser size={20} color="white" />
         </div>
       )}
-      <AnimatePresence>
-        {modal && (
-          <motion.div
-            className="absolute bg-white right-0 top-8  rounded-md border shadow w-64 p-2"
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-              scale: [1, 1.01, 1],
-            }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+
+
+
+     
+          <div
+            className={`absolute bg-white right-0 top-8  rounded-md border shadow w-64 p-2 ${modal ? "opacity-100" : "opacity-0"} transition`} 
+         
           >
             <div className="text-sm p-2 text-gray-400 rounded">
               {user?.email}
@@ -50,9 +46,9 @@ export const Avatar = ({ user }: { user: User }) => {
             >
               Sair
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+   
+ 
     </div>
   );
 };

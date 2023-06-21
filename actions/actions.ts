@@ -13,17 +13,20 @@ export const createExperience = async (resumeId: string) => {
   }
 };
 
-export const updateExperience = async (id: string, profile: Experience) => {
+export const updateExperience = async (id: string, resumeId: string, experience: Experience) => {
+  console.log(experience)
   try {
-    const updatedExperience = await prisma.experience.update({
-      where: { id },
+    const updatedExperience = await prisma.experience.updateMany({
+      where: { id, resumeId},
       data: {
-        ...profile,
+        ...experience,
       },
+    
     });
 
     return updatedExperience;
   } catch (err: any) {
+    console.log(err)
     return null;
   }
 };
