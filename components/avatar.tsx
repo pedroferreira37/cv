@@ -1,11 +1,9 @@
 "use client";
 import { User } from "@prisma/client";
-
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
 
 export const Avatar = ({ user }: { user: User }) => {
   const [modal, setModal] = useState<boolean>(false);

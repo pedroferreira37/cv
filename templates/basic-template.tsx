@@ -34,33 +34,37 @@ export const Basic = (props: Resume) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.section}>
-        <Text style={styles.heading}>{props.name}</Text>
-        <Text style={styles.subHeading}>{props.role}</Text>
-        <Text style={styles.text}>{props.mail}</Text>
-        <Text style={styles.text}>{props.linkedin}</Text>
-        <Text style={styles.text}>{props.github}</Text>
+        <Text style={styles.heading}>{props?.profile?.name || ""}</Text>
+        <Text style={styles.subHeading}>{props?.profile?.role || ""}</Text>
+        <Text style={styles.text}>{props?.profile?.mail || ""}</Text>
+        <Text style={styles.text}>{props?.profile?.linkedin || ""}</Text>
+        <Text style={styles.text}>{props?.profile?.github || ""}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.heading}>Sobre Mim</Text>
-        <Text style={styles.text}>{props.about}</Text>
+        <Text style={styles.text}>{props?.profile?.about || ""}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.heading}>Experiência</Text>
         {props.experiences.map((experience) => (
           <View key={experience.id} style={styles.subSection}>
-            <Text style={styles.subHeading}>{experience.role}</Text>
-            <Text style={styles.text}>{experience.company}</Text>
+            <Text style={styles.subHeading}>{experience.role || ""}</Text>
+            <Text style={styles.text}>{experience.company || ""}</Text>
             <Text style={styles.text}>
-              {experience.start_date.getFullYear()},{" "}
-              {months[experience.start_date.getMonth()]} -{" "}
+              {`${experience.start_year || ""}  -  ${
+                months.find(({ value }) => value === experience.start_month)
+                  ?.label || ""
+              } , `}
+
               {experience.current
-                ? "Atual"
-                : experience.end_date && (
-                    <>
-                      {experience.end_date.getFullYear()},{" "}
-                      {months[experience.end_date.getMonth()]}{" "}
-                    </>
-                  )}
+                ? "Atualmente"
+                : `${experience.end_year || ""} - ${
+                    experience.end_month
+                      ? months.find(
+                          ({ value }) => value === experience.end_month
+                        )?.label || ""
+                      : ""
+                  } `}
             </Text>
             <Text style={{ ...styles.text, marginBottom: 20 }}>
               {experience.description}
@@ -72,19 +76,17 @@ export const Basic = (props: Resume) => (
         <Text style={styles.heading}>Educação</Text>
         {props.educations.map((education) => (
           <View key={education.id} style={styles.subSection}>
-            <Text style={styles.subHeading}>{education.degree}</Text>
-            <Text style={styles.text}>{education.institution}</Text>
+            <Text style={styles.subHeading}>{education.degree || ""}</Text>
+            <Text style={styles.text}>{education.institution || ""}</Text>
             <Text style={styles.text}>
-              {education.start_date.getFullYear()},{" "}
-              {months[education.start_date.getMonth()]} -{" "}
+              {`${education.start_year || ""} - ${
+                months.find(({ value }) => value === education.start_month)
+                  ?.label || ""
+              },`}
+
               {education.current
-                ? "Atual"
-                : education.end_date && (
-                    <>
-                      {education.end_date.getFullYear()},{" "}
-                      {months[education.end_date.getMonth()]}{" "}
-                    </>
-                  )}
+                ? "Atualmente"
+                : `${education.end_year || ""}  ${education.end_month || ""}`}
             </Text>
           </View>
         ))}

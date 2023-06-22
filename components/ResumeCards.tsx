@@ -2,7 +2,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { renderLayout } from "@/templates/render";
-
 import { ReactElement } from "react";
 import { motion } from "framer-motion";
 import { Resume } from "@/lib/reducer";

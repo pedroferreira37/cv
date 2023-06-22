@@ -7,6 +7,7 @@ export const getResumes = async (userId: string) => {
         userId,
       },
       include: {
+        profile: true,
         experiences: true,
         educations: true,
       },

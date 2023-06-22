@@ -35,6 +35,7 @@ export type Profile = {
 export type Resume = {
   [key: string]: any;
   id: string | null;
+  name: string | null;
   template: string | null;
   userId: string | null;
   profile: Profile;
@@ -45,6 +46,7 @@ export type Resume = {
 export const initialState: Resume = {
   id: "",
   userId: "",
+  name: "",
   template: "",
   profile: {
     id: "",
@@ -66,6 +68,10 @@ export type Action =
       payload: Resume;
     }
   | {
+      type: "UPDATE_RESUME";
+      payload: string;
+    }
+  | {
       type: "CREATE_PROFILE";
       payload: Profile;
     }
@@ -85,35 +91,32 @@ export type Action =
       payload: string;
     }
   | {
-      type: "removed";
-      name: string;
+      type: "REMOVE_EXPERIENCE";
+
       id: string;
     }
   | {
-      type: "changed_date_year";
+      type: "CREATE_EDUCATION";
+      payload: Education;
+    }
+  | {
+      type: "UPDATE_EDUCATION";
       name: string;
-      key: string;
       id: string;
       payload: string;
     }
   | {
-      type: "changed_date_month";
-      name: string;
-      key: string;
+      type: "REMOVE_EDUCATION";
       id: string;
-      payload: string;
-    }
-  | {
-      type: "added_experience";
-    }
-  | {
-      type: "added_education";
     };
 
 export const reducer = (state: Resume, action: Action): Resume => {
   switch (action.type) {
     case "INITILIAZE_RESUME":
       return { ...action.payload };
+    case "UPDATE_RESUME":
+      console.log(action.payload);
+      return { ...state, name: action.payload };
     case "CREATE_PROFILE":
       return { ...state, profile: action.payload };
     case "UPDATE_PROFILE":
@@ -137,7 +140,28 @@ export const reducer = (state: Resume, action: Action): Resume => {
       );
 
       return { ...state, experiences };
+    case "REMOVE_EXPERIENCE":
+      const removedExp = state.experiences.filter(
+        (experience) => experience.id !== action.id
+      );
 
+      return { ...state, experiences: removedExp };
+    case "CREATE_EDUCATION":
+      return {
+        ...state,
+        educations: [...state.educations, action.payload],
+      };
+    case "UPDATE_EDUCATION":
+      const educations = state.educations.map((education) =>
+        education.id === action.id
+          ? { ...education, [action.name]: action.payload }
+          : education
+      );
+    case "REMOVE_EDUCATION":
+      const removedEducation = state.educations.filter(
+        (experience) => experience.id !== action.id
+      );
+      return { ...state, educations: removedEducation };
     default:
       return state;
   }
