@@ -1,20 +1,32 @@
 import { years } from "@/lib/date";
 
 type Props = {
-  options: {}[];
-  onSelect: React.ChangeEventHandler<HTMLSelectElement>;
+  options: { value: string; label: string }[];
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
   name: string;
+  placeholder: string;
+  disabled: boolean;
+  value: string;
 };
 
-export const Select = ({ options, onSelect, name, label }: Props) => {
+export const Select = ({
+  options,
+  onChange,
+  name,
+  value,
+  disabled,
+  placeholder,
+}: Props) => {
   return (
     <select
       name={name}
-      onSelect={(e) => console.log(e.target.name)}
-      className="w-full bg-[#eee] border  p-3 outline-none rounded   text-[#353535] text-[14px]   hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition"
+      onChange={onChange}
+      value={value}
+      disabled={disabled}
+      className="w-full bg-[#eee] border  p-3 outline-none rounded disabled:hover:ring-transparent  text-[#353535] text-[14px]   hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition"
     >
       {options.map(({ value, label }) => (
-        <option value={label}>{label}</option>
+        <option value={value}>{label}</option>
       ))}
     </select>
   );

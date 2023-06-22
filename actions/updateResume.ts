@@ -18,11 +18,9 @@ export const updateProfile = async (resumeId: string, profile: Profile) => {
     const updatedReusme = await prisma.profile.update({
       where: { resumeId },
       data: {
-        ...profile,
+        ...(profile as any),
       },
     });
-
-    console.log(updatedReusme);
 
     return updatedReusme;
   } catch (err: any) {

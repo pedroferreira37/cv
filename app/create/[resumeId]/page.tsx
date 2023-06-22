@@ -1,11 +1,18 @@
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import { ResumeForm } from "@/components/ResumeForm";
+import { User } from "@prisma/client";
 
-export default function Create({ params }) {
+export default async function Create({
+  params,
+}: {
+  params: { resumeId: string };
+}) {
+  const user = await getCurrentUser();
   const resumeId = params.resumeId;
 
   return (
     <div>
-      <ResumeForm resumeId={resumeId} />
+      <ResumeForm resumeId={resumeId} user={user as User} />
     </div>
   );
 }

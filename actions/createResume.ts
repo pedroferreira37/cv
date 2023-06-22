@@ -6,11 +6,13 @@ export const createResume = async (userId: string) => {
       data: {
         userId,
         template: "professional",
+        name: "Professional",
       },
     });
 
     return resume;
   } catch (err: any) {
+    console.log(err);
     return null;
   }
 };

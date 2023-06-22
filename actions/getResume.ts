@@ -18,3 +18,20 @@ export const getResume = async (id: string) => {
     return null;
   }
 };
+
+export const updateResume = async (id: string, data: any) => {
+  try {
+    const resume = await prisma.resume.update({
+      where: {
+        id,
+      },
+      data: {
+        ...data,
+      },
+    });
+
+    return resume;
+  } catch (err: any) {
+    return null;
+  }
+};
