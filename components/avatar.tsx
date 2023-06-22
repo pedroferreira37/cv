@@ -29,26 +29,20 @@ export const Avatar = ({ user }: { user: User }) => {
         </div>
       )}
 
-
-
-     
-          <div
-            className={`absolute bg-white right-0 top-8  rounded-md border shadow w-64 p-2 ${modal ? "opacity-100" : "opacity-0"} transition`} 
-         
-          >
-            <div className="text-sm p-2 text-gray-400 rounded">
-              {user?.email}
-            </div>
-            <div
-              className="text-sm p-2 hover:bg-gray-100 rounded"
-              role="button"
-              onClick={() => signOut()}
-            >
-              Sair
-            </div>
-          </div>
-   
- 
+      <div
+        className={`absolute bg-white right-0 top-8  rounded-md border shadow w-64 p-2 ${
+          modal ? "opacity-100 visible" : "opacity-0 hidden"
+        } transition`}
+      >
+        <div className="text-sm p-2 text-gray-400 rounded">{user?.email}</div>
+        <div
+          className="text-sm p-2 hover:bg-gray-100 rounded"
+          role="button"
+          onClick={() => signOut()}
+        >
+          Sair
+        </div>
+      </div>
     </div>
   );
 };

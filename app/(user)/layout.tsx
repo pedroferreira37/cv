@@ -10,12 +10,12 @@ export default async function UserLayout({
   children: React.ReactNode;
 }) {
   const user = await getCurrentUser();
- 
+
   return (
     <div className="w-full h-full">
       <header className="w-full h-[60px] bg-dark-blue">
         <nav className="flex justify-between items-center px-4 h-full">
-          <div className="w-full flex items-center justify-end">
+          <div className="w-full flex items-center justify-end z-1000">
             <Avatar user={user as User} />
           </div>
         </nav>

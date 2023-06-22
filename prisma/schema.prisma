@@ -90,8 +90,10 @@ model Education {
   id String  @id @default(uuid())
   degree String?
   institution String?
-  start_date DateTime?
-  end_date   DateTime?
+  start_year String?
+  start_month String?
+  end_year String?
+  end_month String?
   current   Boolean
   resumeId String
 
@@ -105,8 +107,10 @@ model Experience {
   id String  @id   @default(uuid())
   role String?
   company String?
-  start_date DateTime?
-  end_date  DateTime?
+  start_year String?
+  start_month String?
+  end_year String?
+  end_month String?
   description String? @db.Text
   current  Boolean
   resumeId String
