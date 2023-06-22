@@ -1,21 +1,22 @@
-import { API } from "./api";
-import { debounce } from "./debounce";
-
 export type Experience = {
   id: string;
   role: string | null;
   company: string | null;
   description: string | null;
-  start_date: Date | null;
-  end_date: Date | null;
+  start_year: string | null;
+  start_month: string | null;
+  end_year: string | null;
+  end_month: string | null;
   current: boolean;
 };
 
 export type Education = {
   id: string;
   degree: string | null;
-  start_date: Date | null;
-  end_date: Date | null;
+  start_year: string | null;
+  start_month: string | null;
+  end_year: string | null;
+  end_month: string | null;
   institution: string | null;
   current: boolean;
 };
@@ -76,8 +77,8 @@ export type Action =
   | {
       type: "CREATE_EXPERIENCE";
       payload: Experience;
-    } | 
-    {
+    }
+  | {
       type: "UPDATE_EXPERIENCE";
       name: string;
       id: string;
@@ -129,9 +130,14 @@ export const reducer = (state: Resume, action: Action): Resume => {
         experiences: [...state.experiences, action.payload],
       };
     case "UPDATE_EXPERIENCE":
-        const experiences = state.experiences.map(experience => experience.id === action.id ? {...experience, [action.name]: action.payload} : experience)
+      const experiences = state.experiences.map((experience) =>
+        experience.id === action.id
+          ? { ...experience, [action.name]: action.payload }
+          : experience
+      );
 
-        return {...state, experiences}
+      return { ...state, experiences };
+
     default:
       return state;
   }
