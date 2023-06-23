@@ -38,7 +38,9 @@ export function ResumeViewer({ document, resume, arrows }: Props) {
 
   const onNextPage = () => {
     setCurrentPage((prev) =>
-      numPages > 1 && currentPage < numPages ? prev + 1 : prev
+      (numPages as number) > 1 && currentPage < (numPages as number)
+        ? prev + 1
+        : prev
     );
   };
 

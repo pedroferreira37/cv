@@ -23,7 +23,7 @@ export const ProfileForm = ({ profile, disptach, resumeId }: Props) => {
     });
   };
 
-  const update = (e) => {
+  const update = (e: any) => {
     disptach({
       type: "UPDATE_PROFILE",
       name: e.target.name,
