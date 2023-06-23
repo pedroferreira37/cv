@@ -47,7 +47,7 @@ export const Basic = (props: Resume) => (
       <View style={styles.section}>
         <Text style={styles.heading}>Experiência</Text>
         {props.experiences.map((experience) => (
-          <View key={experience.id} style={styles.subSection}>
+          <View key={experience.id}>
             <Text style={styles.subHeading}>{experience.role || ""}</Text>
             <Text style={styles.text}>{experience.company || ""}</Text>
             <Text style={styles.text}>
@@ -75,7 +75,7 @@ export const Basic = (props: Resume) => (
       <View style={styles.section}>
         <Text style={styles.heading}>Educação</Text>
         {props.educations.map((education) => (
-          <View key={education.id} style={styles.subSection}>
+          <View key={education.id}>
             <Text style={styles.subHeading}>{education.degree || ""}</Text>
             <Text style={styles.text}>{education.institution || ""}</Text>
             <Text style={styles.text}>

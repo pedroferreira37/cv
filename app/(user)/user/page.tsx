@@ -1,14 +1,15 @@
-import { ResumeCard } from "@/components/ResumeCards";
-import { CreateResumeButton } from "@/components/CreateResumeButton";
+import { ResumeCard } from "@/components/ui/resume-card";
+import { CreateResumeButton } from "@/components/ui/add-resume-button";
 import { getResumes } from "@/actions/getResumes";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { User } from "@prisma/client";
 import { Resume } from "@/lib/reducer";
+import { ResumePage } from "@/components/ui/resume-page";
 
 export default async function User() {
   const user = await getCurrentUser();
 
-  const resumes = await getResumes(user?.id as string);
+  const resumes = (await getResumes(user?.id as string)) as Resume[];
 
   return (
     <div className="w-full  flex flex-col  gap-2 ">
@@ -19,11 +20,11 @@ export default async function User() {
             Crie e gerencie seus curriculos
           </p>
         </div>
-
-        <CreateResumeButton user={user as User} />
+        <CreateResumeButton userId={user?.id as string} />
       </div>
+
       <div className="flex  flex-wrap  gap-10 w-full py-6">
-        <ResumeCard resumes={resumes as Resume[]} />
+        <ResumeCard resumes={resumes} />
       </div>
     </div>
   );

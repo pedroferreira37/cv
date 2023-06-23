@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { AddAndCollpaseButton } from "./AddAndCollapseButton";
-import { Input } from "./Input";
-import { TextArea } from "./TextArea";
+import { FormHandlerButton } from "../ui/add-form-button";
+import { Input } from "../ui/input";
+import { TextArea } from "../ui/text-area";
 import { API } from "@/lib/api";
 import { Experience } from "@/lib/reducer";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { Select } from "./Select";
+import { Select } from "../ui/select";
 import { months, years } from "@/lib/date";
 import { debounce } from "@/lib/debounce";
-import { CheckBox } from "./CheckBox";
+import { CheckBox } from "../ui/check-box";
 
 type Props = {
   experiences: Experience[];
@@ -71,11 +71,11 @@ export const ExperienceForm = ({ experiences, disptach, resumeId }: Props) => {
     <div className="pt-4">
       <div className="flex justify-between items-center ">
         <h2>Experiências</h2>
-        <AddAndCollpaseButton
+        <FormHandlerButton
           data={experiences.length}
-          active={active}
-          onDataRequest={create}
-          onActive={(e: any) => setActive((active) => !active)}
+          collapse={active}
+          onClick={create}
+          onCollapse={(e: any) => setActive((active) => !active)}
         />
       </div>
       <div>

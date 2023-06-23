@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import { ResumeForm } from "@/components/ResumeForm";
+import { ResumeForm } from "@/components/forms/resume-form";
 import { User } from "@prisma/client";
 
 export default async function Create({

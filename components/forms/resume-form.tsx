@@ -1,23 +1,17 @@
 "use client";
 import { API } from "@/lib/api";
-import { renderLayout } from "@/templates/render";
-import dynamic from "next/dynamic";
 import { useEffect, useReducer, useState } from "react";
 import { initialState, reducer } from "@/lib/reducer";
-import { ProfileForm } from "./ProfileForm";
-import { ExperienceForm } from "./ExperienceForm";
-import { EducationForm } from "./EducationForm";
+import { ProfileForm } from "./profile-form";
+import { ExperienceForm } from "./experience-form";
+import { EducationForm } from "./education-form";
 import { FiArrowLeft, FiDownload } from "react-icons/fi";
 import Link from "next/link";
-import { Avatar } from "./Avatar";
+import { Avatar } from "../ui/avatar";
 import { User } from "@prisma/client";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { debounce } from "@/lib/debounce";
-
-const PdfViewer = dynamic(
-  () => import("./PdfViewer").then((module) => module.PdfViewer),
-  { ssr: false }
-);
+import { ResumePage } from "../ui/resume-page";
+import { DownloadResume } from "../ui/download-resume-button";
 
 export const ResumeForm = ({
   resumeId,
@@ -30,12 +24,11 @@ export const ResumeForm = ({
 
   useEffect(() => {
     API.get(`/resume/${resumeId}`).then((req) => {
-      console.log(req);
       disptach({ type: "INITILIAZE_RESUME", payload: req.data });
     });
   }, []);
 
-  const updateResumeName = (e, resumeId: string) => {
+  const updateResumeName = (e: any, resumeId: string) => {
     const textContent = document.getElementById("name")?.textContent;
 
     disptach({ type: "UPDATE_RESUME", payload: textContent as string });
@@ -46,34 +39,27 @@ export const ResumeForm = ({
 
   return (
     <div className="grid  grid-rows-[60px_1fr]">
-      <div className="border-b-2 sticky top-0 bg-white px-4   flex justify-between  items-center ">
+      <div className="border-b-2 sticky top-0 bg-white px-4   flex justify-between  items-center z-[1000] ">
         <Link href="/user" className="p-2 bg-gray-200 rounded">
           <FiArrowLeft size={20} />
         </Link>
         <div
           contentEditable={true}
           id="name"
+          suppressContentEditableWarning={true}
           className="outline-none focus:border p-2 min-w-[120px] max-w-[600px]"
           onBlur={(e) => updateResumeName(e, resumeId)}
         >
           {resume.name}
         </div>
-        {resume.na}
-        <PDFDownloadLink
-          fileName={`${resume.name}.pdf`}
-          document={renderLayout({ ...resume }) as React.ReactElement}
-          className="bg-green-field text-white text-sm py-1 px-2 rounded flex items-center gap-2"
-        >
-          <FiDownload />
-          Download
-        </PDFDownloadLink>
+        <DownloadResume resume={resume}>Download</DownloadResume>
       </div>
       <div
         className=" grid
         grid-cols-[600px_1fr]"
       >
-        <div className="w-full h-[calc(100vh_-_60px)] sticky top-0 overflow-x-auto  border-l-1">
-          <div className="px-8 py-6 space-y-4  divide-y-2 ">
+        <div className="w-full  h-[calc(100vh_-_60px)] sticky top-[60px]  overflow-y-auto  border-l-1 ">
+          <div className="px-8 py-6 space-y-4   divide-y-2  ">
             <ProfileForm
               profile={resume.profile}
               disptach={disptach}
@@ -91,12 +77,9 @@ export const ResumeForm = ({
             />
           </div>
         </div>
-        <div className="w-full h-full flex justify-center items-center bg-[#eee]">
-          <div>
-            <PdfViewer
-              document={renderLayout({ ...resume }) as React.ReactElement}
-              data={resume}
-            />
+        <div className="w-full h-full flex justify-center items-center bg-[#eee] ">
+          <div className="pt-4 ">
+            <ResumePage resume={resume} />
           </div>
         </div>
       </div>

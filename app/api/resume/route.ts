@@ -1,9 +1,9 @@
 import { createResume } from "@/actions/createResume";
 
 export const POST = async (req: Request) => {
-  const body = await req.json();
+  const { userId }: { userId: string } = await req.json();
 
-  const resume = await createResume(body.userId as string);
+  const resume = await createResume(userId);
 
   if (!resume) return new Response(JSON.stringify({ id: null }));
 

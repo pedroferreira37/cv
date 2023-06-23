@@ -3,9 +3,9 @@
 import { Resume } from "@/lib/reducer";
 import { Basic } from "./basic-template";
 
-export const renderLayout = (props: Resume): React.ReactNode => {
-  switch ("professional") {
-    case "professional":
+export const getLayout = (props: Resume): React.ReactNode => {
+  switch (props.template) {
+    case "basic":
       return <Basic {...props} />;
   }
 };

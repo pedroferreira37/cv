@@ -1,7 +1,6 @@
-import { createExperience } from "@/actions/actions";
+import { createExperience } from "@/actions/createExperience";
 
-
-type Context = { params: { resumeId: string}  } ;  
+type Context = { params: { resumeId: string } };
 
 export const POST = async (req: Request, context: Context) => {
   const { resumeId } = context.params;
@@ -10,4 +9,3 @@ export const POST = async (req: Request, context: Context) => {
 
   return new Response(JSON.stringify(experience));
 };
-
