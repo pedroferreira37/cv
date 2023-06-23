@@ -1,34 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Online Resume Web Application
 
-## Getting Started
+This repository contains the code for an online resume web application. The application was developed as a side project with the aim of creating a platform to build and showcase resumes in an easy and convenient manner.
 
-First, run the development server:
+## Motivation
+The motivation behind this project stemmed from a personal experience. The need to create a resume for a family member led to the exploration of various web applications available. However, frustration arose when encountering paid services without prior notification. This prompted the decision to develop a self-built solution that would address the issue.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Key Learnings
+Throughout the development process, several valuable insights were gained. Here are some of the notable takeaways:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Embrace the use of neovim/vim as an efficient text editor.
+Plan, design, and select tools, but remain flexible and adaptable to pivot as the problem unfolds. Iteratively create and recreate until a concrete understanding of the problem is achieved.
+While writing good code is essential, it is more important to have functional code that can be improved upon. Don't be deterred by initial lack of knowledge in implementing the best approach. Start building, and as you progress, seek out the optimal solutions.
+Even your side project can become tedious at times, but perseverance is key to pushing through the challenges.
+Insights on Code Implementation
+The project involved handling numerous user inputs, providing valuable insights into various approaches. Additionally, the concept of "save on change" was explored as the application required saving user data whenever modifications were made.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The development was done using Next.js with the experimental app dir feature. While some aspects of the framework were not favored, such as server warmup time and potential organizational issues arising from endpoint creation based on folder naming, they served as learning experiences.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Dealing with PDFs proved to be a complex task, presenting its own set of challenges and intricacies.
 
-## Learn More
+## Deployment and Stack
+The project is scheduled for deployment this weak. The following stack was utilized in its development:
 
-To learn more about Next.js, take a look at the following resources:
+Next.js with TypeScript (NextTS) and NextAuth for authentication
+Tailwind CSS for styling
+Prisma as the database toolkit
+MySQL as the database management system
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Additional Note
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+>To bring about change in the world, it is crucial to begin by changing oneself. Embarcing on personal growth and transformation is an essential first step towards making a meaningful impact.
 
-## Deploy on Vercel
+Feel free to explore the code and contribute to the project. Any feedback, suggestions, or improvements are highly appreciated. Let's make a difference together!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Planned Enhancements
+- [ ] Implement more resume layouts to provide users with a wider selection of designs.
+- [ ]  Incorporate AI tips for creating compelling descriptions to help users craft effective resume content.
+ 
+Feel free to explore the code and contribute to the project. Any feedback, suggestions, or improvements are highly appreciated. Let's make a difference together!
+
+
+
