@@ -40,5 +40,7 @@ Feel free to explore the code and contribute to the project. Any feedback, sugge
  
 Feel free to explore the code and contribute to the project. Any feedback, suggestions, or improvements are highly appreciated. Let's make a difference together!
 
+* Vercel not accepts MySQL, I will deploy my database first
+
 
 
