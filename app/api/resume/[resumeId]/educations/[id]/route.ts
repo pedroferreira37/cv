@@ -12,7 +12,7 @@ export const PUT = async (req: Request, context: Context) => {
   return new Response(JSON.stringify(education));
 };
 
-export const REMOVE = async (req: Request, context: Context) => {
+export const DELETE = async (req: Request, context: Context) => {
   const body = await req.json();
   const { id, resumeId } = context.params;
   const education = await removeEducation(id, resumeId, body[0] as Experience);
