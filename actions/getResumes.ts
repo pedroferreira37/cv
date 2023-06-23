@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
+import { Resume } from "@/lib/reducer";
 
-export const getResumes = async (userId: string) => {
+export const getResumes = async (userId: string): Promise<Resume[] | null> => {
   try {
     const resumes = await prisma.resume.findMany({
       where: {

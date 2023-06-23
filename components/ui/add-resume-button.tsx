@@ -4,16 +4,12 @@ import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { FiPlus } from "react-icons/fi";
 
-export const CreateResumeButton = ({
-  user: { id: userId },
-}: {
-  user: User;
-}) => {
+export const CreateResumeButton = ({ userId }: { userId: string }) => {
   const router = useRouter();
 
   const createResume = async () => {
     try {
-      const request = await API.post(`/resume/create`, {
+      const request = await API.post(`/resume`, {
         userId,
       });
 
@@ -29,9 +25,9 @@ export const CreateResumeButton = ({
     <div>
       <button
         onClick={createResume}
-        className="bg-green-field  text-white px-4 py-2  font-medium text-sm rounded flex items-center gap-2 group"
+        className="bg-green-field  hover:opacity-75 transition text-white px-2 py-2  text-sm rounded flex items-center gap-1 group"
       >
-        <FiPlus size={20} className="group-hover:rotate-90 transition" />
+        <FiPlus size={18} className="group-hover:rotate-90 transition" />
         Novo Curriculo
       </button>
     </div>

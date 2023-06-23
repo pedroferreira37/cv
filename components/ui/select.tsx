@@ -1,5 +1,3 @@
-import { years } from "@/lib/date";
-
 type Props = {
   options: { value: string; label: string }[];
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
@@ -21,12 +19,14 @@ export const Select = ({
     <select
       name={name}
       onChange={onChange}
-      value={value}
+      value={value || ""}
       disabled={disabled}
       className="w-full bg-[#eee] border  p-3 outline-none rounded disabled:hover:ring-transparent  text-[#353535] text-[14px]   hover:ring-[#6b98f8] hover:ring-[2px] focus:ring-[2px] focus:ring-[#6b98f8] transition"
     >
       {options.map(({ value, label }) => (
-        <option value={value}>{label}</option>
+        <option value={value} key={value}>
+          {label}
+        </option>
       ))}
     </select>
   );

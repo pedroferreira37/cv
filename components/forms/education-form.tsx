@@ -1,13 +1,13 @@
 import { Education } from "@/lib/reducer";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { CheckBox } from "./CheckBox";
-import { Select } from "./Select";
-import { Input } from "./input";
-import { AddAndCollpaseButton } from "./AddAndCollapseButton";
+import { CheckBox } from "../ui/check-box";
+import { Select } from "../ui/select";
+import { Input } from "../ui/input";
 import { useState, useEffect } from "react";
 import { API } from "@/lib/api";
 import { debounce } from "@/lib/debounce";
 import { months, years } from "@/lib/date";
+import { FormHandlerButton } from "../ui/add-form-button";
 
 type Props = {
   educations: Education[];
@@ -32,7 +32,7 @@ export const EducationForm = ({ educations, disptach, resumeId }: Props) => {
     const name = e.target.name;
 
     disptach({ type: "UPDATE_EDUCATION", id, name, payload: value });
-    API.delete(`/resume/${resumeId}/educations/${id}`);
+
     setId(id);
   };
 
@@ -66,11 +66,11 @@ export const EducationForm = ({ educations, disptach, resumeId }: Props) => {
     <div className="pt-4">
       <div className="flex justify-between items-center ">
         <h2>Educações</h2>
-        <AddAndCollpaseButton
+        <FormHandlerButton
           data={educations.length}
-          active={active}
-          onDataRequest={create}
-          onActive={(e: any) => setActive((active) => !active)}
+          collapse={active}
+          onClick={create}
+          onCollapse={(e: any) => setActive((active) => !active)}
         />
       </div>
       <div>

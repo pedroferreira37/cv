@@ -1,15 +1,15 @@
 "use client";
-import { Input } from "./input";
-import { TextArea } from "./TextArea";
+import { Input } from "../ui/input";
+import { TextArea } from "../ui/text-area";
 import { useEffect, useState } from "react";
-import { Profile } from "@/lib/reducer";
+import { Action, Profile } from "@/lib/reducer";
 import { debounce } from "@/lib/debounce";
 import { API } from "@/lib/api";
-import { AddAndCollpaseButton } from "./AddAndCollapseButton";
+import { FormHandlerButton } from "../ui/add-form-button";
 
 type Props = {
-  profile: Profile;
-  disptach: any;
+  profile: Profile | null;
+  disptach: React.Dispatch<Action>;
   resumeId: string;
 };
 
@@ -43,11 +43,11 @@ export const ProfileForm = ({ profile, disptach, resumeId }: Props) => {
     <div>
       <div className="flex justify-between items-center">
         <h2>Perfil</h2>
-        <AddAndCollpaseButton
+        <FormHandlerButton
           data={profile}
-          onDataRequest={create}
-          active={active}
-          onActive={(e: any) => setActive((active) => !active)}
+          collapse={active}
+          onClick={create}
+          onCollapse={(e: any) => setActive((active) => !active)}
         />
       </div>
       {profile

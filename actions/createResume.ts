@@ -5,14 +5,13 @@ export const createResume = async (userId: string) => {
     const resume = await prisma.resume.create({
       data: {
         userId,
-        template: "professional",
-        name: "Professional",
+        template: "basic",
+        name: "Basic",
       },
     });
 
     return resume;
   } catch (err: any) {
-    console.log(err);
     return null;
   }
 };

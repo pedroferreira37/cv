@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { User } from "@prisma/client";
-import { Avatar } from "@/components/Avatar";
+import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
 import { FiArchive, FiFileText } from "react-icons/fi";
 
@@ -29,13 +29,6 @@ export default async function UserLayout({
             >
               <FiFileText size={20} />
               Meus Curriculos
-            </Link>
-            <Link
-              href="/user/modelos"
-              className="flex items-center gap-2 hover:bg-gray-200 p-2 rounded transition"
-            >
-              <FiArchive size={20} />
-              Modelos
             </Link>
           </div>
         </div>

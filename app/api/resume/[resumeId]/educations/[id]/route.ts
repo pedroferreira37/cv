@@ -1,8 +1,5 @@
-import {
-  removeEducation,
-  updateEducation,
-  updateExperience,
-} from "@/actions/actions";
+import { updateEducation } from "@/actions/updateEducation";
+import { removeEducation } from "@/actions/removeEducation";
 import { Experience } from "@prisma/client";
 
 type Context = { params: { resumeId: string; id: string } };

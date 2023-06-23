@@ -38,7 +38,7 @@ export type Resume = {
   name: string | null;
   template: string | null;
   userId: string | null;
-  profile: Profile;
+  profile: Profile | null;
   experiences: Experience[];
   educations: Education[];
 };
@@ -48,16 +48,7 @@ export const initialState: Resume = {
   userId: "",
   name: "",
   template: "",
-  profile: {
-    id: "",
-    resumeId: "",
-    name: "",
-    role: "",
-    mail: "",
-    linkedin: "",
-    github: "",
-    about: "",
-  },
+  profile: null,
   experiences: [],
   educations: [],
 };
@@ -115,7 +106,6 @@ export const reducer = (state: Resume, action: Action): Resume => {
     case "INITILIAZE_RESUME":
       return { ...action.payload };
     case "UPDATE_RESUME":
-      console.log(action.payload);
       return { ...state, name: action.payload };
     case "CREATE_PROFILE":
       return { ...state, profile: action.payload };
@@ -157,6 +147,7 @@ export const reducer = (state: Resume, action: Action): Resume => {
           ? { ...education, [action.name]: action.payload }
           : education
       );
+      return { ...state, educations };
     case "REMOVE_EDUCATION":
       const removedEducation = state.educations.filter(
         (experience) => experience.id !== action.id
